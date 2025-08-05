@@ -1,5 +1,21 @@
 import "./globals.css";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import localFont from 'next/font/local'
 
+const pretendard = localFont({
+  src: '../assets/fonts/PretendardVariable.woff2',
+  display: 'swap',
+  weight: '45 920',
+  variable: '--font-pretendard',
+})
+
+const pacifico = localFont({
+  src: '../assets/fonts/Pacifico-Regular.ttf',
+  display: 'swap',
+  weight: '400',
+  variable: '--font-pacifico',
+})
 
 export default function RootLayout({
   children,
@@ -7,9 +23,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body>
-        {children}
+    <html lang="ko" className={`${pretendard.variable} ${pacifico.variable} scroll-smooth`}>
+      <body className="font-sans bg-[url('/main_bg.png')] bg-repeat">
+        <div className="relative flex min-h-screen flex-col">
+          <Header />
+          <div className="flex-1">
+            {children}
+          </div>
+          <Footer />
+        </div>
       </body>
     </html>
   );

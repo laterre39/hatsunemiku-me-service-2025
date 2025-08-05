@@ -1,0 +1,32 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  --font-pacifico: "Pacifico", cursive;
+
+}
+
+/* Swiper Navigation Arrows (Custom) */
+.swiper-button-next-custom,
+.swiper-button-prev-custom {
+  color: #ffffff; /* miku-turquoise */
+  font-size: 3rem; /* Adjust size as needed */
+  line-height: 1;
+}
+
+/* Swiper Pagination Dots */
+.mySwiper .swiper-pagination-bullet {
+  background: #888888; /* miku-gray */
+  opacity: 0.7;
+  width: 10px; /* Adjust size as needed */
+  height: 10px; /* Adjust size as needed */
+  border-radius: 50%; /* Make them round */
+  transition: all 0.3s ease;
+}
+
+.mySwiper .swiper-pagination-bullet-active {
+  background: #ffffff; /* miku-turquoise */
+  opacity: 1;
+  width: 12px; /* Slightly larger when active */
+  height: 12px;
+}
