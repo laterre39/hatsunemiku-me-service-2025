@@ -23,8 +23,8 @@ export default function Home() {
           <span>Best Vocaloid MV</span>
           <InfoModal
             title="Best Vocaloid MV 안내"
-            content="커뮤니티에서 조사를 통해 선정한 보컬로이드 베스트 뮤비 리스트입니다. 가급적 달마다 갱신하고 있습니다."
-            tooltipText="자세한 정보를 보려면 클릭하세요."
+            content="커뮤니티에서 조사를 통해 선정한 보컬로이드 베스트 뮤비 리스트입니다. update-25.08"
+            tooltipText="보컬로이드 베스트 뮤비 선정 안내!"
             className="-translate-y-3"
           >
             <MessageCircleWarning size={20}/>
