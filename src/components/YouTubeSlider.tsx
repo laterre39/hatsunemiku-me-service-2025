@@ -3,6 +3,8 @@
 import React, { useRef, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Navigation, Pagination } from 'swiper/modules';
+import { ChevronsLeft } from 'lucide-react';
+import { ChevronsRight } from 'lucide-react';
 import YouTube from 'react-youtube';
 
 // Import Swiper styles
@@ -71,10 +73,10 @@ export function YouTubeSlider({ videoIds }: YouTubeSliderProps) {
       </Swiper>
       {/* Custom Navigation Arrows */}
       <div className="swiper-button-prev-custom absolute top-1/2 left-4 z-10 -translate-y-1/2 cursor-pointer text-miku-turquoise text-4xl opacity-70 hover:opacity-100 transition-opacity">
-        &lt;
+        <ChevronsLeft size={40} />
       </div>
       <div className="swiper-button-next-custom absolute top-1/2 right-4 z-10 -translate-y-1/2 cursor-pointer text-miku-turquoise text-4xl opacity-70 hover:opacity-100 transition-opacity">
-        &gt;
+        <ChevronsRight size={40} />
       </div>
     </div>
   );

@@ -10,8 +10,6 @@
 .swiper-button-next-custom,
 .swiper-button-prev-custom {
   color: #ffffff; /* miku-turquoise */
-  font-size: 3rem; /* Adjust size as needed */
-  line-height: 1;
 }
 
 /* Swiper Pagination Dots */
