@@ -7,8 +7,8 @@ export function Footer() {
       <div className="container mx-auto max-w-5xl px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
-            <h4 className="font-lobster text-xl text-miku-turquoise">미쿠미쿠하게 해줄게♪</h4>
-            <p className="mt-2 text-miku-gray">환영합니다 여기 사이트는 하츠네 미쿠의 팬 사이트로 각종 하츠네 미쿠 및 보컬로이드 정보를 제공하고 있습니다.</p>
+            <h4 className="text-xl underline underline-offset-8 text-miku-turquoise">미쿠미쿠하게 해줄게 ♪</h4>
+            <p className="mt-4 text-miku-gray">환영합니다 여기 사이트는 하츠네 미쿠의 팬 사이트로 각종 하츠네 미쿠 및 보컬로이드 정보를 제공하고 있습니다.</p>
           </div>
           <div>
             <h4 className="font-bold text-miku-dark">Quick Links</h4>
