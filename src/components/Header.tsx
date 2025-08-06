@@ -36,6 +36,16 @@ export function Header() {
           <ul className="flex items-center space-x-8 text-base">
             <li>
               <Link
+                href="/about"
+                className={`font-medium transition-colors hover:text-miku-turquoise ${
+                  isScrolled ? 'text-miku-dark' : 'text-white'
+                }`}
+              >
+                About
+              </Link>
+            </li>
+            <li>
+              <Link
                 href="/music"
                 className={`font-medium transition-colors hover:text-miku-turquoise ${
                   isScrolled ? 'text-miku-dark' : 'text-white'
