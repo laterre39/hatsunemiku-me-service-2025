@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, type ReactNode } from 'react';
-import { X } from 'lucide-react';
 
 interface InfoModalProps {
   children: ReactNode;
@@ -54,9 +53,7 @@ export function InfoModal({
           <button
             onClick={toggleModal}
             className="absolute top-2 right-2 text-gray-500 hover:text-gray-800"
-          >
-            <X size={18} />
-          </button>
+          />
           <h2 className="text-lg font-bold mb-2">{title}</h2>
           <p className="text-sm">{content}</p>
           <div className={tailClassName} />
