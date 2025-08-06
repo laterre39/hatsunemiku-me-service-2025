@@ -44,7 +44,7 @@ export function YouTubeSlider({ videoIds }: YouTubeSliderProps) {
   }, [videoIds]);
 
   return (
-    <div className="w-full max-w-5xl relative">
+    <div className="w-full max-w-5xl relative select-none" draggable={false}>
       <Swiper
         modules={[Navigation, Pagination]}
         spaceBetween={30}
