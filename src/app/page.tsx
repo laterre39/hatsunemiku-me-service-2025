@@ -1,8 +1,10 @@
 "use client";
 
-import { AudioLines, MessageCircleWarning} from 'lucide-react';
+import { AudioLines } from 'lucide-react';
 import { YouTubeSlider } from '@/components/YouTubeSlider';
-import { PlatformRanking } from '@/components/PlatformRanking';
+import { YouTubeRanking } from '@/components/YouTubeRanking';
+import { SpotifyRanking } from '@/components/SpotifyRanking';
+import { Tooltip } from '@/components/Tooltip';
 
 export default function Home() {
   const youtubeVideoIds = [
@@ -17,24 +19,33 @@ export default function Home() {
     <main className="bg-miku-light-gray/30">
 
       {/* Vocaloid MV Section */}
-      <section className="mx-auto max-w-5xl py-15">
-        <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
+      <section className="mx-auto max-w-5xl py-12">
+        <div className="flex items-center mb-2 gap-2 font-bold text-2xl text-white">
           <AudioLines />
           <h2>Best Vocaloid MV</h2>
-          <div className="group relative flex items-center -translate-y-3">
-            <MessageCircleWarning size={20}/>
-            <div className="absolute left-full top-1/2 z-10 ml-4 -translate-y-1/2 scale-0 transform rounded-lg bg-white px-3 py-2 text-sm font-medium text-black transition-all duration-300 group-hover:scale-100 whitespace-nowrap">
-              <div className="absolute -left-1 top-1/2 h-0 w-0 -translate-y-1/2 border-y-4 border-y-transparent border-r-4 border-r-white"/>
-              베스트 뮤비는 현재 커뮤니티 추천 목록을 통해서 월마다 변경하고 있습니다.
-            </div>
-          </div>
+          <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다."/>
         </div>
         <YouTubeSlider videoIds={youtubeVideoIds} />
       </section>
 
-      {/* Monthly Top Songs Section */}
-      <section className="mx-auto max-w-5xl py-10">
-        <PlatformRanking />
+      {/* Youtube Vocaloid Ranking Section */}
+      <section className="mx-auto max-w-5xl py-12">
+        <div className="flex items-center mb-2 gap-2 font-bold text-2xl text-white">
+          <AudioLines />
+          <h2>Youtube Ranking</h2>
+          <Tooltip text="키워드 검색을 통해서 조회수를 기준으로 유튜브 랭킹을 집계하고 있습니다."/>
+        </div>
+        <YouTubeRanking />
+      </section>
+
+      {/* Spotify Vocaloid Ranking Section */}
+      <section className="mx-auto max-w-5xl py-12">
+        <div className="flex items-center mb-2 gap-2 font-bold text-2xl text-white">
+          <AudioLines />
+          <h2>Spotify Ranking</h2>
+          <Tooltip text="아티스트 마다 상위 인기도를 기준으로 합산해서 합산된 음반의 인기도를 기준으로 스포티파이 랭킹을 집계하고 있습니다."/>
+        </div>
+        <SpotifyRanking />
       </section>
 
     </main>
