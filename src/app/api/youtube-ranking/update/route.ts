@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+export const runtime = 'edge';
 
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
