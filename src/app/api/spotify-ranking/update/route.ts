@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { NextResponse } from 'next/server';
 import fs from 'fs/promises';
@@ -65,7 +66,7 @@ async function getVoiceSynthRanking() {
   const responses = await Promise.all(searchPromises);
 
   // 2. 모든 결과를 하나의 배열로 취합
-  let allTracks: any[] = [];
+  const allTracks: any[] = [];
   for (const response of responses) {
     if (response.ok) {
       const data = await response.json();
