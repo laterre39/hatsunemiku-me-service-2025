@@ -72,10 +72,10 @@ export function YouTubeSlider({ videoIds }: YouTubeSliderProps) {
         ))}
       </Swiper>
       {/* Custom Navigation Arrows */}
-      <div className="swiper-button-prev-custom absolute top-1/2 left-4 z-10 -translate-y-1/2 cursor-pointer text-miku-turquoise text-4xl opacity-70 hover:opacity-100 transition-opacity">
+      <div className="swiper-button-prev-custom absolute top-1/2 left-4 z-10 -translate-y-1/2 cursor-pointer text-white bg-black/20 rounded-full p-1 hover:bg-black/40 transition-all">
         <ChevronsLeft size={40} />
       </div>
-      <div className="swiper-button-next-custom absolute top-1/2 right-4 z-10 -translate-y-1/2 cursor-pointer text-miku-turquoise text-4xl opacity-70 hover:opacity-100 transition-opacity">
+      <div className="swiper-button-next-custom absolute top-1/2 right-4 z-10 -translate-y-1/2 cursor-pointer text-white bg-black/20 rounded-full p-1 hover:bg-black/40 transition-all">
         <ChevronsRight size={40} />
       </div>
     </div>
