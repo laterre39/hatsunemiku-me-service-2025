@@ -1,6 +1,7 @@
 import Link from 'next/link';
 import { Send, AudioLines } from 'lucide-react';
 import { FaSquareXTwitter, FaFacebook, FaSquareInstagram, FaCompactDisc } from "react-icons/fa6";
+import { Tooltip as FlowbiteTooltip } from 'flowbite-react';
 
 export function Footer() {
   return (
@@ -26,38 +27,43 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-bold text-miku-dark">Linked sites</h4>
+            <h4 className="font-bold text-miku-dark">Linked Sites</h4>
             <div className="mt-2 flex space-x-4">
-              <ul className="mt-2 flex flex-col space-y-2">
+              <ul className="mt-2 flex flex-row space-x-4">
               <li>
-                <a href="https://x.com/cfm_miku_en" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
-                  <FaSquareXTwitter size={24} />
-                  <span>Official X (Twitter)</span>
-                </a>
+                <FlowbiteTooltip content="Official X" placement="top" style="light">
+                  <a href="https://x.com/cfm_miku_en" className="text-miku-gray hover:text-miku-turquoise">
+                    <FaSquareXTwitter size={24} />
+                  </a>
+                </FlowbiteTooltip>
               </li>
               <li>
-                <a href="https://www.facebook.com/HatsuneMikuOfficialPage" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
-                  <FaFacebook size={24} />
-                  <span>Official Facebook</span>
-                </a>
+                <FlowbiteTooltip content="Official Facebook" placement="top" style="light">
+                  <a href="https://www.facebook.com/HatsuneMikuOfficialPage" className="text-miku-gray hover:text-miku-turquoise">
+                    <FaFacebook size={24} />
+                  </a>
+                </FlowbiteTooltip>
               </li>
               <li>
-                <a href="https://www.instagram.com/cfm_mikustagram/" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
-                  <FaSquareInstagram size={24} />
-                  <span>Official Instagram</span>
-                </a>
+                <FlowbiteTooltip content="Official Instagram" placement="top" style="light">
+                  <a href="https://www.instagram.com/cfm_mikustagram/" className="text-miku-gray hover:text-miku-turquoise">
+                    <FaSquareInstagram size={24} />
+                  </a>
+                </FlowbiteTooltip>
               </li>
               <li>
-                <a href="https://karent.jp/" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
-                  <FaCompactDisc size={24} />
-                  <span>KARENT Music</span>
-                </a>
+                <FlowbiteTooltip content="KARENT Music" placement="top" style="light">
+                  <a href="https://karent.jp/" className="text-miku-gray hover:text-miku-turquoise">
+                    <FaCompactDisc size={24} />
+                  </a>
+                </FlowbiteTooltip>
               </li>
               <li>
-                <a href="https://blog.piapro.net/" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
-                  <AudioLines size={24} />
-                  <span>Piapro Blog</span>
-                </a>
+                <FlowbiteTooltip content="Piapro Blog" placement="top" style="light">
+                  <a href="https://blog.piapro.net/" className="text-miku-gray hover:text-miku-turquoise">
+                    <AudioLines size={24} />
+                  </a>
+                </FlowbiteTooltip>
               </li>
             </ul>
             </div>
