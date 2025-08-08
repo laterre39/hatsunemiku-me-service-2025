@@ -24,7 +24,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko" className={`${pretendard.variable} ${pacifico.variable} scroll-smooth`}>
+    <html lang="ko" className={`${pretendard.variable} scroll-smooth`}>
       <body className="font-sans bg-[url('/main_bg.png')] bg-repeat">
         <div className="relative flex min-h-screen flex-col">
           <Header />
