@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { FiTwitter, FiYoutube, FiFacebook } from 'react-icons/fi';
+import { Send, AudioLines } from 'lucide-react';
+import { FaSquareXTwitter, FaFacebook, FaSquareInstagram, FaCompactDisc } from "react-icons/fa6";
 
 export function Footer() {
   return (
@@ -7,8 +8,13 @@ export function Footer() {
       <div className="container mx-auto max-w-5xl px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           <div>
-            <h4 className="text-xl underline underline-offset-8 text-miku-turquoise">미쿠미쿠하게 해줄게 ♪</h4>
-            <p className="mt-4 text-miku-gray">환영합니다 여기 사이트는 하츠네 미쿠의 팬 사이트로 각종 하츠네 미쿠 및 보컬로이드 정보를 제공하고 있습니다.</p>
+            <h4 className="text-xl text-miku-turquoise">Created by MIKUMIKU</h4>
+            <p className="mt-4 text-miku-gray">하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련 문의는 하단의 메일로 문의 부탁드립니다. </p>
+            <p className="font-bold text-[#39C5BB]">미쿠미쿠하게 해줄게 ♪</p>
+            <a href="mailto:loff98997@gmail.com" className="flex items-center gap-1 mt-2 font-semibold hover:underline">
+              <Send size={15} />
+              Send Mail
+            </a>
           </div>
           <div>
             <h4 className="font-bold text-miku-dark">Quick Links</h4>
@@ -20,17 +26,49 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-bold text-miku-dark">Follow Us</h4>
+            <h4 className="font-bold text-miku-dark">Linked sites</h4>
             <div className="mt-2 flex space-x-4">
-              <a href="#" className="text-miku-gray hover:text-miku-turquoise"><FiTwitter size={24} /></a>
-              <a href="#" className="text-miku-gray hover:text-miku-turquoise"><FiYoutube size={24} /></a>
-              <a href="#" className="text-miku-gray hover:text-miku-turquoise"><FiFacebook size={24} /></a>
+              <ul className="mt-2 flex flex-col space-y-2">
+              <li>
+                <a href="https://x.com/cfm_miku_en" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
+                  <FaSquareXTwitter size={24} />
+                  <span>Official X (Twitter)</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.facebook.com/HatsuneMikuOfficialPage" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
+                  <FaFacebook size={24} />
+                  <span>Official Facebook</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://www.instagram.com/cfm_mikustagram/" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
+                  <FaSquareInstagram size={24} />
+                  <span>Official Instagram</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://karent.jp/" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
+                  <FaCompactDisc size={24} />
+                  <span>KARENT Music</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://blog.piapro.net/" className="flex items-center space-x-2 text-miku-gray hover:text-miku-turquoise">
+                  <AudioLines size={24} />
+                  <span>Piapro Blog</span>
+                </a>
+              </li>
+            </ul>
             </div>
           </div>
         </div>
         <div className="mt-8 border-t border-gray-200/80 pt-6 text-center text-sm text-miku-gray">
-          <p>&copy; {new Date().getFullYear()} hatsunemiku.me. All Rights Reserved.</p>
-          <p className="mt-1">This is a fan-made website and is not affiliated with Crypton Future Media, INC.</p>
+          <p className="font-bold">&copy; {new Date().getFullYear()} HatsuneMiku.me</p>
+          <p className="mt-1 font-light underline">This is a non-commercial fan-made website.</p>
+          <p className="mt-1 font-light underline">
+            Hatsune Miku and other VOCALOID characters are trademarks and copyrights of Crypton Future Media, INC. and their respective owners.
+          </p>
         </div>
       </div>
     </footer>
