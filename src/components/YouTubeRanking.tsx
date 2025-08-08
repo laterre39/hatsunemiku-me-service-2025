@@ -73,12 +73,10 @@ export function YouTubeRanking() {
   }
 
   return (
-    <div className="mb-12">
-      <div className="flex flex-col gap-3"> {/* grid grid-cols-5 gap-4 -> flex flex-col gap-3 */}
+    <div className="flex flex-col gap-3"> {/* grid grid-cols-5 gap-4 -> flex flex-col gap-3 */}
         {youtubeSongs.map((song) => (
           <SongList key={song.rank} song={song} platformType="youtube" />
         ))}
-      </div>
     </div>
   );
 }
