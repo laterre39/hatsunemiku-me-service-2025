@@ -6,6 +6,18 @@
 
 }
 
+@layer base {
+  body {
+    @apply min-w-[360px] bg-gray-100 text-gray-800;
+  }
+}
+
+@layer components {
+  .container {
+    @apply px-4;
+  }
+}
+
 /* Swiper Navigation Arrows (Custom) */
 .swiper-button-next-custom,
 .swiper-button-prev-custom {
