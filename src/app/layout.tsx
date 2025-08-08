@@ -27,7 +27,7 @@ export default function RootLayout({
       <body className="font-sans bg-[url('/main_bg.png')] bg-repeat">
         <div className="relative flex min-h-screen flex-col">
           <Header />
-          <main className="flex-1">
+          <main className="flex-1 container mx-auto px-4 max-w-5xl">
             {children}
           </main>
           <Footer />
