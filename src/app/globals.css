@@ -1,11 +1,10 @@
 @import "tailwindcss";
 @import "flowbite";
 
-@theme {
-  --font-pretendard: 'Pretendard Variable';
-}
-
 @layer base {
+  html {
+    font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+  }
   body {
     @apply min-w-[360px] bg-gray-100 text-gray-800;
   }

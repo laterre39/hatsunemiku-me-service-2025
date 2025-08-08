@@ -18,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.variable} scroll-smooth`}>
-      <body className= "font-pretendard bg-[url('/main_bg.png')] bg-repeat">
+      <body className= "bg-[url('/main_bg.png')] bg-repeat">
         <div className="relative flex min-h-screen flex-col">
           <Header />
           <main className="flex-1 container mx-auto px-4 max-w-5xl">
