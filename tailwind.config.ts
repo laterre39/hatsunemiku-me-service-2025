@@ -15,6 +15,9 @@ const config: Config = {
         'miku-gray': '#888888',
         'miku-light-gray': '#f0f0f0',
       },
+      fontFamily: {
+        sans: ['var(--font-pretendard)', 'sans-serif'],
+      },
     },
   },
   plugins: [require('flowbite/plugin')],

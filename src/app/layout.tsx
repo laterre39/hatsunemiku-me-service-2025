@@ -11,13 +11,6 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 })
 
-const pacifico = localFont({
-  src: '../assets/fonts/Pacifico-Regular.ttf',
-  display: 'swap',
-  weight: '400',
-  variable: '--font-pacifico',
-})
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -25,7 +18,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${pretendard.variable} scroll-smooth`}>
-      <body className="font-sans bg-[url('/main_bg.png')] bg-repeat">
+      <body className= "font-pretendard bg-[url('/main_bg.png')] bg-repeat">
         <div className="relative flex min-h-screen flex-col">
           <Header />
           <main className="flex-1 container mx-auto px-4 max-w-5xl">
