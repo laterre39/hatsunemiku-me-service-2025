@@ -4,6 +4,7 @@ const config: Config = {
   content: [
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./node_modules/flowbite-react/**/*.js",
   ],
   theme: {
     extend: {
@@ -16,7 +17,7 @@ const config: Config = {
       },
     },
   },
-  plugins: [],
+  plugins: [require('flowbite/plugin')],
 };
 
 export default config;

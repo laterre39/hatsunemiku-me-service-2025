@@ -2,6 +2,7 @@ import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import localFont from 'next/font/local'
+import { FlowbiteClient } from '@/components/FlowbiteClient';
 
 const pretendard = localFont({
   src: '../assets/fonts/PretendardVariable.woff2',
@@ -31,6 +32,7 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <FlowbiteClient />
         </div>
       </body>
     </html>
