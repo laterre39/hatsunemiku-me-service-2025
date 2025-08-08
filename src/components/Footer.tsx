@@ -7,9 +7,9 @@ export function Footer() {
   return (
     <footer className="border-t border-gray-200/80 bg-white mt-12">
       <div className="container mx-auto max-w-5xl px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-14">
           <div>
-            <h4 className="text-xl text-miku-turquoise">Created by MIKUMIKU</h4>
+            <h4 className="text-xl text-miku-turquoise underline underline-offset-4 decoration-4 decoration-[#39C5BB]">Created by MIKUMIKU</h4>
             <p className="mt-4 text-miku-gray">하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련 문의는 하단의 메일로 문의 부탁드립니다. </p>
             <p className="font-bold text-[#39C5BB]">미쿠미쿠하게 해줄게 ♪</p>
             <a href="mailto:loff98997@gmail.com" className="flex items-center gap-1 mt-2 font-semibold hover:underline">
@@ -18,7 +18,7 @@ export function Footer() {
             </a>
           </div>
           <div>
-            <h4 className="font-bold text-miku-dark">Quick Links</h4>
+            <h4 className="text-xl text-miku-turquoise">Quick Links</h4>
             <ul className="mt-2 space-y-1">
               <li><Link href="/about" className="text-miku-gray hover:text-miku-turquoise">About</Link></li>
               <li><Link href="/music" className="text-miku-gray hover:text-miku-turquoise">Music</Link></li>
@@ -27,7 +27,7 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="font-bold text-miku-dark">Linked Sites</h4>
+            <h4 className="text-xl text-miku-turquoise">Linked Sites</h4>
             <div className="mt-2 flex space-x-4">
               <ul className="mt-2 flex flex-row space-x-4">
               <li>
