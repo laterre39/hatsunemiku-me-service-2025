@@ -30,11 +30,11 @@ export function Header() {
       <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between px-4">
         <Link href="/" className="flex items-center space-x-2">
           <span
-            className={`font-pacifico font-light text-3xl transition-colors hover:text-miku-pink ${
+            className={`font-light text-3xl transition-all duration-300 underline decoration-4 decoration-[#39C5BB] ${
               isScrolled ? 'text-miku-dark' : 'text-white'
             }`}
           >
-            HatsuneMiku.me
+            HATSUNEMIKU.ME
           </span>
         </Link>
         <nav className="hidden md:flex">
