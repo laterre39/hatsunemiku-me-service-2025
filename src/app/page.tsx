@@ -46,7 +46,7 @@ export default function Home() {
 
       {/* Vocaloid MV Section */}
       <section className="mx-auto max-w-5xl py-12">
-        <div className="flex items-center mb-2 gap-2 font-bold text-2xl text-white">
+        <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
           <AudioLines />
           <h2>Best Vocaloid MV</h2>
           <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다."/>
@@ -56,7 +56,7 @@ export default function Home() {
 
       {/* Youtube Vocaloid Ranking Section */}
       <section className="mx-auto max-w-5xl py-12">
-        <div className="flex items-center mb-2 gap-2 font-bold text-2xl text-white">
+        <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
           <AudioLines />
           <h2>Youtube Ranking</h2>
           <Tooltip text="키워드 검색을 통해서 조회수를 기준으로 유튜브 랭킹을 집계하고 있습니다."/>
@@ -66,7 +66,7 @@ export default function Home() {
 
       {/* Spotify Vocaloid Ranking Section */}
       <section className="mx-auto max-w-5xl py-12">
-        <div className="flex items-center mb-2 gap-2 font-bold text-2xl text-white">
+        <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
           <AudioLines />
           <h2>Spotify Ranking</h2>
           <Tooltip text="아티스트 마다 상위 인기도를 기준으로 합산해서 합산된 음반의 인기도를 기준으로 스포티파이 랭킹을 집계하고 있습니다."/>
