@@ -6,7 +6,7 @@ import { YouTubeRanking } from '@/components/YouTubeRanking';
 import { SpotifyRanking } from '@/components/SpotifyRanking';
 import { Tooltip } from '@/components/Tooltip';
 import { MikuIntroduction } from '@/components/MikuIntroduction';
-import { youtubeVideoLists } from '@/data/youtubeVideolists';
+import { youtubeVideoLists } from '@/data/youtubeVideoLists';
 
 // 배열을 무작위로 섞는 헬퍼 함수 (Fisher-Yates shuffle)
 const shuffleArray = <T extends unknown[]>(array: T): T => {
