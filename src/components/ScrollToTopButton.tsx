@@ -36,10 +36,10 @@ export function ScrollToTopButton() {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="text-black p-3 rounded-xl shadow-lg bg-white/30 transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-opacity-75"
+          className="text-white p-2 rounded-xl bg-[#39C5BB] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-opacity-75"
           aria-label="Scroll to top"
         >
-          <ChevronUp size={24} />
+          <ChevronUp size={30} />
         </button>
       )}
     </div>
