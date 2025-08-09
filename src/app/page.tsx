@@ -6,6 +6,7 @@ import { YouTubeRanking } from '@/components/YouTubeRanking';
 import { SpotifyRanking } from '@/components/SpotifyRanking';
 import { Tooltip } from '@/components/Tooltip';
 import { MikuIntroduction } from '@/components/MikuIntroduction';
+import { youtubeVideoLists } from '@/data/youtubeVideolists';
 
 // 배열을 무작위로 섞는 헬퍼 함수 (Fisher-Yates shuffle)
 const shuffleArray = <T extends unknown[]>(array: T): T => {
@@ -26,21 +27,9 @@ const shuffleArray = <T extends unknown[]>(array: T): T => {
 };
 
 export default function Home() {
-  const youtubeVideoIds = [
-    '3iUgKH8c7p4', // いますぐ輪廻 （Retry Now） / 하츠네 미쿠
-    'BI9Ue6JwJic', // DECO*27 - チェリーポップ feat. 初音ミク
-    'vg6pnvn1u10', // 장난기 기능(おちゃめ機能) / 카사네 테토
-    'xdNIO7WudEw', // TAK - ‘고독사이코 (Psycho Mode)
-    'wpEtAg_ngOU', // 순하추등 / 세카이
-    'Bi0FB2sBCjQ', // 【猫使ビィ＆初音ミク】グリッチギツネ【オリジナル曲】
-    'Ig-a4aJR3jM', // 8.32 (Acoustic Ver.) / *Luna feat.Hatsune Miku
-    '6Fm-wW_57FY', // MV「死別」 / Shannon feat. GUMI
-    'JW3N-HvU0MA', // 미키토P 『소녀 레이』 MV
-    'TA5OFS_xX0c', // 샤를 / flower
-  ];
 
   // 셔플된 배열을 YouTubeSlider에 전달
-  const shuffledVideoIds = shuffleArray([...youtubeVideoIds]);
+  const shuffledVideoIds = shuffleArray([...youtubeVideoLists]).slice(0, 5);
 
   // 미쿠 탄생일로부터 경과 일수 계산
   const mikuBirthday = new Date('2007-08-31');
@@ -57,13 +46,13 @@ export default function Home() {
           <AudioLines />
           <h2>About Hatsune Miku</h2>
           <Tooltip text="지금 바로 윤회! 이번에도 맺어지지 않네 🩵 거짓말하면 바늘 천 개, 맹세해 🩷 다음 생에서는 꼭 다시 만나자?"/>
-        </div>    
+        </div>
         <MikuIntroduction diffDays={diffDays} />
       </section>
 
       {/* Vocaloid MV Section */}
       <section className="mx-auto max-w-5xl py-12">
-        <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">      
+        <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
           <AudioLines />
           <h2>Best Vocaloid MV</h2>
           <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다."/>
