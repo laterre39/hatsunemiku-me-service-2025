@@ -7,7 +7,7 @@ interface TooltipProps {
 
 export function Tooltip({ text }: TooltipProps) {
   return (
-    <FlowbiteTooltip content={text} placement="right" style="light" className="text-black max-w-60 whitespace-normal">
+    <FlowbiteTooltip content={text} placement="right" style="light" className="text-black max-w-60 whitespace-normal -translate-y-3">
       <MessageCircleWarning size={20} className="-translate-y-3" />
     </FlowbiteTooltip>
   );
