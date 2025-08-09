@@ -1,9 +1,33 @@
+import type { Metadata } from "next";
 import "./globals.css";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import localFont from 'next/font/local'
 import { FlowbiteClient } from '@/components/FlowbiteClient';
 import { ScrollToTopButton } from '@/components/ScrollToTopButton';
+
+export const metadata: Metadata = {
+  title: "HATSUNEMIKU.ME",
+  description: "みくみくにしてあげる♪",
+  icons: {
+    icon: "/cherrypop_ico.png",
+  },
+  openGraph: {
+    title: "HATSUNEMIKU.ME",
+    description: "みくみくにしてあげる♪",
+    images: [
+      {
+        url: "/cherrypop.png", // 공유될 이미지 경로
+        width: 800,
+        height: 600,
+        alt: "HATSUNEMIKU.ME",
+      },
+    ],
+    siteName: "HATSUNEMIKU.ME",
+    locale: 'ko_KR',
+    type: 'website',
+  },
+};
 
 const pretendard = localFont({
   src: '../assets/fonts/PretendardVariable.woff2',
