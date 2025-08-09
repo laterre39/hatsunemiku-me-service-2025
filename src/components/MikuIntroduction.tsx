@@ -17,7 +17,7 @@ export function MikuIntroduction({ diffDays }: MikuIntroductionProps) {
       />
       </div>
       <div className="lg:w-3/4 text-left">
-        <h3 className="text-2xl text-white text-miku-turquoise mb-4">
+        <h3 className="text-2xl text-white mb-4">
           <span className="text-[#39C5BB] underline underline-offset-4 decoration-4 decoration-[#39C5BB]">하츠네 미쿠</span>와 함께한지 <span className="text-[#FF7BAC] underline underline-offset-4 decoration-4 decoration-[#FF7BAC]">{diffDays}</span>일째!
         </h3>
         <p className="text-lg text-white leading-relaxed overflow-hidden">

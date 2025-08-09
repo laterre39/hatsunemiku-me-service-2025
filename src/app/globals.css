@@ -19,12 +19,12 @@
 /* Swiper Navigation Arrows (Custom) */
 .swiper-button-next-custom,
 .swiper-button-prev-custom {
-  color: #ffffff; /* miku-turquoise */
+  color: #ffffff;
 }
 
 /* Swiper Pagination Dots */
 .mySwiper .swiper-pagination-bullet {
-  background: #888888; /* miku-gray */
+  background: #888888;
   opacity: 0.7;
   width: 10px; /* Adjust size as needed */
   height: 10px; /* Adjust size as needed */
@@ -33,7 +33,7 @@
 }
 
 .mySwiper .swiper-pagination-bullet-active {
-  background: #ffffff; /* miku-turquoise */
+  background: #ffffff;
   opacity: 1;
   width: 12px; /* Slightly larger when active */
   height: 12px;

@@ -3,6 +3,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import localFont from 'next/font/local'
 import { FlowbiteClient } from '@/components/FlowbiteClient';
+import { ScrollToTopButton } from '@/components/ScrollToTopButton';
 
 const pretendard = localFont({
   src: '../assets/fonts/PretendardVariable.woff2',
@@ -26,6 +27,7 @@ export default function RootLayout({
           </main>
           <Footer />
           <FlowbiteClient />
+          <ScrollToTopButton />
         </div>
       </body>
     </html>

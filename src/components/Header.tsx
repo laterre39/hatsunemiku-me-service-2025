@@ -31,7 +31,7 @@ export function Header() {
         <Link href="/" className="flex items-center space-x-2">
           <span
             className={`font-light text-3xl transition-all duration-300 underline decoration-4 decoration-[#39C5BB] ${
-              isScrolled ? 'text-miku-dark' : 'text-white'
+              isScrolled ? 'text-black' : 'text-white'
             }`}
           >
             HATSUNEMIKU.ME
@@ -42,8 +42,8 @@ export function Header() {
             <li>
               <Link
                 href="/about"
-                className={`font-medium transition-colors hover:text-miku-turquoise ${
-                  isScrolled ? 'text-miku-dark' : 'text-white'
+                className={`font-medium transition-colors ${
+                  isScrolled ? 'text-black' : 'text-white'
                 }`}
               >
                 About
@@ -52,8 +52,8 @@ export function Header() {
             <li>
               <Link
                 href="/music"
-                className={`font-medium transition-colors hover:text-miku-turquoise ${
-                  isScrolled ? 'text-miku-dark' : 'text-white'
+                className={`font-medium transition-colors ${
+                  isScrolled ? 'text-black' : 'text-white'
                 }`}
               >
                 Music
@@ -62,8 +62,8 @@ export function Header() {
             <li>
               <Link
                 href="/gallery"
-                className={`font-medium transition-colors hover:text-miku-turquoise ${
-                  isScrolled ? 'text-miku-dark' : 'text-white'
+                className={`font-medium transition-colors ${
+                  isScrolled ? 'text-black' : 'text-white'
                 }`}
               >
                 Gallery
@@ -72,8 +72,8 @@ export function Header() {
             <li>
               <Link
                 href="/news"
-                className={`font-medium transition-colors hover:text-miku-turquoise ${
-                  isScrolled ? 'text-miku-dark' : 'text-white'
+                className={`font-medium transition-colors ${
+                  isScrolled ? 'text-black' : 'text-white'
                 }`}
               >
                 News
@@ -85,7 +85,7 @@ export function Header() {
           <button
             onClick={toggleMenu}
             className={`transition-colors ${
-              isScrolled ? 'text-miku-dark' : 'text-white'
+              isScrolled ? 'text-black' : 'text-white'
             }`}
           >
             <svg
@@ -121,8 +121,7 @@ export function Header() {
                 href="/about"
                 className={`block py-4 font-medium transition-colors ${
                   isScrolled
-                    ? 'text-miku-dark hover:text-miku-turquoise'
-                    : 'text-white hover:text-miku-pink'
+                    ? 'text-dark' : 'text-white'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -134,8 +133,7 @@ export function Header() {
                 href="/music"
                 className={`block py-4 font-medium transition-colors ${
                   isScrolled
-                    ? 'text-miku-dark hover:text-miku-turquoise'
-                    : 'text-white hover:text-miku-pink'
+                    ? 'text-dark' : 'text-white'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -147,8 +145,7 @@ export function Header() {
                 href="/gallery"
                 className={`block py-4 font-medium transition-colors ${
                   isScrolled
-                    ? 'text-miku-dark hover:text-miku-turquoise'
-                    : 'text-white hover:text-miku-pink'
+                    ? 'text-dark' : 'text-white'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >
@@ -160,8 +157,7 @@ export function Header() {
                 href="/news"
                 className={`block py-4 font-medium transition-colors ${
                   isScrolled
-                    ? 'text-miku-dark hover:text-miku-turquoise'
-                    : 'text-white hover:text-miku-pink'
+                    ? 'text-dark' : 'text-white'
                 }`}
                 onClick={() => setIsMenuOpen(false)}
               >

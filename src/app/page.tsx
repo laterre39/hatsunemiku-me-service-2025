@@ -38,7 +38,7 @@ export default function Home() {
   const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
   return (
-    <main className="bg-miku-light-gray/30">
+    <main>
 
       {/* Miku Introduction Section */}
       <section className="mx-auto max-w-5xl py-12">

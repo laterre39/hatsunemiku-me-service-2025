@@ -48,8 +48,8 @@ export function Footer() {
       <div className="container mx-auto max-w-5xl px-4 py-8">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-14">
           <div>
-            <h4 className="text-xl text-miku-turquoise underline underline-offset-4 decoration-4 decoration-[#39C5BB]">Created by MIKUMIKU</h4>
-            <p className="mt-4 text-miku-gray">하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련 문의는 하단의 메일로 문의 부탁드립니다. </p>
+            <h4 className="text-xl underline underline-offset-4 decoration-4 decoration-[#39C5BB]">Created by MIKUMIKU</h4>
+            <p className="mt-4">하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련 문의는 하단의 메일로 문의 부탁드립니다. </p>
             <p className="font-bold text-[#39C5BB]">미쿠미쿠하게 해줄게 ♪</p>
             <a href="mailto:loff98997@gmail.com" className="flex items-center gap-1 mt-2 font-semibold hover:underline">
               <Send size={15} />
@@ -57,7 +57,7 @@ export function Footer() {
             </a>
           </div>
           <div>
-            <h4 className="text-xl text-miku-turquoise">Upcoming Birthdays</h4>
+            <h4 className="text-xl">Upcoming Birthdays</h4>
             <ul className="mt-2 space-y-1">
               {sortedBirthdays.map((vocaloid) => {
                 const dDay = calculateDDay(vocaloid.month, vocaloid.day);
@@ -71,49 +71,49 @@ export function Footer() {
             </ul>
           </div>
           <div>
-            <h4 className="text-xl text-miku-turquoise">Quick Links</h4>
+            <h4 className="text-xl">Quick Links</h4>
             <ul className="mt-2 space-y-1">
-              <li><Link href="/about" className="flex items-center gap-1 text-miku-gray hover:text-miku-turquoise">About</Link></li>
-              <li><Link href="/music" className="flex items-center gap-1 text-miku-gray hover:text-miku-turquoise">Music</Link></li>
-              <li><Link href="/gallery" className="flex items-center gap-1 text-miku-gray hover:text-miku-turquoise">Gallery</Link></li>
-              <li><Link href="/news" className="flex items-center gap-1 text-miku-gray hover:text-miku-turquoise">News</Link></li>
+              <li><Link href="/about" className="flex items-center gap-1">About</Link></li>
+              <li><Link href="/music" className="flex items-center gap-1">Music</Link></li>
+              <li><Link href="/gallery" className="flex items-center gap-1">Gallery</Link></li>
+              <li><Link href="/news" className="flex items-center gap-1">News</Link></li>
             </ul>
           </div>
           <div>
-            <h4 className="text-xl text-miku-turquoise">Linked Sites</h4>
+            <h4 className="text-xl">Linked Sites</h4>
             <div className="mt-2 flex space-x-4">
               <ul className="mt-2 flex flex-row space-x-4">
               <li>
                 <FlowbiteTooltip content="Piapro Blog" placement="bottom" style="light">
-                  <a href="https://blog.piapro.net/" className="text-miku-gray hover:text-miku-turquoise">
+                  <a href="https://blog.piapro.net/">
                     <AudioLines size={24} />
                   </a>
                 </FlowbiteTooltip>
               </li>
               <li>
                 <FlowbiteTooltip content="KARENT Music" placement="bottom" style="light">
-                  <a href="https://karent.jp/" className="text-miku-gray hover:text-miku-turquoise">
+                  <a href="https://karent.jp/">
                     <FaCompactDisc size={24} />
                   </a>
                 </FlowbiteTooltip>
               </li>
               <li>
                 <FlowbiteTooltip content="Official X" placement="bottom" style="light">
-                  <a href="https://x.com/cfm_miku_en" className="text-miku-gray hover:text-miku-turquoise">
+                  <a href="https://x.com/cfm_miku_en">
                     <FaSquareXTwitter size={24} />
                   </a>
                 </FlowbiteTooltip>
               </li>
               <li>
                 <FlowbiteTooltip content="Official Facebook" placement="bottom" style="light">
-                  <a href="https://www.facebook.com/HatsuneMikuOfficialPage" className="text-miku-gray hover:text-miku-turquoise">
+                  <a href="https://www.facebook.com/HatsuneMikuOfficialPage">
                     <FaFacebook size={24} />
                   </a>
                 </FlowbiteTooltip>
               </li>
               <li>
                 <FlowbiteTooltip content="Official Instagram" placement="bottom" style="light">
-                  <a href="https://www.instagram.com/cfm_mikustagram/" className="text-miku-gray hover:text-miku-turquoise">
+                  <a href="https://www.instagram.com/cfm_mikustagram/">
                     <FaSquareInstagram size={24} />
                   </a>
                 </FlowbiteTooltip>
@@ -122,7 +122,7 @@ export function Footer() {
             </div>
           </div>
         </div>
-        <div className="mt-8 border-t border-gray-200/80 pt-6 text-center text-sm text-miku-gray">
+        <div className="mt-8 border-t border-gray-200/80 pt-6 text-center text-sm">
           <p className="font-bold">&copy; {new Date().getFullYear()} HatsuneMiku.me</p>
           <p className="mt-1 font-light underline">This is a non-commercial fan-made website.</p>
           <p className="mt-1 font-light underline">

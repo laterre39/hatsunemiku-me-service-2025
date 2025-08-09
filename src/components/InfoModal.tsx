@@ -35,7 +35,7 @@ export function InfoModal({
         onMouseEnter={() => setIsTooltipVisible(true)}
         onMouseLeave={() => setIsTooltipVisible(false)}
         onClick={toggleModal}
-        className="cursor-pointer rounded-full p-0.5 hover:bg-white/30 hover:text-miku-dark-blue transition-colors"
+        className="cursor-pointer rounded-full p-0.5 hover:bg-white/30 transition-colors"
       >
         {children}
       </div>
