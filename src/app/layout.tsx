@@ -1,12 +1,13 @@
-import type { Metadata } from "next";
+import type {Metadata} from "next";
 import "./globals.css";
-import { Header } from "@/components/Header";
-import { Footer } from "@/components/Footer";
+import {Header} from "@/components/Header";
+import {Footer} from "@/components/Footer";
 import localFont from 'next/font/local'
-import { FlowbiteClient } from '@/components/FlowbiteClient';
-import { ScrollToTopButton } from '@/components/ScrollToTopButton';
+import {FlowbiteClient} from '@/components/FlowbiteClient';
+import {ScrollToTopButton} from '@/components/ScrollToTopButton';
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://hatsunemiku.me/'),
   title: "HATSUNEMIKU.ME",
   description: "みくみくにしてあげる♪",
   icons: {
