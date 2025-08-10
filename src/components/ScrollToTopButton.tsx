@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from 'react';
-import { ChevronUp } from 'lucide-react';
+import {useEffect, useState} from 'react';
+import {ChevronUp} from 'lucide-react';
 
 export function ScrollToTopButton() {
   const [isVisible, setIsVisible] = useState(false);
@@ -36,7 +36,7 @@ export function ScrollToTopButton() {
       {isVisible && (
         <button
           onClick={scrollToTop}
-          className="text-white p-2 rounded-xl bg-[#39C5BB] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-opacity-75"
+          className="text-white p-1 rounded-lg bg-[#39C5BB] transition-colors duration-300 focus:outline-none focus:ring-2 focus:ring-opacity-75"
           aria-label="Scroll to top"
         >
           <ChevronUp size={30} />
