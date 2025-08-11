@@ -1,10 +1,9 @@
 "use client";
 
-import React, { useRef, useCallback } from 'react';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Navigation, Pagination } from 'swiper/modules';
-import { ChevronsLeft } from 'lucide-react';
-import { ChevronsRight } from 'lucide-react';
+import React, {useCallback, useRef} from 'react';
+import {Swiper, SwiperSlide} from 'swiper/react';
+import {Navigation, Pagination} from 'swiper/modules';
+import {ChevronsLeft, ChevronsRight} from 'lucide-react';
 import YouTube from 'react-youtube';
 
 // Import Swiper styles
@@ -16,7 +15,7 @@ interface YouTubeSliderProps {
   videoIds: string[];
 }
 
-export function YouTubeSlider({ videoIds }: YouTubeSliderProps) {
+export function YouTubeSlider({ videoIds }: Readonly<YouTubeSliderProps>) {
   const playerRefs = useRef<Map<string, YT.Player>>(new Map());
 
   const opts = {
@@ -27,6 +26,7 @@ export function YouTubeSlider({ videoIds }: YouTubeSliderProps) {
       modestbranding: 1, // YouTube 로고 숨기기
       rel: 0, // 관련 동영상 표시 방지
       iv_load_policy: 3, // 비디오 주석 숨기기
+      origin: 'https://hatsunemiku.me', // 출처 설정
     },
   };
 
