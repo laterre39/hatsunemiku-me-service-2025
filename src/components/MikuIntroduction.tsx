@@ -11,8 +11,10 @@ export function MikuIntroduction({ diffDays }: MikuIntroductionProps) {
       <Image
         src="/cherrypop.png"
         alt="체리팝 일러스트"
-        width={300}
-        height={300}
+        width={500}
+        height={500}
+        quality={80}
+        priority={true}
         className="object-contain rounded-xl"
       />
       </div>
