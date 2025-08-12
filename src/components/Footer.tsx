@@ -47,11 +47,14 @@ export function Footer() {
         <div className="flex flex-wrap items-start justify-center gap-4">
           <div className="w-sm">
             <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Created by MIKUMIKU</h4>
-            <p className="mt-2 p-2">하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련 문의는 하단의 메일로 문의 부탁드립니다. </p>
-            <a href="mailto:loff98997@gmail.com" className="flex items-center p-2 gap-1 font-semibold hover:underline">
-              <Send size={15} />
-              Send Mail
-            </a>
+            <div className="p-2 space-y-2">
+              <p>하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="font-bold text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련 문의는 하단의 메일로 문의 부탁드립니다. </p>
+              <p className="font-bold text-[#39C5BB]">미쿠미쿠하게 해줄게 ♪</p>
+              <a href="mailto:loff98997@gmail.com" className="flex items-center gap-1 font-semibold hover:underline">
+                <Send size={15} />
+                Send Mail
+              </a>
+            </div>
           </div>
           <div className="w-sm">
             <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Upcoming Birthdays</h4>
