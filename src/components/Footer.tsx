@@ -1,7 +1,5 @@
-import Link from 'next/link';
-import { Send, AudioLines } from 'lucide-react';
-import { FaSquareXTwitter, FaFacebook, FaSquareInstagram, FaCompactDisc } from "react-icons/fa6";
-import { Tooltip as FlowbiteTooltip } from 'flowbite-react';
+import {AudioLines, Send} from 'lucide-react';
+import {FaCompactDisc, FaFacebook, FaSquareInstagram, FaSquareXTwitter} from "react-icons/fa6";
 
 export function Footer() {
   const calculateDDay = (month: number, day: number): number => {
@@ -31,7 +29,7 @@ export function Footer() {
   ];
 
   // Sort birthdays to show upcoming ones first
-  const sortedBirthdays = vocaloidBirthdays.sort((a, b) => {
+  const sortedBirthdays = vocaloidBirthdays.toSorted((a, b) => {
     const today = new Date();
     const dateA = new Date(today.getFullYear(), a.month - 1, a.day);
     const dateB = new Date(today.getFullYear(), b.month - 1, b.day);
@@ -45,81 +43,65 @@ export function Footer() {
 
   return (
     <footer className="border-t border-gray-200/80 bg-white mt-12">
-      <div className="container mx-auto max-w-5xl px-4 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-14">
-          <div>
-            <h4 className="text-xl underline underline-offset-4 decoration-4 decoration-[#39C5BB]">Created by MIKUMIKU</h4>
-            <p className="mt-4">하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련 문의는 하단의 메일로 문의 부탁드립니다. </p>
-            <p className="font-bold text-[#39C5BB]">미쿠미쿠하게 해줄게 ♪</p>
-            <a href="mailto:loff98997@gmail.com" className="flex items-center gap-1 mt-2 font-semibold hover:underline">
+      <div className="container mx-auto px-4 py-8">
+        <div className="flex flex-wrap items-start justify-center gap-4">
+          <div className="w-sm">
+            <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Created by MIKUMIKU</h4>
+            <p className="mt-2 p-2">하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련 문의는 하단의 메일로 문의 부탁드립니다. </p>
+            <a href="mailto:loff98997@gmail.com" className="flex items-center mt-1 p-2 gap-1 font-semibold hover:underline">
               <Send size={15} />
               Send Mail
             </a>
           </div>
-          <div>
-            <h4 className="text-xl">Upcoming Birthdays</h4>
-            <ul className="mt-2 space-y-1">
+          <div className="w-sm">
+            <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Upcoming Birthdays</h4>
+            <ul className="grid grid-cols-[auto_1fr] mt-2 p-2">
               {sortedBirthdays.map((vocaloid) => {
                 const dDay = calculateDDay(vocaloid.month, vocaloid.day);
                 const anniversary = new Date().getFullYear() - vocaloid.year;
                 return (
-                  <li key={vocaloid.name}>
-                    <span className="font-semibold underline underline-offset-4 decoration-4" style={{ color: vocaloid.color, textDecorationColor: vocaloid.color }}>{vocaloid.name}</span>: D-{dDay} ({anniversary}주년)
+                  <li key={vocaloid.name} className="contents">
+                    <span className="font-semibold underline underline-offset-4 decoration-4" style={{ color: vocaloid.color, textDecorationColor: vocaloid.color }}>{vocaloid.name}</span>
+                    <span className="justify-self-end">D-{dDay} ({anniversary}th)</span>
                   </li>
                 );
               })}
             </ul>
           </div>
-          <div>
-            <h4 className="text-xl">Quick Links</h4>
-            <ul className="mt-2 space-y-1">
-              <li><Link href="/about" className="flex items-center gap-1">About</Link></li>
-              <li><Link href="/music" className="flex items-center gap-1">Music</Link></li>
-              <li><Link href="/gallery" className="flex items-center gap-1">Gallery</Link></li>
-              <li><Link href="/news" className="flex items-center gap-1">News</Link></li>
-            </ul>
-          </div>
-          <div>
-            <h4 className="text-xl">Linked Sites</h4>
-            <div className="mt-2 flex space-x-4">
-              <ul className="mt-2 flex flex-row space-x-4">
+          <div className="w-sm">
+            <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Linked Sites</h4>
+            <ul className="mt-2 p-2 space-y-2">
               <li>
-                <FlowbiteTooltip content="Piapro Blog" placement="bottom" style="light">
-                  <a href="https://blog.piapro.net/">
-                    <AudioLines size={24} />
-                  </a>
-                </FlowbiteTooltip>
+                <a href="https://blog.piapro.net/" className="flex items-center gap-2 hover:underline">
+                  <AudioLines size={20} />
+                  <span>Piapro Blog</span>
+                </a>
               </li>
               <li>
-                <FlowbiteTooltip content="KARENT Music" placement="bottom" style="light">
-                  <a href="https://karent.jp/">
-                    <FaCompactDisc size={24} />
-                  </a>
-                </FlowbiteTooltip>
+                <a href="https://karent.jp/" className="flex items-center gap-2 hover:underline">
+                  <FaCompactDisc size={20} />
+                  <span>KARENT Music</span>
+                </a>
               </li>
               <li>
-                <FlowbiteTooltip content="Official X" placement="bottom" style="light">
-                  <a href="https://x.com/cfm_miku_en">
-                    <FaSquareXTwitter size={24} />
-                  </a>
-                </FlowbiteTooltip>
+                <a href="https://x.com/cfm_miku_en" className="flex items-center gap-2 hover:underline">
+                  <FaSquareXTwitter size={20} />
+                  <span>Official X</span>
+                </a>
               </li>
               <li>
-                <FlowbiteTooltip content="Official Facebook" placement="bottom" style="light">
-                  <a href="https://www.facebook.com/HatsuneMikuOfficialPage">
-                    <FaFacebook size={24} />
-                  </a>
-                </FlowbiteTooltip>
+                <a href="https://www.facebook.com/HatsuneMikuOfficialPage" className="flex items-center gap-2 hover:underline">
+                  <FaFacebook size={20} />
+                  <span>Official Facebook</span>
+                </a>
               </li>
               <li>
-                <FlowbiteTooltip content="Official Instagram" placement="bottom" style="light">
-                  <a href="https://www.instagram.com/cfm_mikustagram/">
-                    <FaSquareInstagram size={24} />
-                  </a>
-                </FlowbiteTooltip>
+                <a href="https://www.instagram.com/cfm_mikustagram/" className="flex items-center gap-2 hover:underline">
+                  <FaSquareInstagram size={20} />
+                  <span>Official Instagram</span>
+                </a>
               </li>
             </ul>
-            </div>
           </div>
         </div>
         <div className="mt-8 border-t border-gray-200/80 pt-6 text-center text-sm">
