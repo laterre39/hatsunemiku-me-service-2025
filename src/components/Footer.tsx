@@ -48,19 +48,19 @@ export function Footer() {
           <div className="w-sm">
             <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Created by MIKUMIKU</h4>
             <p className="mt-2 p-2">하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련 문의는 하단의 메일로 문의 부탁드립니다. </p>
-            <a href="mailto:loff98997@gmail.com" className="flex items-center mt-1 p-2 gap-1 font-semibold hover:underline">
+            <a href="mailto:loff98997@gmail.com" className="flex items-center p-2 gap-1 font-semibold hover:underline">
               <Send size={15} />
               Send Mail
             </a>
           </div>
           <div className="w-sm">
             <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Upcoming Birthdays</h4>
-            <ul className="grid grid-cols-[auto_1fr] mt-2 p-2">
+            <ul className="grid grid-cols-[auto_1fr] p-2">
               {sortedBirthdays.map((vocaloid) => {
                 const dDay = calculateDDay(vocaloid.month, vocaloid.day);
                 const anniversary = new Date().getFullYear() - vocaloid.year;
                 return (
-                  <li key={vocaloid.name} className="contents">
+                  <li key={vocaloid.name} className="contents space-y-2">
                     <span className="font-semibold underline underline-offset-4 decoration-4" style={{ color: vocaloid.color, textDecorationColor: vocaloid.color }}>{vocaloid.name}</span>
                     <span className="justify-self-end">D-{dDay} ({anniversary}th)</span>
                   </li>
@@ -74,13 +74,7 @@ export function Footer() {
               <li>
                 <a href="https://blog.piapro.net/" className="flex items-center gap-2 hover:underline">
                   <AudioLines size={20} />
-                  <span>Piapro Blog</span>
-                </a>
-              </li>
-              <li>
-                <a href="https://karent.jp/" className="flex items-center gap-2 hover:underline">
-                  <FaCompactDisc size={20} />
-                  <span>KARENT Music</span>
+                  <span>Official Blog</span>
                 </a>
               </li>
               <li>
@@ -99,6 +93,12 @@ export function Footer() {
                 <a href="https://www.instagram.com/cfm_mikustagram/" className="flex items-center gap-2 hover:underline">
                   <FaSquareInstagram size={20} />
                   <span>Official Instagram</span>
+                </a>
+              </li>
+              <li>
+                <a href="https://karent.jp/" className="flex items-center gap-2 hover:underline">
+                    <FaCompactDisc size={20} />
+                    <span>KARENT Music</span>
                 </a>
               </li>
             </ul>
