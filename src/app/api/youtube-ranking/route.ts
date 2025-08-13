@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+
+export const revalidate = 3600; // Revalidate at most every 1 hour
 
 // ISO 8601 형식의 재생 시간을 초 단위로 변환하는 함수
 function parseISO8601Duration(isoDuration: string): number {
@@ -79,37 +79,26 @@ async function getMusicRanking(keyword: string) {
 }
 
 /**
- * POST /api/youtube-ranking/update
- * 키워드 기준 전체 기간의 유튜브 랭킹을 가져와 JSON 파일로 저장합니다.
+ * GET /api/youtube-ranking
+ * 키워드 기준 전체 기간의 유튜브 랭킹을 가져옵니다.
  */
-export async function POST() {
+export async function GET() {
   try {
     const rankingData = await getMusicRanking('vocaloid');
 
-    const dataDir = path.join(process.cwd(), 'public', 'data');
-    const filePath = path.join(dataDir, 'youtube-ranking.json');
-
-    await fs.mkdir(dataDir, { recursive: true });
-
-    const dataToSave = {
+    const data = {
       lastUpdated: new Date().toISOString(),
       rankingType: 'all-time',
       keyword: 'vocaloid',
       items: rankingData,
     };
 
-    await fs.writeFile(filePath, JSON.stringify(dataToSave, null, 2));
-
-    return NextResponse.json({
-      success: true,
-      message: `Successfully updated all-time ranking for keyword "vocaloid"`,
-      data: dataToSave,
-    });
+    return NextResponse.json(data);
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    console.error('Ranking update failed:', errorMessage);
+    console.error('Ranking fetch failed:', errorMessage);
     return NextResponse.json(
-      { success: false, message: 'Failed to update ranking.', error: errorMessage },
+      { success: false, message: 'Failed to fetch ranking.', error: errorMessage },
       { status: 500 }
     );
   }

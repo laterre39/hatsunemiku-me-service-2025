@@ -39,12 +39,17 @@ export function SpotifyRanking() {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const spotifyRes = await fetch('/data/spotify-ranking.json');
+        const spotifyRes = await fetch('/api/spotify-ranking'); // API 엔드포인트 변경
         if (!spotifyRes.ok) {
           throw new Error(`Failed to fetch Spotify ranking: ${spotifyRes.statusText}`);
         }
-        const spotifyRawData = await spotifyRes.json();
-        setSpotifySongs(transformSpotifyData(spotifyRawData.items));
+        const spotifyApiResponse = await spotifyRes.json();
+
+        if (!spotifyApiResponse.success) {
+          throw new Error(spotifyApiResponse.message || 'Failed to retrieve ranking data from API');
+        }
+        
+        setSpotifySongs(transformSpotifyData(spotifyApiResponse.data.items)); // 응답 구조 변경에 따른 수정
       } catch (err) {
         console.error('Failed to fetch Spotify songs:', err);
         setError(err instanceof Error ? err.message : 'An unknown error occurred');

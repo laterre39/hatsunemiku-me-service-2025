@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { NextResponse } from 'next/server';
-import fs from 'fs/promises';
-import path from 'path';
+
+export const revalidate = 3600; // Revalidate at most every 1 hour
 
 // 스포티파이 API 액세스 토큰을 가져오는 함수
 async function getAccessToken() {
@@ -53,7 +53,6 @@ const VOICE_SYNTH_ARTISTS = [
 // 스포티파이 API로부터 월간 랭킹을 가져오는 함수
 async function getVoiceSynthRanking() {
   const accessToken = await getAccessToken();
-  // const currentYear = new Date().getFullYear();
   const voiceSynthArtistSet = new Set(VOICE_SYNTH_ARTISTS);
 
   // 1. 각 아티스트에 대한 검색 작업을 병렬로 실행
@@ -92,37 +91,30 @@ async function getVoiceSynthRanking() {
 }
 
 /**
- * POST /api/spotify-ranking/update
- * 스포티파이의 최신 음성 합성 엔진 음악 랭킹을 가져와 JSON 파일로 저장합니다.
+ * GET /api/spotify-ranking
+ * 스포티파이의 최신 음성 합성 엔진 음악 랭킹을 가져와 반환합니다.
  */
-export async function POST() {
+export async function GET() {
   try {
     const rankingData = await getVoiceSynthRanking();
 
-    const dataDir = path.join(process.cwd(), 'public', 'data');
-    const filePath = path.join(dataDir, 'spotify-ranking.json');
-
-    await fs.mkdir(dataDir, { recursive: true });
-
-    const dataToSave = {
+    const dataToReturn = {
       lastUpdated: new Date().toISOString(),
       rankingType: 'yearly-voice-synth',
       artists: VOICE_SYNTH_ARTISTS,
       items: rankingData,
     };
 
-    await fs.writeFile(filePath, JSON.stringify(dataToSave, null, 2));
-
     return NextResponse.json({
       success: true,
-      message: 'Successfully updated Spotify voice-synth ranking.',
-      data: dataToSave,
+      message: 'Successfully retrieved Spotify voice-synth ranking.',
+      data: dataToReturn,
     });
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    console.error('Spotify ranking update failed:', errorMessage);
+    console.error('Spotify ranking retrieval failed:', errorMessage);
     return NextResponse.json(
-      { success: false, message: 'Failed to update Spotify ranking.', error: errorMessage },
+      { success: false, message: 'Failed to retrieve Spotify ranking.', error: errorMessage },
       { status: 500 }
     );
   }

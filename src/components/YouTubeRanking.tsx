@@ -47,7 +47,7 @@ export function YouTubeRanking() {
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const youtubeRes = await fetch('/data/youtube-ranking.json');
+        const youtubeRes = await fetch('/api/youtube-ranking'); // 변경된 부분
         if (!youtubeRes.ok) {
           throw new Error(`Failed to fetch YouTube ranking: ${youtubeRes.statusText}`);
         }
