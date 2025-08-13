@@ -1,7 +1,13 @@
-import {AudioLines, Send} from 'lucide-react';
+"use client"
+
+import {useState} from 'react';
+import {AudioLines, Cake, Send} from 'lucide-react';
 import {FaCompactDisc, FaFacebook, FaSquareInstagram, FaSquareXTwitter} from "react-icons/fa6";
+import {vocaloidBirthdays} from "@/data/vocaloidBirthdayLists";
 
 export function Footer() {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const calculateDDay = (month: number, day: number): number => {
     const today = new Date();
     today.setHours(0, 0, 0, 0); // Reset time to start of day for accurate comparison
@@ -19,14 +25,6 @@ export function Footer() {
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
     return diffDays;
   };
-
-  const vocaloidBirthdays = [
-    { name: 'Kagamine Rin & Len', month: 12, day: 27, year: 2007, color: '#FFE211' },
-    { name: 'Kasane Teto', month: 4, day: 3, year: 2008, color: '#D33C51' },
-    { name: 'SeeU', month: 10, day: 21, year: 2011, color: '#FF8C02' },
-    { name: 'UNI', month: 2, day: 14, year: 2017, color: '#FA6E98' },
-    { name: 'Hatsune Miku', month: 8, day: 31, year: 2007, color: '#39C5BB' },
-  ];
 
   // Sort birthdays to show upcoming ones first
   const sortedBirthdays = vocaloidBirthdays.toSorted((a, b) => {
@@ -59,7 +57,7 @@ export function Footer() {
           <div className="w-sm">
             <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Upcoming Birthdays</h4>
             <ul className="grid grid-cols-[auto_1fr] p-2">
-              {sortedBirthdays.map((vocaloid) => {
+              {sortedBirthdays.slice(0, 5).map((vocaloid) => {
                 const dDay = calculateDDay(vocaloid.month, vocaloid.day);
                 const anniversary = new Date().getFullYear() - vocaloid.year;
                 return (
@@ -70,6 +68,15 @@ export function Footer() {
                 );
               })}
             </ul>
+            {sortedBirthdays.length > 5 && (
+              <button
+                onClick={() => setIsModalOpen(true)}
+                className="flex items-center gap-1 font-semibold hover:underline px-2"
+              >
+                <Cake size={15} />
+                생일 더보기...
+              </button>
+            )}
           </div>
           <div className="w-sm">
             <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Linked Sites</h4>
@@ -115,6 +122,32 @@ export function Footer() {
           </p>
         </div>
       </div>
+
+      {isModalOpen && (
+        <div className="fixed inset-0 flex items-center justify-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full max-h-[80vh] overflow-y-auto relative">
+            <h3 className="text-2xl font-bold mb-4 text-[#39C5BB]">All Upcoming Birthdays</h3>
+            <ul className="grid grid-cols-[auto_1fr] gap-y-2">
+              {sortedBirthdays.map((vocaloid) => {
+                const dDay = calculateDDay(vocaloid.month, vocaloid.day);
+                const anniversary = new Date().getFullYear() - vocaloid.year;
+                return (
+                  <li key={vocaloid.name} className="contents">
+                    <span className="font-semibold underline underline-offset-4 decoration-4" style={{ color: vocaloid.color, textDecorationColor: vocaloid.color }}>{vocaloid.name}</span>
+                    <span className="justify-self-end">D-{dDay} ({anniversary}th)</span>
+                  </li>
+                );
+              })}
+            </ul>
+            <button
+              onClick={() => setIsModalOpen(false)}
+              className="mt-6 px-4 py-2 bg-[#39C5BB] text-white rounded-md hover:bg-[#2fa098] transition-colors duration-200 w-full"
+            >
+              닫기
+            </button>
+          </div>
+        </div>
+      )}
     </footer>
   );
 }
