@@ -73,44 +73,44 @@ export function Footer() {
           </div>
           <div className="w-sm">
             <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Linked Sites</h4>
-            <ul className="mt-2 p-2 space-y-2">
+            <ul className="p-2 space-y-2">
               <li>
                 <a href="https://blog.piapro.net/" className="flex items-center gap-2 hover:underline">
                   <AudioLines size={20} />
-                  <span>Official Blog</span>
+                  <span className="font-medium">Official Blog</span>
                 </a>
               </li>
               <li>
                 <a href="https://x.com/cfm_miku_en" className="flex items-center gap-2 hover:underline">
                   <FaSquareXTwitter size={20} />
-                  <span>Official X</span>
+                  <span className="font-medium">Official X</span>
                 </a>
               </li>
               <li>
                 <a href="https://www.facebook.com/HatsuneMikuOfficialPage" className="flex items-center gap-2 hover:underline">
                   <FaFacebook size={20} />
-                  <span>Official Facebook</span>
+                  <span className="font-medium">Official Facebook</span>
                 </a>
               </li>
               <li>
                 <a href="https://www.instagram.com/cfm_mikustagram/" className="flex items-center gap-2 hover:underline">
                   <FaSquareInstagram size={20} />
-                  <span>Official Instagram</span>
+                  <span className="font-medium">Official Instagram</span>
                 </a>
               </li>
               <li>
                 <a href="https://karent.jp/" className="flex items-center gap-2 hover:underline">
                     <FaCompactDisc size={20} />
-                    <span>KARENT Music</span>
+                    <span className="font-medium">KARENT Music</span>
                 </a>
               </li>
             </ul>
           </div>
         </div>
         <div className="mt-8 border-t border-gray-200/80 pt-6 text-center text-sm">
-          <p className="font-bold">&copy; {new Date().getFullYear()} HatsuneMiku.me</p>
-          <p className="mt-1 font-light underline">This is a non-commercial fan-made website.</p>
-          <p className="mt-1 font-light underline">
+          <p className="font-semibold">&copy; {new Date().getFullYear()} HatsuneMiku.me</p>
+          <p className="mt-2 font-light underline">This is a non-commercial fan-made website.</p>
+          <p className="font-light underline">
             Hatsune Miku and other VOCALOID characters are trademarks and copyrights of Crypton Future Media, INC. and their respective owners.
           </p>
         </div>
