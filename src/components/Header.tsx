@@ -92,7 +92,7 @@ export function Header() {
             : 'bg-transparent'
     } relative`;
 
-    const logoClassName = `font-light text-3xl transition-all duration-300 underline decoration-4 decoration-[#39C5BB] ${
+    const logoClassName = `font-light text-2xl md:text-3xl transition-all duration-300 underline decoration-4 decoration-[#39C5BB] ${
         isScrolled ? 'text-black' : 'text-white'
     }`;
 
