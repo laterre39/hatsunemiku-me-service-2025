@@ -1,5 +1,5 @@
-@import "tailwindcss";
 @import "flowbite";
+@import "tailwindcss";
 
 @layer base {
   html {
