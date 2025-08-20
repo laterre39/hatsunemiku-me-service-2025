@@ -13,4 +13,5 @@ export const linkedSites: LinkedSite[] = [
     { name: "Magical Mirai", url: "https://magicalmirai.com/" },
     { name: "Snow Miku", url: "https://snowmiku.com/" },
     { name: "VocaMap", url: "https://www.vocamap.jp/" },
+    { name: "Vocalendar", url: "https://vocalendar.jp/" },
 ];
