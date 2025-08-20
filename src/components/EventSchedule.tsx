@@ -1,54 +1,90 @@
 import {vocaloidEventLists} from "@/data/vocaloidEventLists";
+import {ExternalLink} from "lucide-react";
+
+const formatDateForDateObject = (dateStr: string) => dateStr.replace(/\./g, '-');
+
+const getEventDuration = (startDate: Date, endDate: Date) => {
+    const diffTime = endDate.getTime() - startDate.getTime();
+    // Add 1 to include both start and end dates in the duration
+    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
+};
 
 export function EventSchedule() {
-  return (
-      <div className="bg-white/5 rounded-lg p-6 text-white">
-          <ul className="space-y-4">
-              {vocaloidEventLists.map((event) => {
-                  const eventDate = new Date(event.eventDate.replace(/\./g, '-'));
-                  const today = new Date();
-                  today.setHours(0, 0, 0, 0);
+    return (
+        <div className="text-white">
+            <ul className="space-y-4">
+                {vocaloidEventLists.map((event) => {
+                    const today = new Date();
+                    today.setHours(0, 0, 0, 0); // Normalize today's date to the beginning of the day
 
-                  const diffTime = eventDate.getTime() - today.getTime();
-                  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                    const startDate = new Date(formatDateForDateObject(event.eventStartDate));
+                    const endDate = event.eventEndDate ? new Date(formatDateForDateObject(event.eventEndDate)) : null;
 
-                  let status;
-                  if (diffDays < 0) {
-                      status = <span className="font-bold text-gray-500">종료</span>;
-                  } else if (diffDays === 0) {
-                      status = <span className="font-bold text-green-400">D-DAY</span>;
-                  } else {
-                      status = <span className="font-bold text-green-400">{`D-${diffDays}`}</span>;
-                  }
+                    let status;
+                    const isEventFinished = endDate ? today > endDate : today > startDate;
+                    const isEventOngoing = endDate && today >= startDate && today <= endDate;
 
-                  return (
-                      <li key={event.eventName} className="flex items-center justify-between">
-                          <div>
-                                        <span className="font-semibold gap-2">
-                                            {event.eventName}
-                                        </span>
-                              <span className="ml-2">
-                                            {event.eventSite && (
-                                                <a
-                                                    href={event.eventSite}
-                                                    target="_blank"
-                                                    rel="noopener noreferrer"
-                                                    className="bg-[#39C5BB] hover:bg-[#FF7BAC] text-white font-semibold py-1 px-2 rounded text-xs"
-                                                >
-                                                    공식 사이트
-                                                </a>
-                                            )}
-                                        </span>
-                              <br/>
-                              <span className="text-sm text-gray-400">{event.eventDate}</span>
-                          </div>
-                          <div className="flex items-center gap-4">
-                              {status}
-                          </div>
-                      </li>
-                  );
-              })}
-          </ul>
-      </div>
-  );
+                    if (isEventFinished) {
+                        status = <span className="font-bold text-gray-500">종료</span>;
+                    } else if (isEventOngoing) {
+                        status = <span className="font-bold text-cyan-400">진행 중</span>;
+                    } else {
+                        const diffTime = startDate.getTime() - today.getTime();
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        if (diffDays === 0) {
+                            status = <span className="font-bold text-cyan-400">D-DAY</span>;
+                        } else {
+                            status = <span className="font-bold text-cyan-400">{`D-${diffDays}`}</span>;
+                        }
+                    }
+
+                    let dateDisplay;
+                    if (endDate) {
+                        const duration = getEventDuration(startDate, endDate);
+                        dateDisplay = (
+                            <>
+                                <span className="text-sm">{`${event.eventStartDate} ~ ${event.eventEndDate}`}</span>
+                                <span
+                                    className="ml-2 inline-block rounded bg-cyan-400/20 px-2 py-1 text-xs font-semibold text-cyan-300">
+                                    {duration}일간
+                                </span>
+                            </>
+                        );
+                    } else {
+                        dateDisplay = event.eventStartDate;
+                    }
+
+                    return (
+                        <li key={event.eventName}
+                            className="bg-white/5 rounded-lg p-4 grid grid-cols-[1fr_auto_auto] items-center gap-6">
+                            <div>
+                                <p className="font-semibold text-lg">{event.eventName}</p>
+                                <p className="flex items-center text-base font-medium text-cyan-400 mt-1">
+                                    {dateDisplay}
+                                </p>
+                            </div>
+
+                            <div className="justify-self-end">
+                                {status}
+                            </div>
+
+                            <div className="justify-self-end">
+                                {event.eventSite && (
+                                    <a
+                                        href={event.eventSite}
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                        className="flex items-center gap-2 rounded border-2 border-[#39C5BB] px-3 py-2 text-sm font-semibold text-[#39C5BB] transition-colors hover:bg-[#39C5BB] hover:text-white"
+                                    >
+                                        <ExternalLink size={16}/>
+                                        <span>공식 사이트</span>
+                                    </a>
+                                )}
+                            </div>
+                        </li>
+                    );
+                })}
+            </ul>
+        </div>
+    );
 }
