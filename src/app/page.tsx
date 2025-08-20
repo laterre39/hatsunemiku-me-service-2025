@@ -1,6 +1,7 @@
 "use client";
 
 import {AudioLines} from 'lucide-react';
+import {FaSpotify, FaYoutube} from "react-icons/fa6";
 import {YouTubeSlider} from '@/components/YouTubeSlider';
 import {YouTubeRanking} from '@/components/YouTubeRanking';
 import {SpotifyRanking} from '@/components/SpotifyRanking';
@@ -31,24 +32,29 @@ export default function Home() {
                 <MikuIntroduction/>
             </section>
 
-            {/* Youtube Vocaloid Ranking Section */}
+            {/* Vocaloid Ranking Section */}
             <section className="mx-auto max-w-5xl py-12">
                 <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
-                    <h2>Youtube Ranking</h2>
-                    <Tooltip text="키워드 검색을 통해서 조회수를 기준으로 유튜브 랭킹을 집계하고 있습니다."/>
+                    <h2>Vocaloid Ranking</h2>
+                    <Tooltip text="유튜브와 스포티파이에서 특정 알고리즘을 통해 랭킹을 가져와서 집계하고 있습니다."/>
                 </div>
-                <YouTubeRanking/>
-            </section>
-
-            {/* Spotify Vocaloid Ranking Section */}
-            <section className="mx-auto max-w-5xl py-12">
-                <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
-                    <AudioLines/>
-                    <h2>Spotify Ranking</h2>
-                    <Tooltip text="아티스트 마다 상위 인기도를 기준으로 합산해서 합산된 음반의 인기도를 기준으로 스포티파이 랭킹을 집계하고 있습니다."/>
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                    <div>
+                        <div className="flex items-center justify-end bg-white/5 rounded-lg hover:bg-white/10 hover:shadow-md p-2 gap-2 mb-4">
+                            <h3 className="font-bold text-xl text-white">YouTube</h3>
+                            <FaYoutube size={28} className="text-red-500"/>
+                        </div>
+                        <YouTubeRanking/>
+                    </div>
+                    <div>
+                        <div className="flex items-center justify-end bg-white/5 rounded-lg hover:bg-white/10 hover:shadow-md p-2 gap-2 mb-4">
+                            <h3 className="font-bold text-xl text-white">Spotify</h3>
+                            <FaSpotify size={28} className="text-green-500"/>
+                        </div>
+                        <SpotifyRanking/>
+                    </div>
                 </div>
-                <SpotifyRanking/>
             </section>
 
             {/* Vocaloid Event Schedule Section */}
