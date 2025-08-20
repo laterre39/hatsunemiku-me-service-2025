@@ -43,6 +43,7 @@ export function Footer() {
                             <p>하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span
                                 className="font-bold text-[#39C5BB] underline underline-offset-1">미쿠 사랑해</span>🩵 사이트 관련
                                 문의는 하단의 메일로 문의 부탁드립니다. </p>
+                            <p>사이트 운영을 위한 <span className="font-bold text-[#39C5BB] underline underline-offset-1">편집자</span>를 모집하고 있습니다 <span className="font-bold text-[#39C5BB] underline underline-offset-1">편집자</span>를 관련 문의도 하단의 <span className="font-bold underline underline-offset-1">메일로 문의</span>를 부탁드립니다.</p>
                             <p className="font-bold text-[#39C5BB]">미쿠미쿠하게 해줄게 ♪</p>
                             <a href="mailto:loff98997@gmail.com"
                                className="flex items-center gap-1 font-semibold hover:underline">
