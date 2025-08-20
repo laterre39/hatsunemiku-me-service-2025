@@ -2,6 +2,77 @@
 
 import Link from 'next/link';
 import {useEffect, useState} from 'react';
+import {Menu, X} from "lucide-react";
+
+const navItems = [
+    {href: '/about', label: 'About'},
+    {href: '/music', label: 'Music'},
+    {href: '/event', label: 'Event'},
+    {href: '/gallery', label: 'Gallery'},
+    {href: '/news', label: 'News'},
+];
+
+const NavigationLinks = ({linkClassName, liClassName, onItemClick}: {
+    linkClassName: string;
+    liClassName?: string;
+    onItemClick?: () => void;
+}) => (
+    <>
+        {navItems.map(item => (
+            <li key={item.href} className={liClassName}>
+                <Link href={item.href} className={linkClassName} onClick={onItemClick}>
+                    {item.label}
+                </Link>
+            </li>
+        ))}
+    </>
+);
+
+const DesktopNav = ({isScrolled}: { isScrolled: boolean }) => (
+    <nav className="hidden md:flex">
+        <ul className="flex items-center space-x-8 text-base">
+            <NavigationLinks
+                linkClassName={`font-medium transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}
+            />
+        </ul>
+    </nav>
+);
+
+const MenuToggleButton = ({isMenuOpen, toggleMenu, isScrolled}: {
+    isMenuOpen: boolean;
+    toggleMenu: () => void;
+    isScrolled: boolean;
+}) => (
+    <div className="md:hidden">
+        <button onClick={toggleMenu} className={`transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}>
+            {isMenuOpen ? <X className="h-6 w-6"/> : <Menu className="h-6 w-6"/>}
+        </button>
+    </div>
+);
+
+const MobileMenuPanel = ({isMenuOpen, isScrolled, closeMenu}: {
+    isMenuOpen: boolean;
+    isScrolled: boolean;
+    closeMenu: () => void;
+}) => {
+    if (!isMenuOpen) return null;
+
+    const navClasses = `absolute w-full md:hidden ${isScrolled ? 'bg-white/80 backdrop-blur-sm' : 'bg-black/50 backdrop-blur-sm'}`;
+    const listClasses = `flex flex-col items-center divide-y ${isScrolled ? 'divide-gray-200/50' : 'divide-white/20'}`;
+    const linkClassName = `block py-4 font-medium transition-colors ${isScrolled ? 'text-dark' : 'text-white'}`;
+
+    return (
+        <nav className={navClasses}>
+            <ul className={listClasses}>
+                <NavigationLinks
+                    liClassName="w-full text-center"
+                    linkClassName={linkClassName}
+                    onItemClick={closeMenu}
+                />
+            </ul>
+        </nav>
+    );
+};
 
 export function Header() {
     const [isScrolled, setIsScrolled] = useState(false);
@@ -15,168 +86,34 @@ export function Header() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const toggleMenu = () => {
-        setIsMenuOpen(!isMenuOpen);
-    };
+    const headerClassName = `sticky top-0 z-50 w-full transition-all duration-300 mb-6 ${
+        isScrolled
+            ? 'border-b border-gray-200/50 bg-white/80 shadow-md backdrop-blur-sm'
+            : 'bg-transparent'
+    } relative`;
+
+    const logoClassName = `font-light text-3xl transition-all duration-300 underline decoration-4 decoration-[#39C5BB] ${
+        isScrolled ? 'text-black' : 'text-white'
+    }`;
 
     return (
-        <header
-            className={`sticky top-0 z-50 w-full transition-all duration-300 mb-6 ${
-                isScrolled
-                    ? 'border-b border-gray-200/50 bg-white/80 shadow-md backdrop-blur-sm'
-                    : 'bg-transparent'
-            } relative`}
-        >
+        <header className={headerClassName}>
             <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between px-4">
                 <Link href="/" className="flex items-center space-x-2">
-          <span
-              className={`font-light text-3xl transition-all duration-300 underline decoration-4 decoration-[#39C5BB] ${
-                  isScrolled ? 'text-black' : 'text-white'
-              }`}
-          >
-            HATSUNEMIKU.ME
-          </span>
+                    <span className={logoClassName}>HATSUNEMIKU.ME</span>
                 </Link>
-                <nav className="hidden md:flex">
-                    <ul className="flex items-center space-x-8 text-base">
-                        <li>
-                            <Link
-                                href="/about"
-                                className={`font-medium transition-colors ${
-                                    isScrolled ? 'text-black' : 'text-white'
-                                }`}
-                            >
-                                About
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/music"
-                                className={`font-medium transition-colors ${
-                                    isScrolled ? 'text-black' : 'text-white'
-                                }`}
-                            >
-                                Music
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/event"
-                                className={`font-medium transition-colors ${
-                                    isScrolled ? 'text-black' : 'text-white'
-                                }`}
-                            >
-                                Event
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/gallery"
-                                className={`font-medium transition-colors ${
-                                    isScrolled ? 'text-black' : 'text-white'
-                                }`}
-                            >
-                                Gallery
-                            </Link>
-                        </li>
-                        <li>
-                            <Link
-                                href="/news"
-                                className={`font-medium transition-colors ${
-                                    isScrolled ? 'text-black' : 'text-white'
-                                }`}
-                            >
-                                News
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-                <div className="md:hidden">
-                    <button
-                        onClick={toggleMenu}
-                        className={`transition-colors ${
-                            isScrolled ? 'text-black' : 'text-white'
-                        }`}
-                    >
-                        <svg
-                            className="h-6 w-6"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                            xmlns="http://www.w3.org/2000/svg"
-                        >
-                            <path
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                strokeWidth="2"
-                                d={isMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h10M4 12h10m-7 6h4"}
-                            ></path>
-                        </svg>
-                    </button>
-                </div>
+                <DesktopNav isScrolled={isScrolled}/>
+                <MenuToggleButton
+                    isMenuOpen={isMenuOpen}
+                    toggleMenu={() => setIsMenuOpen(prev => !prev)}
+                    isScrolled={isScrolled}
+                />
             </div>
-            {isMenuOpen && (
-                <nav
-                    className={`absolute w-full md:hidden ${
-                        isScrolled ? 'bg-white/80 backdrop-blur-sm' : 'bg-black/50 backdrop-blur-sm'
-                    }`}
-                >
-                    <ul
-                        className={`flex flex-col items-center divide-y ${
-                            isScrolled ? 'divide-gray-200/50' : 'divide-white/20'
-                        }`}
-                    >
-                        <li className="w-full text-center">
-                            <Link
-                                href="/about"
-                                className={`block py-4 font-medium transition-colors ${
-                                    isScrolled
-                                        ? 'text-dark' : 'text-white'
-                                }`}
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                About
-                            </Link>
-                        </li>
-                        <li className="w-full text-center">
-                            <Link
-                                href="/music"
-                                className={`block py-4 font-medium transition-colors ${
-                                    isScrolled
-                                        ? 'text-dark' : 'text-white'
-                                }`}
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Music
-                            </Link>
-                        </li>
-                        <li className="w-full text-center">
-                            <Link
-                                href="/gallery"
-                                className={`block py-4 font-medium transition-colors ${
-                                    isScrolled
-                                        ? 'text-dark' : 'text-white'
-                                }`}
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                Gallery
-                            </Link>
-                        </li>
-                        <li className="w-full text-center">
-                            <Link
-                                href="/news"
-                                className={`block py-4 font-medium transition-colors ${
-                                    isScrolled
-                                        ? 'text-dark' : 'text-white'
-                                }`}
-                                onClick={() => setIsMenuOpen(false)}
-                            >
-                                News
-                            </Link>
-                        </li>
-                    </ul>
-                </nav>
-            )}
+            <MobileMenuPanel
+                isMenuOpen={isMenuOpen}
+                isScrolled={isScrolled}
+                closeMenu={() => setIsMenuOpen(false)}
+            />
         </header>
     );
 }
