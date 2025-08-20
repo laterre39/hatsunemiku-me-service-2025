@@ -1,10 +1,12 @@
 import Image from 'next/image';
 
-interface MikuIntroductionProps {
-  diffDays: number;
-}
+// 미쿠 탄생일로부터 경과 일수 계산
+const mikuBirthday = new Date('2007-08-31');
+const today = new Date();
+const diffTime = Math.abs(today.getTime() - mikuBirthday.getTime());
+const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 
-export function MikuIntroduction({ diffDays }: MikuIntroductionProps) {
+export function MikuIntroduction() {
   return (
     <div className="max-w-5xl flex flex-col lg:flex-row lg:items-center gap-8">
       <div className="lg:w-1/4 mb-4 lg:mb-0 flex max-lg:justify-center">
