@@ -101,34 +101,35 @@ export default function AboutPage() {
                         </a>
                     </div>
                 </section>
-
-                <section className="py-12 first:pt-0 last:pb-0">
-                    <div
-                        className="flex items-center justify-center mb-6 gap-3 font-bold text-xl text-white underline underline-offset-4 decoration-[#39C5BB]">
-                        <HeartPlus size={24}/>
-                        <h2>Special Thanks</h2>
-                    </div>
-                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                        {specialThanksList.map(({name, contribution, links}) => (
-                            <div key={name}
-                                 className="bg-white/5 p-6 rounded-lg flex flex-col items-center text-center gap-3 transition-all hover:bg-white/10 hover:scale-105">
-                                <div>
-                                    <h3 className="font-semibold text-white text-lg">{name}</h3>
-                                    <p className="text-sm text-gray-400">{contribution}</p>
-                                </div>
-                                <div className="flex items-center gap-3 mt-2">
-                                    {links?.map((link) => (
-                                        <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
-                                           className="p-2 rounded-full hover:bg-white/20 transition-colors">
-                                            {getLinkIcon(link.type)}
-                                        </a>
-                                    ))}
-                                </div>
-                            </div>
-                        ))}
-                    </div>
-                </section>
             </div>
+
+            <section className="py-18 first:pt-0 last:pb-0">
+                <div
+                    className="flex items-center justify-center mb-6 gap-3 font-bold text-xl text-white underline underline-offset-4 decoration-[#39C5BB]">
+                    <HeartPlus size={24}/>
+                    <h2>Special Thanks</h2>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    {specialThanksList.map(({name, contribution, links}) => (
+                        <div key={name}
+                             className="bg-white/5 p-6 rounded-lg flex flex-col items-center text-center gap-3 transition-all hover:bg-white/10 hover:scale-105">
+                            <div>
+                                <h3 className="font-semibold text-white text-lg">{name}</h3>
+                                <p className="text-sm text-gray-400">{contribution}</p>
+                            </div>
+                            <div className="flex items-center gap-3 mt-2">
+                                {links?.map((link) => (
+                                    <a key={link.url} href={link.url} target="_blank" rel="noopener noreferrer"
+                                       className="p-2 rounded-full hover:bg-white/20 transition-colors">
+                                        {getLinkIcon(link.type)}
+                                    </a>
+                                ))}
+                            </div>
+                        </div>
+                    ))}
+                </div>
+            </section>
+
         </main>
     );
 }
