@@ -5,7 +5,6 @@ const formatDateForDateObject = (dateStr: string) => dateStr.replace(/\./g, '-')
 
 const getEventDuration = (startDate: Date, endDate: Date) => {
     const diffTime = endDate.getTime() - startDate.getTime();
-    // Add 1 to include both start and end dates in the duration
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 };
 
@@ -43,7 +42,7 @@ export function EventSchedule() {
                         const duration = getEventDuration(startDate, endDate);
                         dateDisplay = (
                             <>
-                                <span className="text-sm">{`${event.eventStartDate} ~ ${event.eventEndDate}`}</span>
+                                <span>{`${event.eventStartDate} ~ ${event.eventEndDate}`}</span>
                                 <span
                                     className="ml-2 inline-block rounded bg-cyan-400/20 px-2 py-1 text-xs font-semibold text-cyan-300">
                                     {duration}일간
@@ -56,10 +55,10 @@ export function EventSchedule() {
 
                     return (
                         <li key={event.eventName}
-                            className="bg-white/5 rounded-lg p-4 grid grid-cols-[1fr_auto_auto] items-center gap-6">
+                            className="bg-white/5 rounded-lg p-4 grid grid-cols-[1fr_auto_auto] items-center gap-4 md:gap-6">
                             <div>
-                                <p className="font-semibold text-lg">{event.eventName}</p>
-                                <p className="flex items-center text-base font-medium text-cyan-400 mt-1">
+                                <p className="font-semibold text-base md:text-lg">{event.eventName}</p>
+                                <p className="flex items-center text-sm md:text-base font-medium text-cyan-400 mt-1">
                                     {dateDisplay}
                                 </p>
                             </div>
@@ -74,7 +73,7 @@ export function EventSchedule() {
                                         href={event.eventSite}
                                         target="_blank"
                                         rel="noopener noreferrer"
-                                        className="flex items-center gap-2 rounded border-2 border-[#39C5BB] px-3 py-2 text-sm font-semibold text-[#39C5BB] transition-colors hover:bg-[#39C5BB] hover:text-white"
+                                        className="flex items-center gap-2 rounded border-2 border-[#39C5BB] px-3 py-2 text-xs md:text-sm font-semibold text-[#39C5BB] transition-colors hover:bg-[#39C5BB] hover:text-white"
                                     >
                                         <ExternalLink size={16}/>
                                         <span>공식 사이트</span>
