@@ -6,26 +6,9 @@ import {YouTubeRanking} from '@/components/YouTubeRanking';
 import {SpotifyRanking} from '@/components/SpotifyRanking';
 import {Tooltip} from '@/components/Tooltip';
 import {MikuIntroduction} from '@/components/MikuIntroduction';
-import {youtubeVideoLists} from '@/data/youtubeVideoLists';
 import {EventSchedule} from "@/components/EventSchedule";
 
-// 배열을 무작위로 섞는 헬퍼 함수 (Fisher-Yates shuffle)
-const shuffleArray = <T extends unknown[]>(array: T): T => {
-    // 원본 배열을 수정하지 않기 위해 얕은 복사본을 만듭니다.
-    const newArray = [...array] as T;
-    let currentIndex = newArray.length,
-        randomIndex;
-
-    while (currentIndex !== 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-        [newArray[currentIndex], newArray[randomIndex]] = [newArray[randomIndex], newArray[currentIndex]];
-    }
-    return newArray;
-};
-
 export default function Home() {
-    const shuffledVideoIds = shuffleArray(youtubeVideoLists).slice(0, 10);
 
     // 미쿠 탄생일로부터 경과 일수 계산
     const mikuBirthday = new Date('2007-08-31');
@@ -43,7 +26,7 @@ export default function Home() {
                     <h2>Best Vocaloid MV</h2>
                     <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 5개의 영상을 서비스 하고 있습니다."/>
                 </div>
-                <YouTubeSlider videoIds={shuffledVideoIds}/>
+                <YouTubeSlider />
             </section>
 
             {/* Miku Introduction Section */}

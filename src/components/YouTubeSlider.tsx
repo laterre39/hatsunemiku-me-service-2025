@@ -10,12 +10,26 @@ import YouTube from 'react-youtube';
 import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
+import {youtubeVideoLists} from "@/data/youtubeVideoLists";
 
-interface YouTubeSliderProps {
-  videoIds: string[];
-}
+// 배열을 무작위로 섞는 헬퍼 함수 (Fisher-Yates shuffle)
+const shuffleArray = <T extends unknown[]>(array: T): T => {
+    // 원본 배열을 수정하지 않기 위해 얕은 복사본을 만듭니다.
+    const newArray = [...array] as T;
+    let currentIndex = newArray.length,
+        randomIndex;
 
-export function YouTubeSlider({ videoIds }: Readonly<YouTubeSliderProps>) {
+    while (currentIndex !== 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [newArray[currentIndex], newArray[randomIndex]] = [newArray[randomIndex], newArray[currentIndex]];
+    }
+    return newArray;
+};
+
+const shuffledVideoIds = shuffleArray(youtubeVideoLists).slice(0, 10);
+
+export function YouTubeSlider() {
   const playerRefs = useRef<Map<string, YT.Player>>(new Map());
 
   const opts = {
@@ -35,13 +49,13 @@ export function YouTubeSlider({ videoIds }: Readonly<YouTubeSliderProps>) {
   }, []);
 
   const onSlideChange = useCallback((swiper: { realIndex: number; }) => {
-    const currentVideoId = videoIds[swiper.realIndex];
+    const currentVideoId = shuffledVideoIds[swiper.realIndex];
     playerRefs.current.forEach((player, id) => {
       if (id !== currentVideoId) {
         player.stopVideo(); // pauseVideo() 대신 stopVideo() 사용
       }
     });
-  }, [videoIds]);
+  }, []);
 
   return (
     <div className="w-full max-w-5xl relative select-none" draggable={false}>
@@ -58,7 +72,7 @@ export function YouTubeSlider({ videoIds }: Readonly<YouTubeSliderProps>) {
         className="mySwiper"
         onSlideChange={onSlideChange}
       >
-        {videoIds.map((videoId) => (
+        {shuffledVideoIds.map((videoId) => (
           <SwiperSlide key={videoId}>
             <div className="relative flex justify-center items-center w-full aspect-video bg-black">
               <YouTube
