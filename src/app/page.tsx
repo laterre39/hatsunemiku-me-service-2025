@@ -25,7 +25,7 @@ const shuffleArray = <T extends unknown[]>(array: T): T => {
 };
 
 export default function Home() {
-    const shuffledVideoIds = shuffleArray(youtubeVideoLists).slice(0, 5);
+    const shuffledVideoIds = shuffleArray(youtubeVideoLists).slice(0, 10);
 
     // 미쿠 탄생일로부터 경과 일수 계산
     const mikuBirthday = new Date('2007-08-31');
