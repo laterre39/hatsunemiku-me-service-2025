@@ -1,5 +1,6 @@
 import {vocaloidEventLists} from "@/data/vocaloidEventLists";
-import {ExternalLink} from "lucide-react";
+import {ArrowRight, ExternalLink} from "lucide-react";
+import Link from "next/link";
 
 // Helper function to format date strings for the Date constructor
 const formatDateForDateObject = (dateStr: string) => dateStr.replace(/\./g, '-');
@@ -108,6 +109,13 @@ export function EventSchedule() {
                     );
                 })}
             </ul>
+            <div className="flex justify-end mt-6 text-center">
+                <Link href="/event"
+                      className="inline-flex items-center gap-2 rounded-lg bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10">
+                    <span>전체 이벤트 보기</span>
+                    <ArrowRight size={20}/>
+                </Link>
+            </div>
         </div>
     );
 }
