@@ -1,6 +1,5 @@
 import {vocaloidEventLists} from "@/data/vocaloidEventLists";
-import {ArrowRight, ExternalLink} from "lucide-react";
-import Link from "next/link";
+import {ExternalLink} from "lucide-react";
 
 // Helper function to format date strings for the Date constructor
 const formatDateForDateObject = (dateStr: string) => dateStr.replace(/\./g, '-');
@@ -77,8 +76,8 @@ export function EventSchedule() {
 
                     return (
                         <li key={event.eventName}
-                            className="bg-white/5 rounded-lg p-4 grid grid-cols-[1fr_auto_auto] items-center gap-4 md:gap-6">
-                            {/* Column 1: Event Name and Date */}
+                            className="bg-white/5 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                            {/* Left side on desktop, top on mobile */}
                             <div>
                                 <p className="font-semibold text-base md:text-lg">{event.eventName}</p>
                                 <p className="flex items-center text-sm md:text-base font-medium text-cyan-400 mt-1">
@@ -86,36 +85,29 @@ export function EventSchedule() {
                                 </p>
                             </div>
 
-                            {/* Column 2: Status */}
-                            <div className="justify-self-end">
-                                {status}
-                            </div>
-
-                            {/* Column 3: Official Site Button */}
-                            <div className="justify-self-end">
-                                {event.eventSite && (
-                                    <a
-                                        href={event.eventSite}
-                                        target="_blank"
-                                        rel="noopener noreferrer"
-                                        className="flex items-center gap-2 rounded border-2 border-[#39C5BB] px-3 py-2 text-xs md:text-sm font-semibold text-[#39C5BB] transition-colors hover:bg-[#39C5BB] hover:text-white"
-                                    >
-                                        <ExternalLink size={16}/>
-                                        <span>공식 사이트</span>
-                                    </a>
-                                )}
+                            {/* Right side on desktop, bottom on mobile (aligned right) */}
+                            <div className="flex items-center justify-end gap-4 self-end md:self-auto md:gap-6">
+                                <div className="font-bold">
+                                    {status}
+                                </div>
+                                <div>
+                                    {event.eventSite && (
+                                        <a
+                                            href={event.eventSite}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            className="flex items-center gap-2 rounded border-2 border-[#39C5BB] px-3 py-2 text-xs md:text-sm font-semibold text-[#39C5BB] transition-colors hover:bg-[#39C5BB] hover:text-white"
+                                        >
+                                            <ExternalLink size={16}/>
+                                            <span>공식 사이트</span>
+                                        </a>
+                                    )}
+                                </div>
                             </div>
                         </li>
                     );
                 })}
             </ul>
-            <div className="flex justify-end mt-6 text-center">
-                <Link href="/event"
-                      className="inline-flex items-center gap-2 rounded-lg bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10">
-                    <span>전체 이벤트 보기</span>
-                    <ArrowRight size={20}/>
-                </Link>
-            </div>
         </div>
     );
 }
