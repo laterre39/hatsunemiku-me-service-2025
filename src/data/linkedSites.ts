@@ -7,6 +7,7 @@ interface LinkedSite {
 }
 
 export const linkedSites: LinkedSite[] = [
+    { name: "마지미라 정보", url: "https://mm-info.miku.kr/" },
     { name: "Piapro", url: "https://piapro.jp/" },
     { name: "VocaDB", url: "https://vocadb.net/" },
     { name: "Project SEKAI", url: "https://pjsekai.sega.jp/" },
