@@ -1,13 +1,11 @@
 "use client";
 
 import {AudioLines} from 'lucide-react';
-import {FaSpotify, FaYoutube} from "react-icons/fa6";
 import {YouTubeSlider} from '@/components/YouTubeSlider';
-import {YouTubeRanking} from '@/components/YouTubeRanking';
-import {SpotifyRanking} from '@/components/SpotifyRanking';
 import {Tooltip} from '@/components/Tooltip';
 import {MikuIntroduction} from '@/components/MikuIntroduction';
 import {EventSchedule} from "@/components/EventSchedule";
+import {RankingComponent} from "@/components/RankingComponent";
 
 export default function Home() {
     return (
@@ -39,22 +37,7 @@ export default function Home() {
                     <h2>Vocaloid Ranking</h2>
                     <Tooltip text="유튜브와 스포티파이에서 특정 알고리즘을 통해 랭킹을 가져와서 집계하고 있습니다."/>
                 </div>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <div>
-                        <div className="flex items-center justify-end bg-white/5 rounded-lg hover:bg-white/10 hover:shadow-md p-2 gap-2 mb-4">
-                            <h3 className="font-semibold text-xl text-white">YouTube</h3>
-                            <FaYoutube size={28} className="text-red-500"/>
-                        </div>
-                        <YouTubeRanking/>
-                    </div>
-                    <div>
-                        <div className="flex items-center justify-end bg-white/5 rounded-lg hover:bg-white/10 hover:shadow-md p-2 gap-2 mb-4">
-                            <h3 className="font-semibold text-xl text-white">Spotify</h3>
-                            <FaSpotify size={28} className="text-green-500"/>
-                        </div>
-                        <SpotifyRanking/>
-                    </div>
-                </div>
+                <RankingComponent/>
             </section>
 
             {/* Vocaloid Event Schedule Section */}
