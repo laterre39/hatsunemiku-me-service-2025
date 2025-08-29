@@ -41,15 +41,15 @@ export default function Home() {
                 </div>
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
                     <div>
-                        <div className="flex items-center justify-end bg-white/5 rounded-lg hover:bg-white/10 hover:shadow-md p-4 gap-2 mb-4">
-                            <h3 className="font-bold text-xl text-white">YouTube</h3>
+                        <div className="flex items-center justify-end bg-white/5 rounded-lg hover:bg-white/10 hover:shadow-md p-2 gap-2 mb-4">
+                            <h3 className="font-semibold text-xl text-white">YouTube</h3>
                             <FaYoutube size={28} className="text-red-500"/>
                         </div>
                         <YouTubeRanking/>
                     </div>
                     <div>
-                        <div className="flex items-center justify-end bg-white/5 rounded-lg hover:bg-white/10 hover:shadow-md p-4 gap-2 mb-4">
-                            <h3 className="font-bold text-xl text-white">Spotify</h3>
+                        <div className="flex items-center justify-end bg-white/5 rounded-lg hover:bg-white/10 hover:shadow-md p-2 gap-2 mb-4">
+                            <h3 className="font-semibold text-xl text-white">Spotify</h3>
                             <FaSpotify size={28} className="text-green-500"/>
                         </div>
                         <SpotifyRanking/>
