@@ -18,8 +18,7 @@ function parseISO8601Duration(isoDuration: string): number {
 
 /**
  * GET /api/youtube-ranking
- * Fetches YouTube rankings by searching for multiple keywords, combining the results,
- * filtering, sorting by view count, and returning the top 10 unique videos.
+ * Fetches YouTube rankings using highly specific, grouped keywords to ensure accuracy and efficiency.
  */
 export async function GET() {
     const API_KEY = process.env.YOUTUBE_API_KEY;
@@ -31,16 +30,36 @@ export async function GET() {
         );
     }
 
-    const searchKeywords = ['VOCALOID', 'ボーカロイド', 'ボカロ', '보컬로이드'];
+    // Highly specific keyword groups to improve search accuracy
+    const keywordGroups = [
+        'vocaloid | ボーカロイド',
+        'hatsune miku | 初音ミク',
+        'kagamine rin | 鏡音リン',
+        'kagamine len | 鏡音レン',
+        'megurine luka | 巡音ルカ',
+        'kaito vocaloid | カイト ボーカロイド',
+        'meiko vocaloid | メイコ ボーカロイド',
+        'gumi | グミ',
+        'ia vocaloid | イア ボーカロイド',
+        'kasane teto | 重音テト',
+        'kafu CeVIO AI | 可不 チェビオAI',
+        'sekai CeVIO AI | 星界 チェビオAI',
+        'tsurumaki maki | 弦巻マキ',
+        'yuzuki yukari | 結月ゆかり',
+        'zundamon | ずんだもん',
+        'kotonoha akane | 琴葉 茜',
+        'kotonoha aoi | 琴葉 葵',
+        'project sekai | プロセカ'
+    ];
 
     try {
-        // Step 1: Search for top 20 videos for each keyword concurrently
-        const searchPromises = searchKeywords.map(keyword => {
-            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(keyword)}&type=video&order=viewCount&videoCategoryId=10&maxResults=20&key=${API_KEY}`;
+        // Step 1: Search for top 20 videos for each keyword group concurrently
+        const searchPromises = keywordGroups.map(group => {
+            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(group)}&type=video&order=viewCount&videoCategoryId=10&maxResults=20&key=${API_KEY}`;
             return fetch(searchUrl).then(res => {
                 if (!res.ok) {
-                    console.error(`YouTube search failed for keyword: ${keyword}, status: ${res.status}`);
-                    return {items: []}; // Return empty result on failure to not fail the whole process
+                    console.error(`YouTube search failed for group: ${group}, status: ${res.status}`);
+                    return {items: []};
                 }
                 return res.json();
             });
@@ -58,19 +77,20 @@ export async function GET() {
         });
         const uniqueItems = Array.from(uniqueItemsMap.values());
 
-        // Step 3: Primary filter (remove cover songs)
+        // Step 3: Primary filter (remove covers, MMD, Project Diva, etc.)
+        const nonMusicItems = ['cover', '커버', 'mmd', 'project diva', 'vrc', 'vrchat'];
         const nonCoverItems = uniqueItems.filter((item: any) => {
             const title = item.snippet.title.toLowerCase();
-            return !title.includes('cover') && !title.includes('커버');
+            return !nonMusicItems.some(filterWord => title.includes(filterWord));
         });
 
         if (nonCoverItems.length === 0) {
             return NextResponse.json({lastUpdated: new Date().toISOString(), items: []});
         }
 
-        // Step 4: Fetch video details in chunks to avoid long URLs
+        // Step 4: Fetch video details in chunks
         const videoIds = nonCoverItems.map((item: any) => item.id.videoId);
-        const CHUNK_SIZE = 50; // YouTube API allows max 50 IDs per request
+        const CHUNK_SIZE = 50;
         const videoDetailPromises = [];
 
         for (let i = 0; i < videoIds.length; i += CHUNK_SIZE) {
@@ -110,8 +130,8 @@ export async function GET() {
         const top10Items = finalItems.slice(0, 10);
         const responseData = {
             lastUpdated: new Date().toISOString(),
-            rankingType: 'combined-all-time',
-            keywordsUsed: searchKeywords,
+            rankingType: 'precise-grouped',
+            keywordsUsed: keywordGroups,
             items: top10Items,
         };
 
