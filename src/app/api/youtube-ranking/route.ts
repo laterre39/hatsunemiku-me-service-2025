@@ -1,12 +1,12 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-import { NextResponse } from 'next/server';
+import {NextResponse} from 'next/server';
 
 export const revalidate = 3600; // Revalidate at most every 1 hour
 
-// ISO 8601 형식의 재생 시간을 초 단위로 변환하는 함수
+// Helper function to parse ISO 8601 duration to seconds
 function parseISO8601Duration(isoDuration: string): number {
-    const match = isoDuration.match(/PT(\d+H)?(\d+M)?(\d+S)?/);
+    const match = RegExp(/PT(\d+H)?(\d+M)?(\d+S)?/).exec(isoDuration);
     if (!match) return 0;
 
     const hours = parseInt(match[1]?.replace('H', '') || '0');
@@ -16,90 +16,113 @@ function parseISO8601Duration(isoDuration: string): number {
     return hours * 3600 + minutes * 60 + seconds;
 }
 
-// YouTube API로부터 데이터를 가져오는 함수 (커버, 쇼츠 필터링)
-async function getMusicRanking(keyword: string) {
-  const API_KEY = process.env.YOUTUBE_API_KEY;
-  if (!API_KEY) {
-    throw new Error('YouTube API key is not set in environment variables.');
-  }
-
-  // 1단계: 동영상 검색 (후보군 확보) - 필터링을 위해 50개 요청
-  const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${keyword}&type=video&order=viewCount&videoCategoryId=10&maxResults=50&key=${API_KEY}`;
-
-  const searchResponse = await fetch(searchUrl);
-  if (!searchResponse.ok) {
-    const errorData = await searchResponse.json();
-    throw new Error(`YouTube API Search Error: ${errorData.error.message}`);
-  }
-  const searchData = await searchResponse.json();
-  if (!searchData.items || searchData.items.length === 0) {
-    return [];
-  }
-
-  // 2단계: 1차 필터링 (커버 곡 제외)
-  const primaryFilteredItems = searchData.items.filter((item: any) => {
-    const title = item.snippet.title.toLowerCase();
-    const isCoverSong = title.includes('cover') || title.includes('커버');
-    return !isCoverSong;
-  });
-
-  if (primaryFilteredItems.length === 0) {
-    return [];
-  }
-
-  // 3단계: 동영상 상세 정보 조회 (재생 시간 확인)
-  const videoIds = primaryFilteredItems.map((item: any) => item.id.videoId).join(',');
-  const videosUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails&id=${videoIds}&key=${API_KEY}`;
-  
-  const videosResponse = await fetch(videosUrl);
-  if (!videosResponse.ok) {
-      const errorData = await videosResponse.json();
-      throw new Error(`YouTube API Videos Error: ${errorData.error.message}`);
-  }
-  const videosData = await videosResponse.json();
-
-  const durationMap = new Map<string, number>();
-  videosData.items.forEach((item: any) => {
-      const durationInSeconds = parseISO8601Duration(item.contentDetails.duration);
-      durationMap.set(item.id, durationInSeconds);
-  });
-
-  // 4단계: 2차 필터링 (쇼츠 제외) 및 재생 시간 추가
-  const finalFilteredItems = primaryFilteredItems
-    .map((item: any) => ({
-      ...item,
-      durationInSeconds: durationMap.get(item.id.videoId) || 0,
-    }))
-    .filter((item: any) => {
-        return item.durationInSeconds > 60;
-    });
-
-  // 5. 상위 10개 결과만 반환
-  return finalFilteredItems.slice(0, 10);
-}
-
 /**
  * GET /api/youtube-ranking
- * 키워드 기준 전체 기간의 유튜브 랭킹을 가져옵니다.
+ * Fetches YouTube rankings by searching for multiple keywords, combining the results,
+ * filtering, sorting by view count, and returning the top 10 unique videos.
  */
 export async function GET() {
-  try {
-    const rankingData = await getMusicRanking('vocaloid');
+    const API_KEY = process.env.YOUTUBE_API_KEY;
+    if (!API_KEY) {
+        console.error('YouTube API key is not set in environment variables.');
+        return NextResponse.json(
+            {success: false, message: 'Server configuration error: YouTube API key is missing.'},
+            {status: 500}
+        );
+    }
 
-    const data = {
-      lastUpdated: new Date().toISOString(),
-      rankingType: 'all-time',
-      keyword: 'vocaloid',
-      items: rankingData,
-    };
+    const searchKeywords = ['VOCALOID', 'ボーカロイド', 'ボカロ', '보컬로이드'];
 
-    return NextResponse.json(data);
-  } catch (error) {
-    const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
-    console.error('Ranking fetch failed:', errorMessage);
-    return NextResponse.json(
-      { success: false, message: 'Failed to fetch ranking.', error: errorMessage },
-      { status: 500 }
-    );
-  }
+    try {
+        // Step 1: Search for top 20 videos for each keyword concurrently
+        const searchPromises = searchKeywords.map(keyword => {
+            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(keyword)}&type=video&order=viewCount&videoCategoryId=10&maxResults=20&key=${API_KEY}`;
+            return fetch(searchUrl).then(res => {
+                if (!res.ok) {
+                    console.error(`YouTube search failed for keyword: ${keyword}, status: ${res.status}`);
+                    return {items: []}; // Return empty result on failure to not fail the whole process
+                }
+                return res.json();
+            });
+        });
+
+        const searchResults = await Promise.all(searchPromises);
+        const allItems = searchResults.flatMap(result => result.items);
+
+        // Step 2: Deduplicate results based on videoId
+        const uniqueItemsMap = new Map<string, any>();
+        allItems.forEach(item => {
+            if (item?.id?.videoId && !uniqueItemsMap.has(item.id.videoId)) {
+                uniqueItemsMap.set(item.id.videoId, item);
+            }
+        });
+        const uniqueItems = Array.from(uniqueItemsMap.values());
+
+        // Step 3: Primary filter (remove cover songs)
+        const nonCoverItems = uniqueItems.filter((item: any) => {
+            const title = item.snippet.title.toLowerCase();
+            return !title.includes('cover') && !title.includes('커버');
+        });
+
+        if (nonCoverItems.length === 0) {
+            return NextResponse.json({lastUpdated: new Date().toISOString(), items: []});
+        }
+
+        // Step 4: Fetch video details in chunks to avoid long URLs
+        const videoIds = nonCoverItems.map((item: any) => item.id.videoId);
+        const CHUNK_SIZE = 50; // YouTube API allows max 50 IDs per request
+        const videoDetailPromises = [];
+
+        for (let i = 0; i < videoIds.length; i += CHUNK_SIZE) {
+            const chunk = videoIds.slice(i, i + CHUNK_SIZE);
+            const videosUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${chunk.join(',')}&key=${API_KEY}`;
+            videoDetailPromises.push(fetch(videosUrl).then(res => res.json()));
+        }
+
+        const videoDetailResults = await Promise.all(videoDetailPromises);
+        const videoDetailsMap = new Map<string, any>();
+        videoDetailResults.forEach(result => {
+            if (result.items) {
+                result.items.forEach((item: any) => videoDetailsMap.set(item.id, item));
+            }
+        });
+
+        // Step 5: Final filter (remove shorts) and combine data
+        const finalItems = nonCoverItems
+            .map(item => {
+                const details = videoDetailsMap.get(item.id.videoId);
+                if (!details) return null;
+
+                return {
+                    ...item,
+                    statistics: details.statistics,
+                    durationInSeconds: parseISO8601Duration(details.contentDetails.duration),
+                };
+            })
+            .filter((item): item is NonNullable<typeof item> => {
+                return item !== null && item.durationInSeconds > 60;
+            });
+
+        // Step 6: Sort by view count (descending)
+        finalItems.sort((a, b) => parseInt(b.statistics.viewCount, 10) - parseInt(a.statistics.viewCount, 10));
+
+        // Step 7: Get the top 10 and format the response
+        const top10Items = finalItems.slice(0, 10);
+        const responseData = {
+            lastUpdated: new Date().toISOString(),
+            rankingType: 'combined-all-time',
+            keywordsUsed: searchKeywords,
+            items: top10Items,
+        };
+
+        return NextResponse.json(responseData);
+
+    } catch (error) {
+        const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
+        console.error('Ranking fetch failed:', errorMessage);
+        return NextResponse.json(
+            {success: false, message: 'Failed to fetch ranking.', error: errorMessage},
+            {status: 500}
+        );
+    }
 }
