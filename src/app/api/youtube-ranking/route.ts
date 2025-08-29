@@ -2,7 +2,8 @@
 
 import {NextResponse} from 'next/server';
 
-export const revalidate = 3600; // Revalidate at most every 1 hour
+// Revalidate at most every 6 hours (6 * 60 * 60 = 21600 seconds)
+export const revalidate = 21600;
 
 // Helper function to parse ISO 8601 duration to seconds
 function parseISO8601Duration(isoDuration: string): number {
@@ -53,9 +54,9 @@ export async function GET() {
     ];
 
     try {
-        // Step 1: Search for top 20 videos for each keyword group concurrently
+        // Step 1: Search for top 50 videos for each keyword group concurrently
         const searchPromises = keywordGroups.map(group => {
-            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(group)}&type=video&order=viewCount&videoCategoryId=10&maxResults=20&key=${API_KEY}`;
+            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(group)}&type=video&order=viewCount&videoCategoryId=10&maxResults=50&key=${API_KEY}`;
             return fetch(searchUrl).then(res => {
                 if (!res.ok) {
                     console.error(`YouTube search failed for group: ${group}, status: ${res.status}`);
@@ -126,13 +127,13 @@ export async function GET() {
         // Step 6: Sort by view count (descending)
         finalItems.sort((a, b) => parseInt(b.statistics.viewCount, 10) - parseInt(a.statistics.viewCount, 10));
 
-        // Step 7: Get the top 10 and format the response
-        const top10Items = finalItems.slice(0, 10);
+        // Step 7: Get the top 50 and format the response
+        const top50Items = finalItems.slice(0, 50);
         const responseData = {
             lastUpdated: new Date().toISOString(),
             rankingType: 'precise-grouped',
             keywordsUsed: keywordGroups,
-            items: top10Items,
+            items: top50Items,
         };
 
         return NextResponse.json(responseData);

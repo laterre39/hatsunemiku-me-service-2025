@@ -2,7 +2,8 @@
 
 import {NextResponse} from 'next/server';
 
-export const revalidate = 3600; // Revalidate at most every 1 hour
+// Revalidate at most every 6 hours (6 * 60 * 60 = 21600 seconds)
+export const revalidate = 21600;
 
 // 스포티파이 API 액세스 토큰을 가져오는 함수
 async function getAccessToken() {
@@ -89,8 +90,8 @@ async function getVoiceSynthRanking() {
     // 5. 인기도(popularity) 순으로 정렬
     const sortedTracks = filteredTracks.toSorted((a, b) => b.popularity - a.popularity);
 
-    // 6. 상위 10개 결과만 반환
-    return sortedTracks.slice(0, 10);
+    // 6. 상위 50개 결과만 반환
+    return sortedTracks.slice(0, 50);
 }
 
 /**
