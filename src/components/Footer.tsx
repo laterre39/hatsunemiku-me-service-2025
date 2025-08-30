@@ -64,7 +64,7 @@ export function Footer() {
                             </div>
                             <div className="mt-2 h-1 w-64 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
                         </div>
-                        <div className="p-2 space-y-2 text-gray-700">
+                        <div className="space-y-2 text-gray-700">
                             <p>하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span
                                 className="font-bold text-[#39C5BB]">미쿠 사랑해</span>🩵 사이트 관련
                                 문의는 하단의 메일로 문의 부탁드립니다. </p>
@@ -87,7 +87,7 @@ export function Footer() {
                             </div>
                             <div className="mt-2 h-1 w-64 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
                         </div>
-                        <ul className="grid grid-cols-[auto_1fr] gap-y-1 p-2">
+                        <ul className="grid grid-cols-[auto_1fr] gap-y-1">
                             {sortedBirthdays.slice(0, 5).map((vocaloid) => (
                                 <li key={vocaloid.name}
                                     className={`col-span-2 grid grid-cols-subgrid items-center rounded-md px-2 py-1 transition-colors duration-300`}
@@ -115,7 +115,7 @@ export function Footer() {
                         </ul>
                         {sortedBirthdays.length > 5 && (
                             <button onClick={() => setIsBirthdayModalOpen(true)}
-                                    className="flex items-center gap-1 font-semibold hover:underline px-2 text-gray-600 hover:text-[#39C5BB]">
+                                    className="flex items-center gap-1 pt-2 font-bold text-gray-600 hover:text-[#39C5BB]">
                                 <ExternalLink size={18} />
                                 더보기
                             </button>
@@ -131,7 +131,7 @@ export function Footer() {
                             </div>
                             <div className="mt-2 h-1 w-64 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
                         </div>
-                        <ul className="p-2 space-y-2 text-gray-700">
+                        <ul className="space-y-2 text-gray-700">
                             <li>
                                 <a href="https://blog.piapro.net/" className="flex items-center gap-2 hover:text-[#39C5BB]">
                                     <AudioLines size={20}/>
@@ -166,7 +166,7 @@ export function Footer() {
                             </li>
                         </ul>
                         <button onClick={() => setIsLinkedSitesModalOpen(true)}
-                                className="flex items-center gap-1 font-semibold hover:underline px-2 text-gray-600 hover:text-[#39C5BB]">
+                                className="flex items-center gap-1 pt-2 font-bold text-gray-600 hover:text-[#39C5BB]">
                             <ExternalLink size={18} />
                             더보기
                         </button>
