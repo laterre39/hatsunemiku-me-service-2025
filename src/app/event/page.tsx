@@ -127,7 +127,7 @@ export default function EventPage() {
                     <button
                         onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                         disabled={currentPage === 1}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <ArrowLeft size={16}/>
                     </button>
@@ -151,7 +151,7 @@ export default function EventPage() {
                     <button
                         onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <ArrowRight size={16}/>
                     </button>
