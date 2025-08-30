@@ -10,27 +10,46 @@ export function Footer() {
     const [isBirthdayModalOpen, setIsBirthdayModalOpen] = useState(false);
     const [isLinkedSitesModalOpen, setIsLinkedSitesModalOpen] = useState(false);
 
-    const calculateDDay = (month: number, day: number): number => {
-        const today = new Date();
-        today.setHours(0, 0, 0, 0);
-        let birthday = new Date(today.getFullYear(), month - 1, day);
-        birthday.setHours(0, 0, 0, 0);
-        if (birthday < today) {
-            birthday = new Date(today.getFullYear() + 1, month - 1, day);
-            birthday.setHours(0, 0, 0, 0);
-        }
-        const diffTime = birthday.getTime() - today.getTime();
-        return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const getTodayKST = () => {
+        const now = new Date();
+        const kstDateString = now.toLocaleDateString('en-CA', {timeZone: 'Asia/Seoul'});
+        return new Date(kstDateString + 'T00:00:00Z');
     };
 
-    const sortedBirthdays = vocaloidBirthdays.toSorted((a, b) => {
-        const today = new Date();
-        const dateA = new Date(today.getFullYear(), a.month - 1, a.day);
-        const dateB = new Date(today.getFullYear(), b.month - 1, b.day);
-        if (dateA < today) dateA.setFullYear(today.getFullYear() + 1);
-        if (dateB < today) dateB.setFullYear(today.getFullYear() + 1);
-        return dateA.getTime() - dateB.getTime();
+    const today = getTodayKST();
+    const currentYear = today.getUTCFullYear();
+
+    const processedBirthdays = vocaloidBirthdays.map(vocaloid => {
+        const birthdayThisYear = new Date(Date.UTC(currentYear, vocaloid.month - 1, vocaloid.day));
+        const diffDays = Math.round((birthdayThisYear.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+
+        let isHighlight = false;
+        let sortKey = 0;
+        let dDayText = '';
+
+        if (diffDays <= 0 && diffDays >= -2) {
+            isHighlight = true;
+            sortKey = diffDays; // Sorts D+2(-2), D+1(-1), D-DAY(0) to the top
+        } else {
+            let upcomingDDay = diffDays;
+            if (diffDays < -2) { // Birthday has passed more than 2 days ago
+                const birthdayNextYear = new Date(Date.UTC(currentYear + 1, vocaloid.month - 1, vocaloid.day));
+                upcomingDDay = Math.round((birthdayNextYear.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
+            }
+            dDayText = `D-${upcomingDDay}`;
+            sortKey = upcomingDDay;
+        }
+
+        return {
+            ...vocaloid,
+            dDayText,
+            isHighlight,
+            sortKey,
+            anniversary: currentYear - vocaloid.year
+        };
     });
+
+    const sortedBirthdays = processedBirthdays.toSorted((a, b) => a.sortKey - b.sortKey);
 
     return (
         <footer className="border-t border-gray-200/80 bg-white mt-12">
@@ -56,21 +75,31 @@ export function Footer() {
                     {/* Upcoming Birthdays */}
                     <div className="w-sm">
                         <h4 className="text-xl text-white p-2 rounded-xl bg-[#39C5BB]">Upcoming Birthdays</h4>
-                        <ul className="grid grid-cols-[auto_1fr] p-2">
-                            {sortedBirthdays.slice(0, 5).map((vocaloid) => {
-                                const dDay = calculateDDay(vocaloid.month, vocaloid.day);
-                                const anniversary = new Date().getFullYear() - vocaloid.year;
-                                return (
-                                    <li key={vocaloid.name} className="contents space-y-2">
-                                        <span className="font-semibold underline underline-offset-4 decoration-4"
-                                              style={{
-                                                  color: vocaloid.color,
-                                                  textDecorationColor: vocaloid.color
-                                              }}>{vocaloid.name}</span>
-                                        <span className="justify-self-end">D-{dDay} ({anniversary}th)</span>
-                                    </li>
-                                );
-                            })}
+                        <ul className="grid grid-cols-[auto_1fr] gap-y-1 p-2">
+                            {sortedBirthdays.slice(0, 5).map((vocaloid) => (
+                                <li key={vocaloid.name}
+                                    className={`col-span-2 grid grid-cols-subgrid items-center rounded-md px-2 py-1 transition-colors duration-300`}
+                                    style={vocaloid.isHighlight ? {
+                                        backgroundColor: `${vocaloid.color}20`,
+                                        borderLeft: `4px solid ${vocaloid.color}`
+                                    } : {}}
+                                >
+                                    <span
+                                        className={`font-semibold ${!vocaloid.isHighlight ? 'underline underline-offset-4 decoration-4' : ''}`}
+                                        style={!vocaloid.isHighlight ? {color: vocaloid.color, textDecorationColor: vocaloid.color} : {color: vocaloid.color}}
+                                    >
+                                        {vocaloid.name}
+                                    </span>
+                                    <div className="justify-self-end flex items-center gap-2 font-bold">
+                                        {vocaloid.isHighlight ? (
+                                            <span className="text-white font-bold px-2.5 py-1 rounded-full text-sm"
+                                                  style={{backgroundColor: vocaloid.color}}>{vocaloid.anniversary}th Anniversary</span>
+                                        ) : (
+                                            <span className="tabular-nums">{vocaloid.dDayText}</span>
+                                        )}
+                                    </div>
+                                </li>
+                            ))}
                         </ul>
                         {sortedBirthdays.length > 5 && (
                             <button onClick={() => setIsBirthdayModalOpen(true)}
@@ -142,21 +171,31 @@ export function Footer() {
                         <h3 className="flex items-center gap-2 text-xl font-bold mb-4 text-[#39C5BB] flex-shrink-0">
                             <Cake/> 보컬로이드 생일</h3>
                         <div className="overflow-y-auto max-h-96">
-                            <ul className="grid grid-cols-[auto_1fr] gap-y-2 pr-4">
-                                {sortedBirthdays.map((vocaloid) => {
-                                    const dDay = calculateDDay(vocaloid.month, vocaloid.day);
-                                    const anniversary = new Date().getFullYear() - vocaloid.year;
-                                    return (
-                                        <li key={vocaloid.name} className="contents">
-                                            <span className="font-semibold underline underline-offset-4 decoration-4"
-                                                  style={{
-                                                      color: vocaloid.color,
-                                                      textDecorationColor: vocaloid.color
-                                                  }}>{vocaloid.name}</span>
-                                            <span className="justify-self-end">D-{dDay} ({anniversary}th)</span>
-                                        </li>
-                                    );
-                                })}
+                            <ul className="grid grid-cols-[auto_1fr] gap-y-1 pr-4">
+                                {sortedBirthdays.map((vocaloid) => (
+                                    <li key={vocaloid.name}
+                                        className={`col-span-2 grid grid-cols-subgrid items-center rounded-md px-2 py-1 transition-colors duration-300`}
+                                        style={vocaloid.isHighlight ? {
+                                            backgroundColor: `${vocaloid.color}20`,
+                                            borderLeft: `4px solid ${vocaloid.color}`
+                                        } : {}}
+                                    >
+                                        <span
+                                            className={`font-semibold ${!vocaloid.isHighlight ? 'underline underline-offset-4 decoration-4' : ''}`}
+                                            style={!vocaloid.isHighlight ? {color: vocaloid.color, textDecorationColor: vocaloid.color} : {color: vocaloid.color}}
+                                        >
+                                            {vocaloid.name}
+                                        </span>
+                                        <div className="justify-self-end flex items-center gap-2 font-bold">
+                                            {vocaloid.isHighlight ? (
+                                                <span className="text-white font-bold px-2.5 py-1 rounded-full text-sm"
+                                                      style={{backgroundColor: vocaloid.color}}>{vocaloid.anniversary}th Anniversary</span>
+                                            ) : (
+                                                <span className="tabular-nums">{vocaloid.dDayText}</span>
+                                            )}
+                                        </div>
+                                    </li>
+                                ))}
                             </ul>
                         </div>
                         <button onClick={() => setIsBirthdayModalOpen(false)}
