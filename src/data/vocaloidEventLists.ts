@@ -42,6 +42,18 @@ export const vocaloidEventLists = [
         eventSite: "https://magicalmirai.com/2025/tokyo_map_en.html",
     },
     {
+        eventStartDate: "2025.08.30",
+        eventEndDate: "2025.08.31",
+        eventName: "2025 시유 생일 카페",
+        eventSite: "https://x.com/seeu_birthday",
+    },
+    {
+        eventStartDate: "2025.08.29",
+        eventEndDate: "2025.08.31",
+        eventName: "2025 하츠네 미쿠 생일 카페",
+        eventSite: "https://x.com/hbd_miku0831",
+    },
+    {
         eventStartDate: "2025.10.04",
         eventEndDate: "2025.10.04",
         eventName: "Hatsune Miku Symphony 2025 ~10th Anniversary~ in Yokohama",
