@@ -79,7 +79,7 @@ export async function GET() {
         const uniqueItems = Array.from(uniqueItemsMap.values());
 
         // Step 3: Primary filter (remove covers, MMD, Project Diva, etc.)
-        const nonMusicItems = ['cover', '커버', 'mmd', 'project diva', 'vrc', 'vrchat'];
+        const nonMusicItems = ['cover', '커버', 'remix', 'mmd', 'project diva', 'diva', 'vrc', 'vrchat', 'バンド'];
         const nonCoverItems = uniqueItems.filter((item: any) => {
             const title = item.snippet.title.toLowerCase();
             return !nonMusicItems.some(filterWord => title.includes(filterWord));
