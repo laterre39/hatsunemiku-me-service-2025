@@ -12,9 +12,18 @@ const getEventDuration = (startDate: Date, endDate: Date) => {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 };
 
+// Helper function to get the current date at midnight KST
+const getTodayKST = () => {
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+    const kstOffset = 9 * 60 * 60 * 1000;
+    const kstDate = new Date(utc + kstOffset);
+    kstDate.setUTCHours(0, 0, 0, 0);
+    return kstDate;
+};
+
 export function EventSchedule() {
-    const today = new Date();
-    today.setHours(0, 0, 0, 0); // Normalize today's date
+    const today = getTodayKST();
 
     // 1. Filter out past events
     const upcomingEvents = vocaloidEventLists.filter(event => {
