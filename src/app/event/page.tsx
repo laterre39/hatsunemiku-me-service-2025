@@ -114,29 +114,41 @@ export default function EventPage() {
             </div>
 
             {/* Pagination Controls */}
-            <div className="mt-8 flex items-center justify-center gap-4">
-                <button
-                    onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-                    disabled={currentPage === 1}
-                    className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-white transition-colors hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    <ArrowLeft size={16} />
-                    <span>이전</span>
-                </button>
+            {totalPages > 1 && (
+                <div className="mt-8 flex items-center justify-center gap-2">
+                    <button
+                        onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
+                        disabled={currentPage === 1}
+                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                        <ArrowLeft size={16}/>
+                    </button>
 
-                <span className="font-semibold text-white">
-                    Page {currentPage} of {totalPages}
-                </span>
+                    <div className="flex items-center gap-2">
+                        {Array.from({length: totalPages}, (_, i) => i + 1).map((page) => (
+                            <button
+                                key={page}
+                                onClick={() => setCurrentPage(page)}
+                                className={`flex h-10 w-10 items-center justify-center rounded-lg font-semibold transition-colors ${
+                                    currentPage === page
+                                        ? 'bg-white text-gray-900'
+                                        : 'bg-white/10 text-white hover:bg-white/20'
+                                }`}
+                            >
+                                {page}
+                            </button>
+                        ))}
+                    </div>
 
-                <button
-                    onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-                    disabled={currentPage === totalPages}
-                    className="flex items-center gap-2 rounded-lg bg-white/10 px-4 py-2 text-white transition-colors hover:bg-white/20 disabled:opacity-50 disabled:cursor-not-allowed"
-                >
-                    <span>다음</span>
-                    <ArrowRight size={16} />
-                </button>
-            </div>
+                    <button
+                        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
+                        disabled={currentPage === totalPages}
+                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                    >
+                        <ArrowRight size={16}/>
+                    </button>
+                </div>
+            )}
         </main>
     );
 }
