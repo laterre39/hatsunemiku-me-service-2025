@@ -13,14 +13,22 @@ const getEventDuration = (startDate: Date, endDate: Date) => {
     return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
 };
 
+// Helper function to get the current date at midnight KST
+const getTodayKST = () => {
+    const now = new Date();
+    const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
+    const kstOffset = 9 * 60 * 60 * 1000;
+    const kstDate = new Date(utc + kstOffset);
+    kstDate.setUTCHours(0, 0, 0, 0);
+    return kstDate;
+};
+
 const ITEMS_PER_PAGE = 12;
 
 export default function EventPage() {
     const [currentPage, setCurrentPage] = useState(1);
 
-    // Sort all events by date, with upcoming events first, then past events
-    const today = new Date();
-    today.setHours(0, 0, 0, 0);
+    const today = getTodayKST();
 
     const sortedEvents = [...vocaloidEventLists].sort((a, b) => {
         const dateA = new Date(formatDateForDateObject(a.eventStartDate));
@@ -119,7 +127,7 @@ export default function EventPage() {
                     <button
                         onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                         disabled={currentPage === 1}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <ArrowLeft size={16}/>
                     </button>
@@ -143,7 +151,7 @@ export default function EventPage() {
                     <button
                         onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <ArrowRight size={16}/>
                     </button>
