@@ -6,10 +6,12 @@ import {Tooltip} from '@/components/Tooltip';
 import {MikuIntroduction} from '@/components/MikuIntroduction';
 import {EventSchedule} from "@/components/EventSchedule";
 import {RankingComponent} from "@/components/RankingComponent";
+import {MikuBirthdayConfetti} from "@/components/MikuBirthdayConfetti";
 
 export default function Home() {
     return (
         <main>
+
             {/* Vocaloid MV Section */}
             <section className="mx-auto max-w-5xl py-12">
                 <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
@@ -49,6 +51,10 @@ export default function Home() {
                 </div>
                 <EventSchedule/>
             </section>
+
+            {/*생일 표시용 컴포넌트*/}
+            <MikuBirthdayConfetti />
+
         </main>
     );
 }
