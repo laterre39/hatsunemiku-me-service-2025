@@ -202,7 +202,7 @@ export default function MusicPage() {
 
     const totalPages = Math.ceil((platform === 'youtube' ? rankings.youtube.length : rankings.spotify.length) / ITEMS_PER_PAGE);
 
-    let displayedItems: DisplayItem[] = [];
+    let displayedItems: DisplayItem[];
     if (platform === 'youtube') {
         const paginatedYouTubeItems = rankings.youtube.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
         displayedItems = paginatedYouTubeItems.map(item => ({
