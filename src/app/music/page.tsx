@@ -95,12 +95,12 @@ const RankingList = ({items, page}: { items: DisplayItem[]; page: number }) => {
                             <div className="w-12 text-center text-2xl font-bold text-gray-400 flex-shrink-0">{rank}</div>
 
                             {/* Image */}
-                            <div className="relative w-28 h-16 flex-shrink-0 overflow-hidden rounded-lg group">
+                            <div className="relative w-16 h-16 md:w-28 md:h-16 flex-shrink-0 overflow-hidden rounded-lg group">
                                 <Image
                                     src={item.imageUrl}
                                     alt={item.title}
                                     fill
-                                    sizes="112px"
+                                    sizes="(max-width: 768px) 64px, 112px"
                                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                                 />
                                 <div
@@ -110,24 +110,24 @@ const RankingList = ({items, page}: { items: DisplayItem[]; page: number }) => {
                             </div>
 
                             {/* Main content wrapper */}
-                            <div className="flex-grow flex justify-between items-end min-w-0">
+                            <div className="flex-grow flex flex-col md:flex-row md:justify-between md:items-end min-w-0">
                                 {/* Left side: Info */}
-                                <div className="flex flex-col min-w-0 pr-4">
-                                    <p className="truncate font-medium text-white text-lg">
+                                <div className="flex flex-col min-w-0 md:pr-4">
+                                    <p className="truncate font-medium text-white text-base md:text-lg">
                                         {item.title}
                                     </p>
                                     <p className="truncate text-sm text-gray-300 mt-1">
                                         {item.artist}
                                     </p>
                                     {item.albumName && (
-                                        <p className="truncate text-xs text-gray-400 mt-1">
+                                        <p className="truncate text-xs text-gray-400 mt-1 hidden md:block">
                                             {item.albumName}
                                         </p>
                                     )}
                                 </div>
 
                                 {/* Right side: Stats (as a row) */}
-                                <div className="flex-shrink-0 flex items-center gap-3 text-xs text-gray-300">
+                                <div className="flex-shrink-0 flex items-center gap-3 text-xs text-gray-300 mt-2 md:mt-0">
                                     <div className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
                                         <Clock size={14}/>
                                         <span>{item.duration}</span>
@@ -202,7 +202,7 @@ export default function MusicPage() {
 
     const totalPages = Math.ceil((platform === 'youtube' ? rankings.youtube.length : rankings.spotify.length) / ITEMS_PER_PAGE);
 
-    let displayedItems: DisplayItem[];
+    let displayedItems: DisplayItem[] = [];
     if (platform === 'youtube') {
         const paginatedYouTubeItems = rankings.youtube.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
         displayedItems = paginatedYouTubeItems.map(item => ({
@@ -231,34 +231,30 @@ export default function MusicPage() {
     return (
         <main ref={mainRef} className="mx-auto max-w-4xl py-12 px-4 scroll-mt-20">
             <div className="text-center mb-12">
-                <h1 className="text-4xl font-bold text-white mb-4">보컬로이드 랭킹</h1>
+                <h1 className="text-4xl font-bold text-white mb-4">음악 랭킹</h1>
                 <p className="text-lg text-gray-300">각 플랫폼의 인기 보컬로이드 음악 랭킹을 제공하고 있습니다.</p>
             </div>
 
             {/* Platform Tabs */}
             <div className="mb-8 flex justify-center">
-                <div className="flex w-full max-w-xs rounded-full p-1 space-x-1">
+                <div className="relative flex w-full max-w-xs items-center rounded-full bg-black/25">
+                    <div
+                        className={`absolute h-full w-1/2 rounded-full transition-transform duration-300 ease-in-out
+              ${platform === 'youtube' ? 'translate-x-0 bg-red-500' : 'translate-x-full bg-green-500'}`}
+                    />
                     <button
                         onClick={() => handlePlatformChange('youtube')}
-                        className={`w-full flex-1 rounded-full px-4 py-2 text-center font-semibold transition-colors flex items-center justify-center gap-2 ${
-                            platform === 'youtube'
-                                ? 'bg-red-500 text-white'
-                                : 'text-gray-400 hover:bg-white/10'
-                        }`}
+                        className="relative z-10 flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-center font-semibold transition-colors"
                     >
                         <FaYoutube size={22} className={platform === 'youtube' ? 'text-white' : 'text-red-500'}/>
-                        <span>YouTube</span>
+                        <span className={platform === 'youtube' ? 'text-white' : 'text-gray-300'}>YouTube</span>
                     </button>
                     <button
                         onClick={() => handlePlatformChange('spotify')}
-                        className={`w-full flex-1 rounded-full px-4 py-2 text-center font-semibold transition-colors flex items-center justify-center gap-2 ${
-                            platform === 'spotify'
-                                ? 'bg-green-500 text-white'
-                                : 'text-gray-400 hover:bg-white/10'
-                        }`}
+                        className="relative z-10 flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-center font-semibold transition-colors"
                     >
                         <FaSpotify size={22} className={platform === 'spotify' ? 'text-white' : 'text-green-500'}/>
-                        <span>Spotify</span>
+                        <span className={platform === 'spotify' ? 'text-white' : 'text-gray-300'}>Spotify</span>
                     </button>
                 </div>
             </div>
