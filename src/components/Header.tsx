@@ -1,8 +1,14 @@
-"use client";
+'use client';
 
 import Link from 'next/link';
 import {useEffect, useState} from 'react';
-import {Menu, X} from "lucide-react";
+import {Menu, Music2, X} from "lucide-react";
+import {Poppins} from "next/font/google";
+
+const poppins = Poppins({
+    subsets: ['latin'],
+    weight: ['300', '700']
+});
 
 const navItems = [
     {href: '/about', label: 'About'},
@@ -92,15 +98,21 @@ export function Header() {
             : 'bg-transparent'
     } relative`;
 
-    const logoClassName = `font-light text-2xl md:text-3xl transition-all duration-300 underline decoration-4 decoration-[#39C5BB] ${
-        isScrolled ? 'text-black' : 'text-white'
-    }`;
-
     return (
         <header className={headerClassName}>
             <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between px-4">
-                <Link href="/" className="flex items-center space-x-2">
-                    <span className={logoClassName}>HATSUNEMIKU.ME</span>
+                <Link href="/" className="flex items-center gap-2">
+                    <Music2 className="h-8 w-8 text-[#39C5BB]"/>
+                    <div className={`${poppins.className} flex items-baseline`}>
+                        <span
+                            className={`text-2xl font-bold transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}>
+                            HatsuneMiku
+                        </span>
+                        <span
+                            className={`text-2xl font-light transition-colors ${isScrolled ? 'text-gray-700' : 'text-gray-300'}`}>
+                            .me
+                        </span>
+                    </div>
                 </Link>
                 <DesktopNav isScrolled={isScrolled}/>
                 <MenuToggleButton
