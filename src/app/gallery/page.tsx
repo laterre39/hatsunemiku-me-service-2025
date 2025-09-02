@@ -116,57 +116,59 @@ export default function GalleryPage() {
                 </div>
             )}
 
-            {/* Image Modal */}
+            {/* Image Modal - Scroll Fixed Design */}
             {selectedItem && (
                 <div
-                    className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in"
+                    className="fixed inset-0 bg-black/80 backdrop-blur-lg z-50 flex items-center justify-center p-4 animate-fade-in"
                     onClick={() => setSelectedItem(null)}
                 >
                     <div
-                        className="bg-gray-900/50 backdrop-blur-xl border border-white/10 rounded-2xl max-w-5xl w-full max-h-[90vh] flex flex-col lg:flex-row overflow-hidden animate-slide-up relative"
+                        className="bg-gray-900/80 backdrop-blur-xl border border-cyan-500/20 rounded-2xl max-w-2xl w-full max-h-[90vh] flex flex-col overflow-hidden animate-slide-up"
                         onClick={(e) => e.stopPropagation()}
                     >
-                        <button
-                            onClick={() => setSelectedItem(null)}
-                            className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors z-10"
-                        >
-                            <X size={24}/>
-                        </button>
-
-                        <div className="lg:w-3/5 flex items-center justify-center bg-black/30 p-4">
+                        {/* 1. Image Area (Non-scrolling) */}
+                        <div className="p-6 pb-0 flex-shrink-0">
                             <Image
                                 src={selectedItem.imageUrl}
                                 alt={selectedItem.title}
-                                width={1600}
-                                height={1200}
-                                className="w-auto h-auto max-w-full max-h-[55vh] lg:max-h-[calc(90vh-2rem)] object-contain rounded-lg shadow-2xl shadow-cyan-500/10"
+                                width={1000}
+                                height={1000}
+                                className="w-full h-auto max-h-[60vh] object-contain rounded-xl"
                             />
                         </div>
 
-                        <div className="lg:w-2/5 p-6 flex flex-col bg-black/20">
-                            <div className="flex-grow overflow-y-auto">
-                                <h2 className="text-3xl font-bold text-white mb-2">{selectedItem.title}</h2>
-                                <div className="flex items-center gap-4 mb-4">
+                        {/* 2. Content Area (Scrollable) */}
+                        <div className="overflow-y-auto p-6 flex-grow scrollbar-thin scrollbar-thumb-gray-600 scrollbar-track-gray-800/50">
+                            <div className="space-y-4">
+                                <div className="space-y-2">
+                                    <h2 className="text-3xl font-bold text-white tracking-wide">{selectedItem.title}</h2>
                                     <Link href={selectedItem.artistUrl} target="_blank" rel="noopener noreferrer"
-                                          className="flex items-center gap-2 text-lg text-gray-300 hover:text-cyan-400 transition-colors">
-                                        <User size={20}/>
+                                          className="inline-flex items-center gap-2 text-gray-200 hover:text-cyan-400 transition-colors bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full text-sm font-semibold">
+                                        <User size={16}/>
                                         <span>{selectedItem.artist}</span>
                                     </Link>
                                 </div>
-                                <p className="text-gray-400 mb-6">
-                                    {selectedItem.content || '이 공간을 활용하여 이미지에 대한 추가 설명을 넣을 수 있습니다. 예를 들어, 작품에 대한 이야기나 사용된 도구, 제작 과정 등을 자유롭게 서술해 보세요.'}
+                                <p className="text-gray-300 text-base leading-relaxed">
+                                    {selectedItem.content || '이 이미지에 대한 설명이 아직 없습니다. 원본 게시물에서 자세한 내용을 확인해보세요.'}
                                 </p>
                             </div>
-                            <div className="mt-auto pt-6 border-t border-white/10">
-                                <div className="flex items-center gap-4">
-                                    <Link href={selectedItem.sourceUrl} target="_blank" rel="noopener noreferrer"
-                                          className="inline-flex w-full items-center justify-center gap-2 px-4 py-3 rounded-lg bg-cyan-500 text-white font-semibold hover:bg-cyan-600 transition-colors">
-                                        <ExternalLink size={18}/>
-                                        <span>원본 게시물 보기</span>
-                                    </Link>
-                                </div>
-                            </div>
                         </div>
+
+                        {/* 3. Button Area (Non-scrolling) */}
+                        <div className="p-6 pt-0 flex-shrink-0">
+                            <Link href={selectedItem.sourceUrl} target="_blank" rel="noopener noreferrer"
+                                  className="inline-flex w-full items-center justify-center gap-2 px-4 py-3 rounded-lg bg-cyan-500 text-white font-bold hover:bg-cyan-600 transition-colors">
+                                <ExternalLink size={18}/>
+                                <span>원본 게시물 보기</span>
+                            </Link>
+                        </div>
+
+                        <button
+                            onClick={() => setSelectedItem(null)}
+                            className="absolute top-4 right-4 p-2 rounded-full bg-black/50 text-white hover:bg-black/70 transition-colors z-20"
+                        >
+                            <X size={24}/>
+                        </button>
                     </div>
                 </div>
             )}
