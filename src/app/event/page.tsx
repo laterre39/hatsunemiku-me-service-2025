@@ -1,17 +1,11 @@
 "use client";
 
-import {useState} from "react";
+import {useRef, useState, useEffect} from "react";
 import {vocaloidEventLists} from "@/data/vocaloidEventLists";
-import {ArrowLeft, ArrowRight, ExternalLink} from "lucide-react";
+import {ArrowLeft, ArrowRight, Calendar, ExternalLink} from "lucide-react";
 
 // Helper function to format date strings for the Date constructor
 const formatDateForDateObject = (dateStr: string) => dateStr.replace(/\./g, '-');
-
-// Helper function to calculate the duration of the event in days
-const getEventDuration = (startDate: Date, endDate: Date) => {
-    const diffTime = endDate.getTime() - startDate.getTime();
-    return Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-};
 
 // Helper function to get the current date at midnight KST
 const getTodayKST = () => {
@@ -23,12 +17,15 @@ const getTodayKST = () => {
     return kstDate;
 };
 
-const ITEMS_PER_PAGE = 12;
+const ITEMS_PER_PAGE = 10; // Adjusted for single-column view
 
 export default function EventPage() {
     const [currentPage, setCurrentPage] = useState(1);
+    const mainRef = useRef<HTMLElement>(null);
+    const isInitialMount = useRef(true);
 
     const today = getTodayKST();
+    const currentYear = today.getFullYear();
 
     const sortedEvents = [...vocaloidEventLists].sort((a, b) => {
         const dateA = new Date(formatDateForDateObject(a.eventStartDate));
@@ -36,98 +33,92 @@ export default function EventPage() {
         const aIsPast = (a.eventEndDate ? new Date(formatDateForDateObject(a.eventEndDate)) : dateA) < today;
         const bIsPast = (b.eventEndDate ? new Date(formatDateForDateObject(b.eventEndDate)) : dateB) < today;
 
-        if (aIsPast && !bIsPast) return 1; // Past events go to the end
-        if (!aIsPast && bIsPast) return -1; // Upcoming events come first
+        if (aIsPast && !bIsPast) return 1;
+        if (!aIsPast && bIsPast) return -1;
 
-        // If both are upcoming or both are past, sort by date
         return dateA.getTime() - dateB.getTime();
     });
+
+    useEffect(() => {
+        if (isInitialMount.current) {
+            isInitialMount.current = false;
+        } else if (mainRef.current) {
+            mainRef.current.scrollIntoView({behavior: 'smooth', block: 'start'});
+        }
+    }, [currentPage]);
+
 
     const totalPages = Math.ceil(sortedEvents.length / ITEMS_PER_PAGE);
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const displayedEvents = sortedEvents.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
     return (
-        <main className="mx-auto max-w-4xl py-12 px-4 text-gray-300">
+        <main ref={mainRef} className="mx-auto max-w-4xl py-12 px-4 text-gray-300 scroll-mt-20">
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-white mb-4">보컬로이드 이벤트</h1>
-                <p className="text-lg">2025년도에 주최되는 하츠네 미쿠 및 보컬로이드 관련 전체 이벤트 목록입니다.</p>
+                <p className="text-lg">{currentYear}년도에 주최되는 하츠네 미쿠 및 보컬로이드 관련 전체 이벤트 목록입니다.</p>
             </div>
 
-            <div className="text-white">
-                <ul className="space-y-4">
-                    {displayedEvents.map((event) => {
-                        const startDate = new Date(formatDateForDateObject(event.eventStartDate));
-                        const endDate = event.eventEndDate ? new Date(formatDateForDateObject(event.eventEndDate)) : null;
+            <ul className="space-y-6">
+                {displayedEvents.map((event) => {
+                    const startDate = new Date(formatDateForDateObject(event.eventStartDate));
+                    const endDate = event.eventEndDate ? new Date(formatDateForDateObject(event.eventEndDate)) : null;
 
-                        let status;
-                        const isEventFinished = endDate ? today > endDate : today > startDate;
-                        const isEventOngoing = endDate && today >= startDate && today <= endDate;
-
-                        if (isEventFinished) {
-                            status = <span className="font-bold text-gray-500">종료</span>;
-                        } else if (isEventOngoing) {
-                            status = <span className="font-bold text-cyan-400">진행 중</span>;
+                    let status, statusColor;
+                    const isEventOngoing = endDate && today >= startDate && today <= endDate;
+                    if (isEventOngoing) {
+                        status = "진행 중";
+                        statusColor = "text-green-400";
+                    } else {
+                        const diffTime = startDate.getTime() - today.getTime();
+                        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        if (diffDays === 0) {
+                            status = "D-DAY";
+                            statusColor = "text-red-400";
+                        } else if (diffDays < 0) {
+                            status = "종료";
+                            statusColor = "text-gray-500";
                         } else {
-                            const diffTime = startDate.getTime() - today.getTime();
-                            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                            if (diffDays === 0) {
-                                status = <span className="font-bold text-cyan-400">D-DAY</span>;
-                            } else {
-                                status = <span className="font-bold text-cyan-400">{`D-${diffDays}`}</span>;
-                            }
+                            status = `D-${diffDays}`;
+                            statusColor = "text-cyan-400";
                         }
-                        
-                        let dateDisplay;
-                        if (endDate) {
-                            const duration = getEventDuration(startDate, endDate);
-                            dateDisplay = (
-                                <>
-                                    <span>{`${event.eventStartDate} ~ ${event.eventEndDate}`}</span>
-                                    <span className="ml-2 inline-block rounded bg-cyan-400/20 px-2 py-1 text-xs font-semibold text-cyan-300">
-                                        {duration}일간
-                                    </span>
-                                </>
-                            );
-                        } else {
-                            dateDisplay = event.eventStartDate;
-                        }
+                    }
 
-                        return (
-                            <li key={event.eventName} className="bg-white/5 rounded-lg p-4 flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-                                {/* Left side on desktop, top on mobile */}
-                                <div>
-                                    <p className="font-semibold text-base md:text-lg">{event.eventName}</p>
-                                    <p className="flex items-center text-sm md:text-base font-medium text-cyan-400 mt-1">{dateDisplay}</p>
+                    const dateDisplay = endDate ? `${event.eventStartDate} ~ ${event.eventEndDate}` : event.eventStartDate;
+
+                    return (
+                        <li key={event.eventName}
+                            className="bg-white/5 rounded-xl p-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border border-white/10 transition-all duration-300 hover:border-white/20 hover:bg-white/10 hover:-translate-y-1">
+                            <div>
+                                <div className={`flex items-center gap-2 text-sm font-bold ${statusColor}`}>
+                                    <Calendar size={14}/>
+                                    <span>{dateDisplay}</span>
                                 </div>
-                                
-                                {/* Right side on desktop, bottom on mobile (aligned right) */}
-                                <div className="flex items-center justify-end gap-4 self-end md:self-auto md:gap-6">
-                                    <div className="font-bold">
-                                        {status}
-                                    </div>
-                                    <div>
-                                        {event.eventSite && (
-                                            <a href={event.eventSite} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 rounded border-2 border-[#39C5BB] px-3 py-2 text-xs md:text-sm font-semibold text-[#39C5BB] transition-colors hover:bg-[#39C5BB] hover:text-white">
-                                                <ExternalLink size={16} />
-                                                <span>공식 사이트</span>
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
-                            </li>
-                        );
-                    })}
-                </ul>
-            </div>
+                                <h3 className="mt-2 text-lg font-semibold text-white">{event.eventName}</h3>
+                            </div>
+
+                            <div className="flex items-center justify-between sm:justify-end sm:gap-6 mt-4 sm:mt-0">
+                                <span className={`font-bold text-lg ${statusColor}`}>{status}</span>
+                                {event.eventSite && (
+                                    <a href={event.eventSite} target="_blank" rel="noopener noreferrer"
+                                       className="flex items-center gap-2 rounded-full border border-white/20 px-3 py-1 text-xs font-semibold text-white transition-colors hover:bg-white/10">
+                                        <ExternalLink size={14}/>
+                                        <span>공식 사이트</span>
+                                    </a>
+                                )}
+                            </div>
+                        </li>
+                    );
+                })}
+            </ul>
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-                <div className="mt-8 flex items-center justify-center gap-2">
+                <div className="mt-12 flex items-center justify-center gap-2">
                     <button
                         onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                         disabled={currentPage === 1}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <ArrowLeft size={16}/>
                     </button>
@@ -151,7 +142,7 @@ export default function EventPage() {
                     <button
                         onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <ArrowRight size={16}/>
                     </button>
