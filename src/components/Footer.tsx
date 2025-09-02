@@ -3,8 +3,27 @@
 import {useState} from 'react';
 import {vocaloidBirthdays} from '@/data/vocaloidBirthdayLists';
 import {linkedSites} from "@/data/linkedSites";
-import {AudioLines, BadgeCheck, Cake, ExternalLink, Link, PenTool, Send} from "lucide-react";
+import {AudioLines, Cake, ExternalLink, Link as LinkIcon, PenTool, Send} from "lucide-react";
 import {FaCompactDisc, FaFacebook, FaSquareInstagram, FaSquareXTwitter} from "react-icons/fa6";
+
+const iconMap: { [key: string]: React.ComponentType<any> } = {
+    "Official Blog": AudioLines,
+    "Official X": FaSquareXTwitter,
+    "Official Facebook": FaFacebook,
+    "Official Instagram": FaSquareInstagram,
+    "KARENT Music": FaCompactDisc,
+};
+
+const LinkedSiteCard = ({site}: { site: { name: string, url: string } }) => {
+    const Icon = iconMap[site.name] || ExternalLink;
+    return (
+        <a href={site.url} target="_blank" rel="noopener noreferrer"
+           className="group flex items-center gap-3 rounded-lg p-3 bg-gray-100 border border-gray-200 transition-all duration-300 hover:-translate-y-1 hover:border-cyan-400 hover:bg-cyan-50 hover:shadow-lg">
+            <Icon size={22} className="text-gray-500 transition-colors group-hover:text-cyan-500"/>
+            <span className="font-semibold text-sm text-gray-700 transition-colors group-hover:text-cyan-600">{site.name}</span>
+        </a>
+    );
+};
 
 export function Footer() {
     const [isBirthdayModalOpen, setIsBirthdayModalOpen] = useState(false);
@@ -29,10 +48,10 @@ export function Footer() {
 
         if (diffDays <= 0 && diffDays >= -2) {
             isHighlight = true;
-            sortKey = diffDays; // Sorts D+2(-2), D+1(-1), D-DAY(0) to the top
+            sortKey = diffDays;
         } else {
             let upcomingDDay = diffDays;
-            if (diffDays < -2) { // Birthday has passed more than 2 days ago
+            if (diffDays < -2) {
                 const birthdayNextYear = new Date(Date.UTC(currentYear + 1, vocaloid.month - 1, vocaloid.day));
                 upcomingDDay = Math.round((birthdayNextYear.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
             }
@@ -50,6 +69,7 @@ export function Footer() {
     });
 
     const sortedBirthdays = processedBirthdays.toSorted((a, b) => a.sortKey - b.sortKey);
+    const sitesForFooter = linkedSites.filter(site => site.showInFooter);
 
     return (
         <footer className="border-t border-gray-200/80 bg-white mt-12">
@@ -116,7 +136,7 @@ export function Footer() {
                         {sortedBirthdays.length > 5 && (
                             <button onClick={() => setIsBirthdayModalOpen(true)}
                                     className="flex items-center gap-1 pt-2 font-bold text-gray-600 hover:text-[#39C5BB]">
-                                <ExternalLink size={18} />
+                                <ExternalLink size={18}/>
                                 더보기
                             </button>
                         )}
@@ -126,50 +146,25 @@ export function Footer() {
                     <div className="w-sm">
                         <div className="mb-4">
                             <div className="flex items-center gap-2">
-                                <Link className="text-gray-700" size={18}/>
+                                <LinkIcon className="text-gray-700" size={18}/>
                                 <h4 className="text-xl font-semibold text-gray-800">Linked Sites</h4>
                             </div>
                             <div className="mt-2 h-1 w-64 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
                         </div>
-                        <ul className="space-y-2 text-gray-700">
-                            <li>
-                                <a href="https://blog.piapro.net/" className="flex items-center gap-2 hover:text-[#39C5BB]">
-                                    <AudioLines size={20}/>
-                                    <span className="font-medium">Official Blog</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://x.com/cfm_miku_en" className="flex items-center gap-2 hover:text-[#39C5BB]">
-                                    <FaSquareXTwitter size={20}/>
-                                    <span className="font-medium">Official X</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.facebook.com/HatsuneMikuOfficialPage"
-                                   className="flex items-center gap-2 hover:text-[#39C5BB]">
-                                    <FaFacebook size={20}/>
-                                    <span className="font-medium">Official Facebook</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://www.instagram.com/cfm_mikustagram/"
-                                   className="flex items-center gap-2 hover:text-[#39C5BB]">
-                                    <FaSquareInstagram size={20}/>
-                                    <span className="font-medium">Official Instagram</span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="https://karent.jp/" className="flex items-center gap-2 hover:text-[#39C5BB]">
-                                    <FaCompactDisc size={20}/>
-                                    <span className="font-medium">KARENT Music</span>
-                                </a>
-                            </li>
+                        <ul className="grid grid-cols-2 gap-3">
+                            {sitesForFooter.map((site) => (
+                                <li key={site.name}>
+                                    <LinkedSiteCard site={site}/>
+                                </li>
+                            ))}
                         </ul>
-                        <button onClick={() => setIsLinkedSitesModalOpen(true)}
-                                className="flex items-center gap-1 pt-2 font-bold text-gray-600 hover:text-[#39C5BB]">
-                            <ExternalLink size={18} />
-                            더보기
-                        </button>
+                        {linkedSites.length > sitesForFooter.length && (
+                            <button onClick={() => setIsLinkedSitesModalOpen(true)}
+                                    className="flex items-center gap-1 pt-2 font-bold text-gray-600 hover:text-[#39C5BB]">
+                                <ExternalLink size={18}/>
+                                더보기
+                            </button>
+                        )}
                     </div>
                 </div>
 
@@ -231,16 +226,12 @@ export function Footer() {
                 <div className="fixed inset-0 flex bg-black/50 items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full flex flex-col max-h-[90vh]">
                         <h3 className="flex items-center gap-2 text-xl font-bold mb-4 text-[#39C5BB] flex-shrink-0">
-                            <Link/> 보컬로이드 사이트</h3>
+                            <LinkIcon/> 보컬로이드 사이트</h3>
                         <div className="overflow-y-auto max-h-96">
-                            <ul className="space-y-2 pr-4">
+                            <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pr-2">
                                 {linkedSites.map((site) => (
                                     <li key={site.name}>
-                                        <a href={site.url} target="_blank" rel="noopener noreferrer"
-                                           className="flex items-center gap-2 hover:text-[#39C5BB]">
-                                            <BadgeCheck />
-                                            <span className="font-medium">{site.name}</span>
-                                        </a>
+                                        <LinkedSiteCard site={site}/>
                                     </li>
                                 ))}
                             </ul>
