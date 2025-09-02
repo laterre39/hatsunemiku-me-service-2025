@@ -71,4 +71,22 @@ export const vocaloidEventLists = [
         eventName: "Hatsune Miku Symphony 2025 ~10th Anniversary~ in Kobe",
         eventSite: "https://sp.wmg.jp/mikusymphony/10th/",
     },
+    {
+        eventStartDate: "2026.01.17",
+        eventEndDate: "2026.01.18",
+        eventName: "初音ミク LAWSON 50th Anniversary Special LIVE",
+        eventSite: "https://l-tike.com/concert/lawson50th_260117_0118/",
+    },
+    {
+        eventStartDate: "2026.02.14",
+        eventEndDate: "2026.02.14",
+        eventName: "DECOMIKU LIVE",
+        eventSite: "https://decomiku-live.com/",
+    },
+    {
+        eventStartDate: "2026.03.20",
+        eventEndDate: "2026.03.22",
+        eventName: "ポケモン feat. 初音ミク VOLTAGE Live！",
+        eventSite: "https://www.project-voltage.jp/live2026/",
+    },
 ];
