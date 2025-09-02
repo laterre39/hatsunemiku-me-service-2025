@@ -95,7 +95,7 @@ export function Footer() {
                                 문의는 하단의 메일로 문의 부탁드립니다. </p>
                             <p>사이트 운영을 위한 <span className="font-bold text-[#39C5BB]">편집자</span>를 모집하고 있습니다. 관련 문의도 하단의 <span className="font-bold">메일로 문의</span>를 부탁드립니다.</p>
                             <p className="font-bold text-[#39C5BB]">미쿠미쿠하게 해줄게 ♪</p>
-                            <a href="mailto:loff98997@gmail.com"
+                            <a href="mailto:contact@hatsunemiku.me"
                                className="flex items-center gap-1 font-semibold text-gray-600 hover:text-[#39C5BB]">
                                 <Send size={18}/>
                                 Send Mail
