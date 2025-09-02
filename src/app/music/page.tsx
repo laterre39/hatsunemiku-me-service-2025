@@ -231,7 +231,7 @@ export default function MusicPage() {
     return (
         <main ref={mainRef} className="mx-auto max-w-4xl py-12 px-4 scroll-mt-20">
             <div className="text-center mb-12">
-                <h1 className="text-4xl font-bold text-white mb-4">음악 랭킹</h1>
+                <h1 className="text-4xl font-bold text-white mb-4">보컬로이드 음악 랭킹</h1>
                 <p className="text-lg text-gray-300">각 플랫폼의 인기 보컬로이드 음악 랭킹을 제공하고 있습니다.</p>
             </div>
 
