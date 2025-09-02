@@ -1,12 +1,17 @@
 'use client';
 
-import {useState} from 'react';
+import React, {useState} from 'react';
 import {vocaloidBirthdays} from '@/data/vocaloidBirthdayLists';
 import {linkedSites} from "@/data/linkedSites";
 import {AudioLines, Cake, ExternalLink, Link as LinkIcon, PenTool, Send} from "lucide-react";
 import {FaCompactDisc, FaFacebook, FaSquareInstagram, FaSquareXTwitter} from "react-icons/fa6";
 
-const iconMap: { [key: string]: React.ComponentType<any> } = {
+interface IconProps {
+    size?: number;
+    className?: string;
+}
+
+const iconMap: { [key: string]: React.ComponentType<IconProps> } = {
     "Official Blog": AudioLines,
     "Official X": FaSquareXTwitter,
     "Official Facebook": FaFacebook,
@@ -43,7 +48,7 @@ export function Footer() {
         const diffDays = Math.round((birthdayThisYear.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
         let isHighlight = false;
-        let sortKey = 0;
+        let sortKey: number;
         let dDayText = '';
 
         if (diffDays <= 0 && diffDays >= -2) {
