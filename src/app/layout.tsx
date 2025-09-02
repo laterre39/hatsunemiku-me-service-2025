@@ -5,6 +5,7 @@ import {Footer} from "@/components/Footer";
 import localFont from 'next/font/local'
 import {FlowbiteClient} from '@/components/FlowbiteClient';
 import {ScrollToTopButton} from '@/components/ScrollToTopButton';
+import {BuyMeACoffee} from "@/components/BuyMeACoffee";
 
 export const metadata: Metadata = {
   metadataBase: new URL('https://hatsunemiku.me/'),
@@ -53,6 +54,7 @@ export default function RootLayout({
           <Footer />
           <FlowbiteClient />
           <ScrollToTopButton />
+          <BuyMeACoffee />
         </div>
       </body>
     </html>
