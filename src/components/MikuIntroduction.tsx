@@ -11,7 +11,7 @@ export function MikuIntroduction() {
     <div className="max-w-5xl flex flex-col lg:flex-row lg:items-center gap-8">
       <div className="lg:w-1/4 mb-4 lg:mb-0 flex max-lg:justify-center">
       <Image
-        src="/cherrypop.png"
+        src="/gallery/cherrypop.png"
         alt="체리팝 일러스트"
         width={500}
         height={500}
