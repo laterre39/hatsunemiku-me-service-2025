@@ -56,7 +56,7 @@ export default function EventPage() {
         <main ref={mainRef} className="mx-auto max-w-4xl py-12 px-4 scroll-mt-20">
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-white mb-4">보컬로이드 이벤트</h1>
-                <p className="text-lg">{currentYear}년도에 주최되는 하츠네 미쿠 및 보컬로이드 관련 전체 이벤트 목록입니다.</p>
+                <p className="text-lg text-gray-300">{currentYear}년도에 주최되는 보컬로이드 관련 전체 이벤트 목록입니다.</p>
             </div>
 
             <ul className="space-y-6">
