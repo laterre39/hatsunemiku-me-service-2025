@@ -1,6 +1,6 @@
 "use client";
 
-import {useRef, useState, useEffect} from "react";
+import {useEffect, useRef, useState} from "react";
 import {vocaloidEventLists} from "@/data/vocaloidEventLists";
 import {ArrowLeft, ArrowRight, Calendar, ExternalLink} from "lucide-react";
 
@@ -53,7 +53,7 @@ export default function EventPage() {
     const displayedEvents = sortedEvents.slice(startIndex, startIndex + ITEMS_PER_PAGE);
 
     return (
-        <main ref={mainRef} className="mx-auto max-w-4xl py-12 px-4 text-gray-300 scroll-mt-20">
+        <main ref={mainRef} className="mx-auto max-w-4xl py-12 px-4 scroll-mt-20">
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-white mb-4">보컬로이드 이벤트</h1>
                 <p className="text-lg">{currentYear}년도에 주최되는 하츠네 미쿠 및 보컬로이드 관련 전체 이벤트 목록입니다.</p>
@@ -118,7 +118,7 @@ export default function EventPage() {
                     <button
                         onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
                         disabled={currentPage === 1}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <ArrowLeft size={16}/>
                     </button>
@@ -142,7 +142,7 @@ export default function EventPage() {
                     <button
                         onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
                         disabled={currentPage === totalPages}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
+                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
                     >
                         <ArrowRight size={16}/>
                     </button>
