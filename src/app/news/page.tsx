@@ -21,7 +21,7 @@ interface ScrapedData {
 // 위키 페이지에서 li 항목들을 스크래핑하는 함수
 async function scrapeWikiItems(): Promise<ScrapedData> {
     try {
-        const response = await fetch(TARGET_URL, { cache: 'no-store' });
+        const response = await fetch(TARGET_URL, { next: { revalidate: 3600 } });
         if (!response.ok) {
             throw new Error(`Failed to fetch data: ${response.statusText}`);
         }
