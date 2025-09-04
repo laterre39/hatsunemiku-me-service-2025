@@ -46,4 +46,13 @@ export const galleryItems: GalleryItem[] = [
         sourceUrl: "https://gall.dcinside.com/mikuhatsune/385337",
         imageUrl: "/gallery/1756832527.png",
     },
+    {
+        id: 5,
+        title: "시유 생일 기념그림",
+        content: "오늘은 무려 첫 국산보카로인 시유 생일",
+        artist: "mindoo2",
+        artistUrl: "https://www.pixiv.net/users/81933237",
+        sourceUrl: "https://www.pixiv.net/artworks/134477317",
+        imageUrl: "/gallery/1756966342.webp",
+    },
 ];
