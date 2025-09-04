@@ -77,10 +77,12 @@ async function scrapeWikiItems(): Promise<ScrapedData> {
 }
 
 // NewsList 컴포넌트: 데이터를 가져와 목록을 렌더링
-async function NewsList({ searchParams }: { searchParams?: { page?: string, tab?: string } }) {
-    const sp = await searchParams;
-    const currentPage = Number(sp?.page) || 1;
-    const activeTab = sp?.tab === 'vocaloid' ? 'vocaloid' : 'hatsuneMiku';
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+async function NewsList({ searchParams }: { searchParams: any }) {
+    const resolvedSearchParams = await searchParams;
+    const pageParam = resolvedSearchParams?.page;
+    const currentPage = Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1;
+    const activeTab = resolvedSearchParams?.tab === 'vocaloid' ? 'vocaloid' : 'hatsuneMiku';
 
     const { hatsuneMiku, vocaloid } = await scrapeWikiItems();
     const items = activeTab === 'vocaloid' ? vocaloid : hatsuneMiku;
@@ -158,7 +160,8 @@ async function NewsList({ searchParams }: { searchParams?: { page?: string, tab?
 }
 
 // 메인 페이지 컴포넌트
-export default function NewsPage({ searchParams }: { searchParams?: { page?: string, tab?: string } }) {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default async function NewsPage({ searchParams }: { searchParams: any }) {
     return (
         <Suspense fallback={<div className="flex h-screen items-center justify-center text-white">Loading...</div>}>
             <NewsList searchParams={searchParams} />
