@@ -36,12 +36,13 @@ async function scrapeWikiItems(): Promise<ScrapedData> {
         const processNewsBlock = (newsBlock: cheerio.Cheerio<any>, category: 'hatsuneMiku' | 'vocaloid') => {
             const items = category === 'hatsuneMiku' ? hatsuneMiku : vocaloid;
             newsBlock.find('ul.recent_list > li').each((index, liElement) => {
+                $(liElement).find('a').attr('target', '_blank').attr('rel', 'noopener noreferrer');
                 const fullHtml = $(liElement).html() || '';
                 const cleanedHtml = fullHtml.replace(/、?タグ：.*/g, '');
                 const textContent = $(liElement).text();
                 const dateMatch = textContent.match(/^(\d{4}-\d{2}-\d{2})/);
                 const date = dateMatch ? dateMatch[1] : null;
-                const contentHtml = date ? cleanedHtml.replace(new RegExp(`^${date}\\s*-\s*`), '') : cleanedHtml;
+                const contentHtml = date ? cleanedHtml.replace(new RegExp(`^${date}\\\\s*-\\s*`), '') : cleanedHtml;
 
                 items.push({
                     id: items.length + index,
