@@ -23,7 +23,8 @@ async function scrapeWikiItems(): Promise<ScrapedData> {
     try {
         const response = await fetch(TARGET_URL, { next: { revalidate: 3600 } });
         if (!response.ok) {
-            throw new Error(`Failed to fetch data: ${response.statusText}`);
+            console.error(`Failed to fetch data: ${response.statusText}`);
+            return { hatsuneMiku: [], vocaloid: [] };
         }
         const html = await response.text();
         const $ = cheerio.load(html);
@@ -31,6 +32,7 @@ async function scrapeWikiItems(): Promise<ScrapedData> {
         const hatsuneMiku: WikiItem[] = [];
         const vocaloid: WikiItem[] = [];
 
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const processNewsBlock = (newsBlock: cheerio.Cheerio<any>, category: 'hatsuneMiku' | 'vocaloid') => {
             const items = category === 'hatsuneMiku' ? hatsuneMiku : vocaloid;
             newsBlock.find('ul.recent_list > li').each((index, liElement) => {
@@ -109,13 +111,13 @@ async function NewsList({ searchParams }: { searchParams?: { page?: string, tab?
                         href="/news?tab=hatsuneMiku"
                         className="relative z-10 flex-1 rounded-full py-2 text-center font-semibold text-sm transition-colors duration-300"
                     >
-                        <span className={activeTab === 'hatsuneMiku' ? 'text-black' : 'text-white/80'}>Hatsune Miku</span>
+                        <span className={activeTab === 'hatsuneMiku' ? 'text-black' : 'text-white/80'}>하츠네 미쿠</span>
                     </Link>
                     <Link
                         href="/news?tab=vocaloid"
                         className="relative z-10 flex-1 rounded-full py-2 text-center font-semibold text-sm transition-colors duration-300"
                     >
-                        <span className={activeTab === 'vocaloid' ? 'text-black' : 'text-white/80'}>Vocaloid</span>
+                        <span className={activeTab === 'vocaloid' ? 'text-black' : 'text-white/80'}>보컬로이드</span>
                     </Link>
                 </div>
             </div>
