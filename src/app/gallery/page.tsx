@@ -4,7 +4,8 @@ import {useEffect, useRef, useState} from "react";
 import {GalleryItem, galleryItems} from "@/data/galleryItems";
 import Image from "next/image";
 import Link from "next/link";
-import {ArrowLeft, ArrowRight, ExternalLink, User, X} from "lucide-react";
+import {ExternalLink, User, X} from "lucide-react";
+import Pagination from "@/components/Pagination";
 
 const ITEMS_PER_PAGE = 12;
 
@@ -81,39 +82,11 @@ export default function GalleryPage() {
 
             {/* Pagination Controls */}
             {totalPages > 1 && (
-                <div className="mt-12 flex items-center justify-center gap-2">
-                    <button
-                        onClick={() => setCurrentPage(p => Math.max(p - 1, 1))}
-                        disabled={currentPage === 1}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        <ArrowLeft size={16}/>
-                    </button>
-
-                    <div className="flex items-center gap-2">
-                        {Array.from({length: totalPages}, (_, i) => i + 1).map((page) => (
-                            <button
-                                key={page}
-                                onClick={() => setCurrentPage(page)}
-                                className={`flex h-10 w-10 items-center justify-center rounded-lg font-semibold transition-colors ${
-                                    currentPage === page
-                                        ? 'bg-white text-gray-900'
-                                        : 'bg-white/10 text-white hover:bg-white/20'
-                                }`}
-                            >
-                                {page}
-                            </button>
-                        ))}
-                    </div>
-
-                    <button
-                        onClick={() => setCurrentPage(p => Math.min(p + 1, totalPages))}
-                        disabled={currentPage === totalPages}
-                        className="flex h-10 w-10 items-center justify-center rounded-lg text-white bg-white/10 transition-colors hover:bg-white/20 disabled:cursor-not-allowed disabled:opacity-50"
-                    >
-                        <ArrowRight size={16}/>
-                    </button>
-                </div>
+                <Pagination
+                    currentPage={currentPage}
+                    totalPages={totalPages}
+                    onPageChange={setCurrentPage}
+                />
             )}
 
             {/* Image Modal - Scroll Fixed Design */}
