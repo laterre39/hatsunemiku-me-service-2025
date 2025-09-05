@@ -41,6 +41,7 @@ export function SongList({ song, platformType }: SongListProps) {
         alt={song.title}
         width={64}
         height={64}
+        unoptimized={true}
         className="w-16 h-16 rounded-lg object-cover flex-shrink-0 shadow-sm"
       />
       <div className="flex-1 min-w-0">
