@@ -40,9 +40,9 @@ async function scrapeWikiItems(): Promise<ScrapedData> {
                 const fullHtml = $(liElement).html() || '';
                 const cleanedHtml = fullHtml.replace(/、?タグ：.*/g, '');
                 const textContent = $(liElement).text();
-                const dateMatch = textContent.match(/^(\d{4}-\d{2}-\d{2})/);
+                const dateMatch = RegExp(/^(\\d{4}-\\d{2}-\\d{2})/).exec(textContent);
                 const date = dateMatch ? dateMatch[1] : null;
-                const contentHtml = date ? cleanedHtml.replace(new RegExp(`^${date}\\\\s*-\\s*`), '') : cleanedHtml;
+                const contentHtml = date ? cleanedHtml.replace(new RegExp(`^${date}\\s*-\\s*`), '') : cleanedHtml;
 
                 items.push({
                     id: items.length + index,
@@ -56,12 +56,12 @@ async function scrapeWikiItems(): Promise<ScrapedData> {
             const $ul = $(ul);
             const liHtml = $ul.find('li:first-child').html();
 
-            if (liHtml && liHtml.includes('初音ミク</span>を含むニュース')) {
+            if (liHtml?.includes('初音ミク</span>を含むニュース')) {
                 const newsBlock = $ul.next('div.plugin_gnews');
                 if (newsBlock.length) {
                     processNewsBlock(newsBlock, 'hatsuneMiku');
                 }
-            } else if (liHtml && liHtml.includes('VOCALOID</span>を含むニュース')) {
+            } else if (liHtml?.includes('VOCALOID</span>を含むニュース')) {
                 const newsBlock = $ul.next('div.plugin_gnews');
                 if (newsBlock.length) {
                     processNewsBlock(newsBlock, 'vocaloid');
@@ -79,7 +79,7 @@ async function scrapeWikiItems(): Promise<ScrapedData> {
 
 // NewsList 컴포넌트: 데이터를 가져와 목록을 렌더링
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-async function NewsList({ searchParams }: { searchParams: any }) {
+async function NewsList({ searchParams }: Readonly<{ searchParams: any }>) {
     const resolvedSearchParams = await searchParams;
     const pageParam = resolvedSearchParams?.page;
     const currentPage = Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1;
@@ -162,7 +162,7 @@ async function NewsList({ searchParams }: { searchParams: any }) {
 
 // 메인 페이지 컴포넌트
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default async function NewsPage({ searchParams }: { searchParams: any }) {
+export default async function NewsPage({ searchParams }: Readonly<{ searchParams: any }>) {
     return (
         <Suspense fallback={<div className="flex h-screen items-center justify-center text-white">Loading...</div>}>
             <NewsList searchParams={searchParams} />
