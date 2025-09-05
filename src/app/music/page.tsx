@@ -102,6 +102,7 @@ const RankingList = ({items, page}: { items: DisplayItem[]; page: number }) => {
                                     alt={item.title}
                                     fill
                                     sizes="(max-width: 768px) 64px, 112px"
+                                    unoptimized={true}
                                     className="object-cover transition-transform duration-300 group-hover:scale-110"
                                 />
                                 <div
