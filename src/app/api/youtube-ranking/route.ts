@@ -3,7 +3,7 @@
 import {NextResponse} from 'next/server';
 
 // Revalidate at most every 3 hours (3 * 60 * 60 = 10800 seconds)
-export const revalidate = 10800;
+export const revalidate = 21600;
 
 // Helper function to parse ISO 8601 duration to seconds
 function parseISO8601Duration(isoDuration: string): number {
