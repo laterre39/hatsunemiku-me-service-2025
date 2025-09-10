@@ -2,8 +2,8 @@
 
 import {NextResponse} from 'next/server';
 
-// Revalidate at most every 3 hours (3 * 60 * 60 = 10800 seconds)
-export const revalidate = 21600;
+// Revalidate at most every 12 hours (12 * 60 * 60 = 43200 seconds)
+export const revalidate = 43200;
 
 // 스포티파이 API 액세스 토큰을 가져오는 함수
 async function getAccessToken() {
