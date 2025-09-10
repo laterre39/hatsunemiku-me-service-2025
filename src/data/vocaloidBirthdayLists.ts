@@ -13,7 +13,7 @@ export const vocaloidBirthdays = [
     { name: 'SEKAI', month: 4, day: 29, year: 2022, color: '#7633FE' },
     { name: 'RIME', month: 10, day: 25, year: 2022, color: '#E51600' },
     { name: 'COKO', month: 1, day: 25, year: 2023, color: '#2CCDEB' },
-    { name: 'KAFU', month: 11, day: 13, year: 2023, color: '#3CD705' },
+    { name: 'HARU', month: 11, day: 13, year: 2023, color: '#3CD705' },
     { name: 'Yuzuki Yukari', month: 12, day: 22, year: 2011, color: '#7F6282' },
     { name: 'Adachi Rei', month: 1, day: 1, year: 2025, color: '#FF7101' },
     { name: 'Ui', month: 5, day: 30, year: 2025, color: '#293770' },
