@@ -37,7 +37,7 @@ export default function Home() {
                 <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>Vocaloid Ranking</h2>
-                    <Tooltip text="유튜브와 스포티파이에서 특정 알고리즘을 통해 랭킹을 가져와서 집계하고 있습니다."/>
+                    <Tooltip text="유튜브와 스포티파이에서 특정 알고리즘을 통해 3개월 간의 보컬로이드 랭킹을 가져와서 집계하고 있습니다."/>
                 </div>
                 <RankingComponent/>
             </section>
