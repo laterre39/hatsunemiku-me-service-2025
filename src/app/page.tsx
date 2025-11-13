@@ -13,7 +13,7 @@ export default function Home() {
         <main>
 
             {/* Vocaloid MV Section */}
-            <section className="mx-auto max-w-5xl py-12">
+            <section className="mx-auto max-w-5xl pb-24">
                 <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>Best Vocaloid MV</h2>
@@ -23,7 +23,7 @@ export default function Home() {
             </section>
 
             {/* Miku Introduction Section */}
-            <section className="mx-auto max-w-5xl py-12">
+            <section className="mx-auto max-w-5xl pb-24">
                 <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>About Hatsune Miku</h2>
@@ -33,7 +33,7 @@ export default function Home() {
             </section>
 
             {/* Vocaloid Ranking Section */}
-            <section className="mx-auto max-w-5xl py-12">
+            <section className="mx-auto max-w-5xl pb-24">
                 <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>Vocaloid Ranking</h2>
@@ -43,7 +43,7 @@ export default function Home() {
             </section>
 
             {/* Vocaloid Event Schedule Section */}
-            <section className="mx-auto max-w-5xl py-12">
+            <section className="mx-auto max-w-5xl pb-24">
                 <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>Vocaloid Event Schedule</h2>
