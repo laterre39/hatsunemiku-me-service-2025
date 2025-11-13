@@ -146,7 +146,7 @@ export async function GET() {
             const chunk = videoIds.slice(i, i + CHUNK_SIZE);
             videoDetailPromises.push(
                 youtube.videos.list({
-                    part: ['contentDetails', 'statistics', 'snippet'], // 'snippet' 추가
+                    part: ['contentDetails', 'statistics', 'snippet'],
                     id: chunk,
                 })
             );
@@ -160,34 +160,16 @@ export async function GET() {
             }
         });
 
-        // Helper function to identify YouTube Shorts
-        const isYouTubeShort = (item: any): boolean => {
-            const title = item.snippet.title.toLowerCase();
-            const description = item.snippet.description?.toLowerCase() || '';
-            const tags = item.snippet.tags?.map((tag: string) => tag.toLowerCase()) || [];
-
-            // Check for common short indicators in title, description, or tags
-            const shortKeywords = ['#shorts', 'shorts', 'ytshorts', 'youtube shorts', 'short video'];
-
-            if (shortKeywords.some(keyword => title.includes(keyword))) return true;
-            if (shortKeywords.some(keyword => description.includes(keyword))) return true;
-            if (shortKeywords.some(keyword => tags.includes(keyword))) return true;
-
-            return false;
-        };
-
-        // Step 5: Final filter (remove shorts, apply tag-based whitelist) and combine data
+        // Step 5: Final filter (apply tag-based whitelist and duration)
         const requiredTags = new Set(['vocaloid', 'ボーカロイド', 'ボカロ', 'オリジナル曲', 'cevio', 'synthesizerv', 'utau', 'vocaloidオリジナル曲']);
+        
         const combinedItems = filteredItems
             .map(item => {
                 const details = videoDetailsMap.get(item.id.videoId);
                 if (!details) return null;
 
-                // Whitelist filter based on tags
                 const videoTags = details.snippet?.tags?.map((tag: string) => tag.toLowerCase()) || [];
-                const hasRequiredTag = videoTags.some((tag: string) => requiredTags.has(tag));
-
-                if (!hasRequiredTag) {
+                if (!videoTags.some((tag: string) => requiredTags.has(tag))) {
                     return null;
                 }
 
@@ -195,19 +177,14 @@ export async function GET() {
                     ...item,
                     statistics: details.statistics,
                     durationInSeconds: parseISO8601Duration(details.contentDetails.duration),
-                    snippet: details.snippet, // Include full snippet for description and tags check
+                    snippet: details.snippet,
                 };
             })
             .filter((item): item is NonNullable<typeof item> => {
                 if (item === null) return false;
 
-                // If duration is 60 seconds or less
-                if (item.durationInSeconds <= 60) {
-                    // Exclude if it's identified as a YouTube Short
-                    return !isYouTubeShort(item);
-                }
-                // If duration is more than 60 seconds, always include
-                return true;
+                // Exclude all videos that are 61 seconds or shorter.
+                return item.durationInSeconds > 61;
             });
 
         // Step 6: Deduplicate by normalized title and channel
