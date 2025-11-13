@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {vocaloidBirthdays} from '@/data/vocaloidBirthdayLists';
 import {linkedSites} from "@/data/linkedSites";
-import {AudioLines, Cake, ExternalLink, Link as LinkIcon, PenTool, Send} from "lucide-react";
+import {AudioLines, ExternalLink, Send} from "lucide-react";
 import {FaCompactDisc, FaFacebook, FaSquareInstagram, FaSquareXTwitter} from "react-icons/fa6";
 
 interface IconProps {
@@ -84,10 +84,9 @@ export function Footer() {
                     <div className="w-sm">
                         <div className="mb-4">
                             <div className="flex items-center gap-2">
-                                <PenTool className="text-gray-700" size={18}/>
                                 <h4 className="text-xl font-semibold text-gray-800">Created by MIKUMIKU</h4>
                             </div>
-                            <div className="mt-2 h-1 w-64 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
+                            <div className="mt-2 h-1 w-18 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
                         </div>
                         <div className="space-y-2 text-gray-700">
                             <p>하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span
@@ -107,10 +106,9 @@ export function Footer() {
                     <div className="w-sm">
                         <div className="mb-4">
                             <div className="flex items-center gap-2">
-                                <Cake className="text-gray-700" size={18}/>
                                 <h4 className="text-xl font-semibold text-gray-800">Upcoming Birthdays</h4>
                             </div>
-                            <div className="mt-2 h-1 w-64 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
+                            <div className="mt-2 h-1 w-18 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
                         </div>
                         <ul className="grid grid-cols-[auto_1fr] gap-y-1">
                             {sortedBirthdays.slice(0, 5).map((vocaloid) => (
@@ -152,10 +150,9 @@ export function Footer() {
                     <div className="w-sm">
                         <div className="mb-4">
                             <div className="flex items-center gap-2">
-                                <LinkIcon className="text-gray-700" size={18}/>
                                 <h4 className="text-xl font-semibold text-gray-800">Linked Sites</h4>
                             </div>
-                            <div className="mt-2 h-1 w-64 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
+                            <div className="mt-2 h-1 w-18 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
                         </div>
                         <ul className="grid grid-cols-2 gap-3">
                             {sitesForFooter.map((site) => (
@@ -189,8 +186,7 @@ export function Footer() {
             {isBirthdayModalOpen && (
                 <div className="fixed inset-0 flex bg-black/50 items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full flex flex-col max-h-[90vh]">
-                        <h3 className="flex items-center gap-2 text-xl font-bold mb-4 text-[#39C5BB] flex-shrink-0">
-                            <Cake/> 보컬로이드 생일</h3>
+                        <h3 className="flex items-center gap-2 text-xl font-bold mb-4 flex-shrink-0">보컬로이드 생일</h3>
                         <div className="overflow-y-auto max-h-96">
                             <ul className="grid grid-cols-[auto_1fr] gap-y-1 pr-4">
                                 {sortedBirthdays.map((vocaloid) => (
@@ -231,8 +227,7 @@ export function Footer() {
             {isLinkedSitesModalOpen && (
                 <div className="fixed inset-0 flex bg-black/50 items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full flex flex-col max-h-[90vh]">
-                        <h3 className="flex items-center gap-2 text-xl font-bold mb-4 text-[#39C5BB] flex-shrink-0">
-                            <LinkIcon/> 보컬로이드 사이트</h3>
+                        <h3 className="flex items-center gap-2 text-xl font-bold mb-4 flex-shrink-0">보컬로이드 사이트</h3>
                         <div className="overflow-y-auto max-h-96">
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pr-2">
                                 {linkedSites.map((site) => (
