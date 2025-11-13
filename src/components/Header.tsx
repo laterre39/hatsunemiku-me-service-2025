@@ -92,7 +92,7 @@ export function Header() {
         return () => window.removeEventListener('scroll', handleScroll);
     }, []);
 
-    const headerClassName = `sticky top-0 z-50 w-full transition-all duration-300 mb-6 ${
+    const headerClassName = `sticky top-0 z-50 w-full transition-all duration-300 mb-12 ${
         isScrolled
             ? 'border-b border-gray-200/50 bg-white/80 shadow-md backdrop-blur-sm'
             : 'bg-transparent'
@@ -100,7 +100,7 @@ export function Header() {
 
     return (
         <header className={headerClassName}>
-            <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between px-4">
+            <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between">
                 <Link href="/" className="flex items-center gap-2">
                     <Music2 className="h-8 w-8 text-[#39C5BB]"/>
                     <div className={`${poppins.className} flex items-baseline`}>
