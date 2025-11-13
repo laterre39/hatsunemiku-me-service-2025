@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { SongList } from '@/components/SongList';
 import { Song } from '@/types/song';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
 // Spotify API 응답의 item 구조에 맞는 인터페이스
 interface SpotifyTrackItem {
@@ -34,39 +35,56 @@ const transformSpotifyData = (items: SpotifyTrackItem[]): Song[] => {
 export function SpotifyRanking() {
   const [spotifySongs, setSpotifySongs] = useState<Song[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(false); // boolean 타입으로 변경
 
   useEffect(() => {
     const fetchSongs = async () => {
       try {
-        const spotifyRes = await fetch('/api/spotify-ranking'); // API 엔드포인트 변경
+        const spotifyRes = await fetch('/api/spotify-ranking');
         if (!spotifyRes.ok) {
-          throw new Error(`Failed to fetch Spotify ranking: ${spotifyRes.statusText}`);
+          if (spotifySongs.length === 0) {
+            setError(true);
+          }
+          console.error(`Failed to fetch Spotify ranking: ${spotifyRes.statusText}`);
+          return;
         }
         const spotifyApiResponse = await spotifyRes.json();
 
         if (!spotifyApiResponse.success) {
-          throw new Error(spotifyApiResponse.message || 'Failed to retrieve ranking data from API');
+          if (spotifySongs.length === 0) {
+            setError(true);
+          }
+          console.error(spotifyApiResponse.message || 'Failed to retrieve ranking data from API');
+          return;
         }
         
-        setSpotifySongs(transformSpotifyData(spotifyApiResponse.data.items)); // 응답 구조 변경에 따른 수정
+        setSpotifySongs(transformSpotifyData(spotifyApiResponse.data.items));
+        setError(false); // 성공 시 에러 상태 초기화
       } catch (err) {
         console.error('Failed to fetch Spotify songs:', err);
-        setError(err instanceof Error ? err.message : 'An unknown error occurred');
+        if (spotifySongs.length === 0) {
+          setError(true);
+        }
       } finally {
         setLoading(false);
       }
     };
 
     fetchSongs();
-  }, []);
+  }, []); // spotifySongs를 의존성 배열에서 제거
 
   if (loading) {
     return <p className="text-white text-center">Loading Spotify songs...</p>;
   }
 
   if (error) {
-    return <p className="text-red-500 text-center">Error: {error}</p>;
+    return (
+      <div className="flex flex-col items-center justify-center min-h-[240px] text-white bg-gray-800/5 rounded-lg p-4">
+        <FaExclamationTriangle className="w-8 h-8 text-yellow-400 mb-2" />
+        <p className="font-semibold">Spotify 오류</p>
+        <p className="text-sm text-gray-400">API 오류로 스포티파이 데이터를 가져오지 못했습니다.</p>
+      </div>
+    );
   }
 
   return (
