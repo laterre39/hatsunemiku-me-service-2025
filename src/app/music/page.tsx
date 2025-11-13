@@ -4,7 +4,7 @@ import {useEffect, useRef, useState} from 'react';
 import {FaSpotify, FaYoutube} from 'react-icons/fa6';
 import Image from 'next/image';
 import Link from 'next/link';
-import {Clock, Eye, Headphones, Music4} from 'lucide-react';
+import {AlertTriangle, Clock, Eye, Headphones, Music4} from 'lucide-react';
 import Pagination from "@/components/Pagination";
 
 // --- Types ---
@@ -76,10 +76,20 @@ interface DisplayItem {
     popularity?: number;
 }
 
+// --- Loading Error Component ---
+const LoadingError = ({message}: { message: string }) => (
+    <div
+        className="flex flex-col items-center justify-center gap-4 rounded-2xl bg-white/[.03] p-8 border border-dashed border-white/20 text-center">
+        <AlertTriangle className="text-yellow-400" size={40}/>
+        <p className="text-gray-300">랭킹 정보를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.</p>
+    </div>
+);
+
+
 // --- Reusable Ranking List Component (Updated Design) ---
 const RankingList = ({items, page}: { items: DisplayItem[]; page: number }) => {
     if (!items || items.length === 0) {
-        return <p className="text-center text-gray-400">랭킹 정보를 불러오지 못했습니다.</p>;
+        return <LoadingError message="랭킹 정보를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요."/>;
     }
 
     return (
@@ -93,10 +103,12 @@ const RankingList = ({items, page}: { items: DisplayItem[]; page: number }) => {
                               className="flex items-center gap-4 rounded-2xl bg-white/[.03] p-3 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:border-white/20 hover:-translate-y-1">
 
                             {/* Rank */}
-                            <div className="w-12 text-center text-2xl font-bold text-gray-400 flex-shrink-0">{rank}</div>
+                            <div
+                                className="w-12 text-center text-2xl font-bold text-gray-400 flex-shrink-0">{rank}</div>
 
                             {/* Image */}
-                            <div className="relative w-16 h-16 md:w-28 md:h-16 flex-shrink-0 overflow-hidden rounded-lg group">
+                            <div
+                                className="relative w-16 h-16 md:w-28 md:h-16 flex-shrink-0 overflow-hidden rounded-lg group">
                                 <Image
                                     src={item.imageUrl}
                                     alt={item.title}
@@ -129,19 +141,23 @@ const RankingList = ({items, page}: { items: DisplayItem[]; page: number }) => {
                                 </div>
 
                                 {/* Right side: Stats (as a row) */}
-                                <div className="flex-shrink-0 flex items-center gap-3 text-xs text-gray-300 mt-2 md:mt-0">
-                                    <div className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
+                                <div
+                                    className="flex-shrink-0 flex items-center gap-3 text-xs text-gray-300 mt-2 md:mt-0">
+                                    <div
+                                        className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
                                         <Clock size={14}/>
                                         <span>{item.duration}</span>
                                     </div>
                                     {item.views && (
-                                        <div className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
+                                        <div
+                                            className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
                                             <Eye size={14}/>
                                             <span>{item.views}</span>
                                         </div>
                                     )}
                                     {item.popularity !== undefined && (
-                                        <div className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
+                                        <div
+                                            className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
                                             <Headphones size={14}/>
                                             <span>{item.popularity}</span>
                                         </div>
