@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import {NextResponse} from 'next/server';
+import {google} from 'googleapis';
 
 // Revalidate at most every 12 hours (12 * 60 * 60 = 43200 seconds)
 export const revalidate = 43200;
@@ -32,6 +33,11 @@ const normalizeTitle = (title: string): string => {
         .trim();
 };
 
+// Type guard to check if an error is a Gaxios-like error
+function isGaxiosError(error: any): error is { code: number | string; message: string } {
+    return typeof error === 'object' && error !== null && 'code' in error && 'message' in error;
+}
+
 
 /**
  * GET /api/youtube-ranking
@@ -46,6 +52,12 @@ export async function GET() {
             {status: 500}
         );
     }
+
+    // Initialize the YouTube API client
+    const youtube = google.youtube({
+        version: 'v3',
+        auth: API_KEY,
+    });
 
     // Calculate the date 3 months ago from today
     const threeMonthsAgo = new Date();
@@ -76,19 +88,26 @@ export async function GET() {
 
     try {
         // Step 1: Search for top 50 videos for each keyword group concurrently
-        const searchPromises = keywordGroups.map(group => {
-            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(group)}&type=video&order=viewCount&videoCategoryId=10&publishedAfter=${publishedAfter}&maxResults=50&key=${API_KEY}`;
-            return fetch(searchUrl).then(res => {
-                if (!res.ok) {
-                    console.error(`YouTube search failed for group: ${group}, status: ${res.status}`);
-                    return {items: []};
+        const searchPromises = keywordGroups.map(group =>
+            youtube.search.list({
+                part: ['snippet'],
+                q: group,
+                type: ['video'],
+                order: 'viewCount',
+                videoCategoryId: '10',
+                publishedAfter: publishedAfter,
+                maxResults: 50,
+            }).catch(err => {
+                if (isGaxiosError(err) && Number(err.code) === 403) {
+                    throw err;
                 }
-                return res.json();
-            });
-        });
+                console.error(`YouTube search failed for group: ${group}`, err.message);
+                return {data: {items: []}};
+            })
+        );
 
         const searchResults = await Promise.all(searchPromises);
-        const allItems = searchResults.flatMap(result => result.items);
+        const allItems = searchResults.flatMap(result => result.data.items || []);
 
         // Step 2: Deduplicate results based on videoId
         const uniqueItemsMap = new Map<string, any>();
@@ -100,21 +119,17 @@ export async function GET() {
         const uniqueItems = Array.from(uniqueItemsMap.values());
 
         // Step 3: Primary filter (remove covers, MMD, Topic channels, etc.)
-        const nonMusicItems = ['cover', '커버', 'remix', 'mmd', 'project diva', 'diva', 'vrc', 'vrchat', 'バンド', 'english ver'];
+        const nonMusicItems = ['cover', '커버', 'remix', 'mmd', 'project diva', 'diva', 'vrc', 'vrchat', 'バンド', 'english ver', '歌ってみた'];
         const filteredItems = uniqueItems.filter((item: any) => {
             const title = item.snippet.title.toLowerCase();
             const channelTitle = item.snippet.channelTitle;
 
-            // Exclude if title contains non-music keywords
             if (nonMusicItems.some(filterWord => title.includes(filterWord))) {
                 return false;
             }
-
-            // Exclude if it's a "Topic" channel
             if (channelTitle.endsWith(' - Topic')) {
                 return false;
             }
-
             return true;
         });
 
@@ -122,30 +137,43 @@ export async function GET() {
             return NextResponse.json({lastUpdated: new Date().toISOString(), items: []});
         }
 
-        // Step 4: Fetch video details in chunks
+        // Step 4: Fetch video details in chunks (including snippet for tags)
         const videoIds = filteredItems.map((item: any) => item.id.videoId);
         const CHUNK_SIZE = 50;
         const videoDetailPromises = [];
 
         for (let i = 0; i < videoIds.length; i += CHUNK_SIZE) {
             const chunk = videoIds.slice(i, i + CHUNK_SIZE);
-            const videosUrl = `https://www.googleapis.com/youtube/v3/videos?part=contentDetails,statistics&id=${chunk.join(',')}&key=${API_KEY}`;
-            videoDetailPromises.push(fetch(videosUrl).then(res => res.json()));
+            videoDetailPromises.push(
+                youtube.videos.list({
+                    part: ['contentDetails', 'statistics', 'snippet'], // 'snippet' 추가
+                    id: chunk,
+                })
+            );
         }
 
         const videoDetailResults = await Promise.all(videoDetailPromises);
         const videoDetailsMap = new Map<string, any>();
         videoDetailResults.forEach(result => {
-            if (result.items) {
-                result.items.forEach((item: any) => videoDetailsMap.set(item.id, item));
+            if (result.data.items) {
+                result.data.items.forEach((item: any) => videoDetailsMap.set(item.id, item));
             }
         });
 
-        // Step 5: Final filter (remove shorts) and combine data
+        // Step 5: Final filter (remove shorts, apply tag-based whitelist) and combine data
+        const requiredTags = new Set(['vocaloid', 'ボーカロイド', 'ボカロ', 'オリジナル曲', 'cevio', 'synthesizerv', 'utau', 'vocaloidオリジナル曲']);
         const combinedItems = filteredItems
             .map(item => {
                 const details = videoDetailsMap.get(item.id.videoId);
                 if (!details) return null;
+
+                // Whitelist filter based on tags
+                const videoTags = details.snippet?.tags?.map((tag: string) => tag.toLowerCase()) || [];
+                const hasRequiredTag = videoTags.some((tag: string) => requiredTags.has(tag));
+
+                if (!hasRequiredTag) {
+                    return null;
+                }
 
                 return {
                     ...item,
@@ -154,10 +182,10 @@ export async function GET() {
                 };
             })
             .filter((item): item is NonNullable<typeof item> => {
-                return item !== null && item.durationInSeconds > 60;
+                return item !== null && item.durationInSeconds > 60; // Filter out shorts
             });
 
-        // Step 6: Deduplicate by normalized title and channel, keeping the one with the highest view count
+        // Step 6: Deduplicate by normalized title and channel
         const songMap = new Map<string, any>();
         combinedItems.forEach(item => {
             const normalizedTitle = normalizeTitle(item.snippet.title);
@@ -178,7 +206,7 @@ export async function GET() {
         const top50Items = finalItems.slice(0, 50);
         const responseData = {
             lastUpdated: new Date().toISOString(),
-            rankingType: 'precise-grouped',
+            rankingType: 'precise-grouped-tag-filtered',
             keywordsUsed: keywordGroups,
             items: top50Items,
         };
@@ -186,10 +214,22 @@ export async function GET() {
         return NextResponse.json(responseData);
 
     } catch (error) {
+        if (isGaxiosError(error) && Number(error.code) === 403) {
+            console.error('Ranking fetch failed: YouTube API quota exceeded.', error.message);
+            return NextResponse.json(
+                {
+                    success: false,
+                    message: '데이터를 불러오지 못했습니다. API 요청 한도를 초과했습니다.',
+                    error: 'API_QUOTA_EXCEEDED'
+                },
+                {status: 503}
+            );
+        }
+
         const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
         console.error('Ranking fetch failed:', errorMessage);
         return NextResponse.json(
-            {success: false, message: 'Failed to fetch ranking.', error: errorMessage},
+            {success: false, message: '랭킹을 불러오는 중 오류가 발생했습니다.', error: errorMessage},
             {status: 500}
         );
     }
