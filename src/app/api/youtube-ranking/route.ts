@@ -119,7 +119,7 @@ export async function GET() {
         const uniqueItems = Array.from(uniqueItemsMap.values());
 
         // Step 3: Primary filter (remove covers, MMD, Topic channels, etc.)
-        const nonMusicItems = ['cover', '커버', 'remix', 'mmd', 'project diva', 'diva', 'vrc', 'vrchat', 'バンド', 'english ver', '歌ってみた'];
+        const nonMusicItems = ['cover', '커버', 'remix', 'mmd', 'project diva', 'diva', 'vrc', 'vrchat', 'バンド', 'english ver', '歌ってみた', 'lyric', 'lyrics', '가사'];
         const filteredItems = uniqueItems.filter((item: any) => {
             const title = item.snippet.title.toLowerCase();
             const channelTitle = item.snippet.channelTitle;
@@ -160,6 +160,22 @@ export async function GET() {
             }
         });
 
+        // Helper function to identify YouTube Shorts
+        const isYouTubeShort = (item: any): boolean => {
+            const title = item.snippet.title.toLowerCase();
+            const description = item.snippet.description?.toLowerCase() || '';
+            const tags = item.snippet.tags?.map((tag: string) => tag.toLowerCase()) || [];
+
+            // Check for common short indicators in title, description, or tags
+            const shortKeywords = ['#shorts', 'shorts', 'ytshorts', 'youtube shorts', 'short video'];
+
+            if (shortKeywords.some(keyword => title.includes(keyword))) return true;
+            if (shortKeywords.some(keyword => description.includes(keyword))) return true;
+            if (shortKeywords.some(keyword => tags.includes(keyword))) return true;
+
+            return false;
+        };
+
         // Step 5: Final filter (remove shorts, apply tag-based whitelist) and combine data
         const requiredTags = new Set(['vocaloid', 'ボーカロイド', 'ボカロ', 'オリジナル曲', 'cevio', 'synthesizerv', 'utau', 'vocaloidオリジナル曲']);
         const combinedItems = filteredItems
@@ -179,10 +195,19 @@ export async function GET() {
                     ...item,
                     statistics: details.statistics,
                     durationInSeconds: parseISO8601Duration(details.contentDetails.duration),
+                    snippet: details.snippet, // Include full snippet for description and tags check
                 };
             })
             .filter((item): item is NonNullable<typeof item> => {
-                return item !== null && item.durationInSeconds > 60; // Filter out shorts
+                if (item === null) return false;
+
+                // If duration is 60 seconds or less
+                if (item.durationInSeconds <= 60) {
+                    // Exclude if it's identified as a YouTube Short
+                    return !isYouTubeShort(item);
+                }
+                // If duration is more than 60 seconds, always include
+                return true;
             });
 
         // Step 6: Deduplicate by normalized title and channel
