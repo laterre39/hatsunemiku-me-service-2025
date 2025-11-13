@@ -51,12 +51,12 @@ export function Footer() {
         let sortKey: number;
         let dDayText = '';
 
-        if (diffDays <= 0 && diffDays >= -2) {
+        if (diffDays === 0) {
             isHighlight = true;
-            sortKey = diffDays;
+            sortKey = -Infinity; // 생일 당일인 경우 최상단에 고정
         } else {
             let upcomingDDay = diffDays;
-            if (diffDays < -2) {
+            if (diffDays < 0) { // 이미 지난 생일
                 const birthdayNextYear = new Date(Date.UTC(currentYear + 1, vocaloid.month - 1, vocaloid.day));
                 upcomingDDay = Math.round((birthdayNextYear.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
             }
@@ -131,6 +131,7 @@ export function Footer() {
                                         {vocaloid.isHighlight ? (
                                             <span className="text-white font-bold px-2.5 py-1 rounded-full text-sm"
                                                   style={{backgroundColor: vocaloid.color}}>{vocaloid.anniversary}th Anniversary</span>
+
                                         ) : (
                                             <span className="tabular-nums">{vocaloid.dDayText}</span>
                                         )}
@@ -238,6 +239,7 @@ export function Footer() {
                                     <li key={site.name}>
                                         <LinkedSiteCard site={site}/>
                                     </li>
+
                                 ))}
                             </ul>
                         </div>
