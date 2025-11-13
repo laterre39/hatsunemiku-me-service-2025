@@ -17,6 +17,22 @@ function parseISO8601Duration(isoDuration: string): number {
     return hours * 3600 + minutes * 60 + seconds;
 }
 
+// Helper function to normalize title for deduplication
+const normalizeTitle = (title: string): string => {
+    return title
+        .toLowerCase()
+        .replace(/\(feat\. .+\)/, '')
+        .replace(/(\s*-\s*)?(feat|ft)\.?\s*.+/, '')
+        .replace(/(\s*-\s*)?(remix|ver|version|edit|instrumental).*/, '')
+        .replace(/(\s*-\s*)?(official|mv|pv|audio|lyric).*/, '')
+        .replace(/【.*】/, '')
+        .replace(/\[.*\]/, '')
+        .replace(/\(.*\)/, '')
+        .replace(/\|.*/, '')
+        .trim();
+};
+
+
 /**
  * GET /api/youtube-ranking
  * Fetches YouTube rankings using highly specific, grouped keywords to ensure accuracy and efficiency.
@@ -30,6 +46,11 @@ export async function GET() {
             {status: 500}
         );
     }
+
+    // Calculate the date 3 months ago from today
+    const threeMonthsAgo = new Date();
+    threeMonthsAgo.setMonth(threeMonthsAgo.getMonth() - 3);
+    const publishedAfter = threeMonthsAgo.toISOString();
 
     // Highly specific keyword groups to improve search accuracy
     const keywordGroups = [
@@ -56,7 +77,7 @@ export async function GET() {
     try {
         // Step 1: Search for top 50 videos for each keyword group concurrently
         const searchPromises = keywordGroups.map(group => {
-            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(group)}&type=video&order=viewCount&videoCategoryId=10&maxResults=50&key=${API_KEY}`;
+            const searchUrl = `https://www.googleapis.com/youtube/v3/search?part=snippet&q=${encodeURIComponent(group)}&type=video&order=viewCount&videoCategoryId=10&publishedAfter=${publishedAfter}&maxResults=50&key=${API_KEY}`;
             return fetch(searchUrl).then(res => {
                 if (!res.ok) {
                     console.error(`YouTube search failed for group: ${group}, status: ${res.status}`);
@@ -78,19 +99,31 @@ export async function GET() {
         });
         const uniqueItems = Array.from(uniqueItemsMap.values());
 
-        // Step 3: Primary filter (remove covers, MMD, Project Diva, etc.)
+        // Step 3: Primary filter (remove covers, MMD, Topic channels, etc.)
         const nonMusicItems = ['cover', '커버', 'remix', 'mmd', 'project diva', 'diva', 'vrc', 'vrchat', 'バンド', 'english ver'];
-        const nonCoverItems = uniqueItems.filter((item: any) => {
+        const filteredItems = uniqueItems.filter((item: any) => {
             const title = item.snippet.title.toLowerCase();
-            return !nonMusicItems.some(filterWord => title.includes(filterWord));
+            const channelTitle = item.snippet.channelTitle;
+
+            // Exclude if title contains non-music keywords
+            if (nonMusicItems.some(filterWord => title.includes(filterWord))) {
+                return false;
+            }
+
+            // Exclude if it's a "Topic" channel
+            if (channelTitle.endsWith(' - Topic')) {
+                return false;
+            }
+
+            return true;
         });
 
-        if (nonCoverItems.length === 0) {
+        if (filteredItems.length === 0) {
             return NextResponse.json({lastUpdated: new Date().toISOString(), items: []});
         }
 
         // Step 4: Fetch video details in chunks
-        const videoIds = nonCoverItems.map((item: any) => item.id.videoId);
+        const videoIds = filteredItems.map((item: any) => item.id.videoId);
         const CHUNK_SIZE = 50;
         const videoDetailPromises = [];
 
@@ -109,7 +142,7 @@ export async function GET() {
         });
 
         // Step 5: Final filter (remove shorts) and combine data
-        const finalItems = nonCoverItems
+        const combinedItems = filteredItems
             .map(item => {
                 const details = videoDetailsMap.get(item.id.videoId);
                 if (!details) return null;
@@ -124,10 +157,24 @@ export async function GET() {
                 return item !== null && item.durationInSeconds > 60;
             });
 
-        // Step 6: Sort by view count (descending)
+        // Step 6: Deduplicate by normalized title and channel, keeping the one with the highest view count
+        const songMap = new Map<string, any>();
+        combinedItems.forEach(item => {
+            const normalizedTitle = normalizeTitle(item.snippet.title);
+            const songKey = `${normalizedTitle}|${item.snippet.channelTitle}`;
+
+            const existingItem = songMap.get(songKey);
+            if (!existingItem || parseInt(item.statistics.viewCount, 10) > parseInt(existingItem.statistics.viewCount, 10)) {
+                songMap.set(songKey, item);
+            }
+        });
+        const finalItems = Array.from(songMap.values());
+
+
+        // Step 7: Sort by view count (descending)
         finalItems.sort((a, b) => parseInt(b.statistics.viewCount, 10) - parseInt(a.statistics.viewCount, 10));
 
-        // Step 7: Get the top 50 and format the response
+        // Step 8: Get the top 50 and format the response
         const top50Items = finalItems.slice(0, 50);
         const responseData = {
             lastUpdated: new Date().toISOString(),
