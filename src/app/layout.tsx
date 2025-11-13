@@ -10,13 +10,13 @@ import {BuyMeACoffee} from "@/components/BuyMeACoffee";
 export const metadata: Metadata = {
   metadataBase: new URL('https://hatsunemiku.me/'),
   title: "HATSUNEMIKU.ME",
-  description: "みくみくにしてあげる♪",
+  description: "みくみくにしてあげる♪ - Fan Site",
   icons: {
     icon: "/cherrypop_ico.png",
   },
   openGraph: {
     title: "HATSUNEMIKU.ME",
-    description: "みくみくにしてあげる♪",
+    description: "みくみくにしてあげる♪ - Fan Site",
     images: [
       {
         url: "/cherrypop.png", // 공유될 이미지 경로
