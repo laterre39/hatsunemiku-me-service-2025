@@ -118,8 +118,12 @@ export async function GET() {
         });
         const uniqueItems = Array.from(uniqueItemsMap.values());
 
-        // Step 3: Primary filter (remove covers, MMD, Topic channels, etc.)
-        const nonMusicItems = ['cover', '커버', 'remix', 'mmd', 'project diva', 'diva', 'vrc', 'vrchat', 'バンド', 'english ver', '歌ってみた', 'lyric', 'lyrics', '가사'];
+        // Step 3: Primary filter (remove covers, MMD, Topic channels, compilations, etc.)
+        const nonMusicItems = [
+            'cover', '커버', 'remix', 'mmd', 'project diva', 'diva', 'vrc', 'vrchat', 
+            'バンド', 'english ver', '歌ってみた', 'lyric', 'lyrics', '가사',
+            '挙げてけ', '挙げてく', 'メドレー', 'まとめ', 'ランキング'
+        ];
         const filteredItems = uniqueItems.filter((item: any) => {
             const title = item.snippet.title.toLowerCase();
             const channelTitle = item.snippet.channelTitle;
