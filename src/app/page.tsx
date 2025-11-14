@@ -17,8 +17,8 @@ export default function Home() {
         <section className="mx-auto max-w-5xl pb-24">
           <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
             <AudioLines/>
-            <h2>Best Vocaloid MV</h2>
-            <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 5개의 영상을 서비스 하고 있습니다."/>
+            <h2>My Vocaloid Pick</h2>
+            <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 20개의 영상을 서비스 하고 있습니다."/>
           </div>
           <YouTubeSlider/>
         </section>
