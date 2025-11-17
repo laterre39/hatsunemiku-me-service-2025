@@ -1,5 +1,5 @@
 export const youtubeVideoData = {
-    lastUpdated: '2024-08-01',
+    lastUpdated: '2025-11-17',
     videos: [
         'QQdddUKUkko', // アガリ症 / 重音テトSV
         'uWMr16O_Aso', // 目撃！テト31世🎉🎃🧟雨衣・重音テト
