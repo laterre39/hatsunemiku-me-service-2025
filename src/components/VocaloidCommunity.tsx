@@ -1,11 +1,24 @@
+"use client";
+
+import { useState } from "react";
 import { vocaloidCommunityLists } from "@/data/vocaloidCommunityLists";
-import { Music, ExternalLink } from "lucide-react";
+import { Music, ExternalLink, ChevronDown } from "lucide-react";
+
+const INITIAL_VISIBLE_COUNT = 6;
 
 export function VocaloidCommunity() {
+    const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+
+    const showMore = () => {
+        setVisibleCount(vocaloidCommunityLists.length);
+    };
+
+    const hasMore = vocaloidCommunityLists.length > visibleCount;
+
     return (
         <div className="text-white">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {vocaloidCommunityLists.map((community) => (
+                {vocaloidCommunityLists.slice(0, visibleCount).map((community) => (
                     <div
                         key={community.name}
                         className="group relative flex h-full flex-col rounded-xl border border-white/10 bg-white/5 p-6 shadow-lg transition-all duration-300 ease-in-out hover:border-cyan-400/30 hover:bg-white/10"
@@ -33,6 +46,18 @@ export function VocaloidCommunity() {
                     </div>
                 ))}
             </div>
+
+            {hasMore && (
+                <div className="mt-8 flex justify-center">
+                    <button
+                        onClick={showMore}
+                        className="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/20"
+                    >
+                        <span>더보기</span>
+                        <ChevronDown size={20} />
+                    </button>
+                </div>
+            )}
         </div>
     );
 }
