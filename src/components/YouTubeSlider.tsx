@@ -2,6 +2,7 @@
 
 import React, { useCallback, useMemo, useRef } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import type { Swiper as SwiperType } from 'swiper';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { ChevronsLeft, ChevronsRight } from 'lucide-react';
 import YouTube from 'react-youtube';
@@ -11,7 +12,7 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const shuffleArray = <T extends any[]>(array: T): T => {
+const shuffleArray = <T extends never[]>(array: string[]): T => {
     const newArray = [...array] as T;
     for (let i = newArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
@@ -43,7 +44,7 @@ export function YouTubeSlider() {
         playerRefs.current.set(videoId, event.target);
     }, []);
 
-    const onSlideChange = useCallback((swiper: any) => {
+    const onSlideChange = useCallback((swiper: SwiperType) => {
         const currentVideoId = shuffledVideoIds[swiper.realIndex];
         playerRefs.current.forEach((player, id) => {
             if (id !== currentVideoId && player.getPlayerState && player.getPlayerState() === 1) {
@@ -52,7 +53,7 @@ export function YouTubeSlider() {
         });
     }, [shuffledVideoIds]);
 
-    const onAutoplayTimeLeft = (s: any, time: number, progress: number) => {
+    const onAutoplayTimeLeft = (s: SwiperType, time: number, progress: number) => {
         if (progressCircleRef.current) {
             progressCircleRef.current.style.setProperty('--progress', (1 - progress).toString());
         }
