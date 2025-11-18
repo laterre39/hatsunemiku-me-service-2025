@@ -30,7 +30,7 @@ export function VocaloidCommunity() {
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-100">{community.name}</h3>
                             </div>
-                            <p className="mt-4 text-sm text-slate-400">{community.description}</p>
+                            <p className="mt-4 text-sm text-slate-300">{community.description}</p>
                         </div>
                         <div className="mt-6">
                             <a
