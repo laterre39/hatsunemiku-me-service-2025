@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useCallback, useMemo, useRef } from 'react';
+import React, { useRef, useState, useMemo, useCallback } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import type { Swiper as SwiperType } from 'swiper';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
@@ -12,19 +12,21 @@ import 'swiper/css';
 import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 
-const shuffleArray = <T extends never[]>(array: string[]): T => {
-    const newArray = [...array] as T;
+function shuffleArray<T>(array: T[]): T[] {
+    const newArray = [...array];
     for (let i = newArray.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [newArray[i], newArray[j]] = [newArray[j], newArray[i]];
     }
     return newArray;
-};
+}
 
 export function YouTubeSlider() {
     const playerRefs = useRef<Map<string, YT.Player>>(new Map());
     const autoplayProgressRef = useRef<HTMLDivElement>(null);
     const progressCircleRef = useRef<SVGSVGElement>(null);
+    const swiperRef = useRef<SwiperType | null>(null);
+    const [isAutoplayRunning, setIsAutoplayRunning] = useState(true);
 
     const shuffledVideoIds = useMemo(() => shuffleArray(youtubeVideoData.videos).slice(0, 10), []);
 
@@ -42,6 +44,12 @@ export function YouTubeSlider() {
 
     const onPlayerReady = useCallback((event: { target: YT.Player }, videoId: string) => {
         playerRefs.current.set(videoId, event.target);
+    }, []);
+
+    const onPlayerStateChange = useCallback((event: { data: number }) => {
+        if (event.data === 1) { // YT.PlayerState.PLAYING
+            swiperRef.current?.autoplay.stop();
+        }
     }, []);
 
     const onSlideChange = useCallback((swiper: SwiperType) => {
@@ -63,6 +71,7 @@ export function YouTubeSlider() {
         <div className="w-full max-w-5xl relative select-none" draggable={false}>
             <Swiper
                 modules={[Autoplay, Navigation, Pagination]}
+                onSwiper={(swiper) => { swiperRef.current = swiper; }}
                 spaceBetween={30}
                 slidesPerView={1}
                 navigation={{
@@ -73,9 +82,10 @@ export function YouTubeSlider() {
                 loop={true}
                 autoplay={{
                     delay: 5000,
-                    disableOnInteraction: false,
+                    disableOnInteraction: true,
                 }}
                 onAutoplayTimeLeft={onAutoplayTimeLeft}
+                onAutoplayStop={() => setIsAutoplayRunning(false)}
                 className="mySwiper rounded-lg overflow-hidden"
                 onSlideChange={onSlideChange}
             >
@@ -87,11 +97,15 @@ export function YouTubeSlider() {
                                 opts={opts}
                                 iframeClassName="absolute top-0 left-0 w-full h-full"
                                 onReady={(event) => onPlayerReady(event, videoId)}
+                                onStateChange={onPlayerStateChange}
                             />
                         </div>
                     </SwiperSlide>
                 ))}
-                <div className="autoplay-progress" ref={autoplayProgressRef}>
+                <div
+                    className={`autoplay-progress transition-opacity duration-300 ${!isAutoplayRunning ? 'opacity-0' : ''}`}
+                    ref={autoplayProgressRef}
+                >
                     <svg viewBox="0 0 48 48" ref={progressCircleRef}>
                         <circle cx="24" cy="24" r="20"></circle>
                     </svg>
