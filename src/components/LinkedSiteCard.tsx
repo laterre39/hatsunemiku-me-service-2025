@@ -13,6 +13,7 @@ const iconMap: { [key: string]: React.ComponentType<IconProps> } = {
     "Official Facebook": FaFacebook,
     "Official Instagram": FaSquareInstagram,
     "KARENT Music": FaCompactDisc,
+    "K!!te": FaCompactDisc,
 };
 
 export const LinkedSiteCard = ({ site }: { site: { name: string, url: string } }) => {

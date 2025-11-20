@@ -13,7 +13,6 @@ export const linkedSites: LinkedSite[] = [
     { name: "K!!te", url: "https://karent.jp/", showInFooter: true },
     { name: "마지미라 정보", url: "https://mm-info.miku.kr/", showInFooter: false },
     { name: "보카로 가사 위키", url: "https://vocaloidlyrics.fandom.com/wiki/VOCALOID_Lyrics_Wiki", showInFooter: false },
-    { name: "마지미라 정보", url: "https://mm-info.miku.kr/", showInFooter: false },
     { name: "Piapro", url: "https://piapro.jp/", showInFooter: false },
     { name: "VocaDB", url: "https://vocadb.net/", showInFooter: false },
     { name: "Vocaloard Charts", url: "https://vocaloard.injpok.tokyo/", showInFooter: false },
