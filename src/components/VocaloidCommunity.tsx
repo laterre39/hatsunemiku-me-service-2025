@@ -8,17 +8,18 @@ const INITIAL_VISIBLE_COUNT = 6;
 
 export function VocaloidCommunity() {
     const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+    const communities = vocaloidCommunityLists;
 
     const showMore = () => {
-        setVisibleCount(vocaloidCommunityLists.length);
+        setVisibleCount(communities.length);
     };
 
-    const hasMore = vocaloidCommunityLists.length > visibleCount;
+    const hasMore = communities.length > visibleCount;
 
     return (
         <div className="text-white">
             <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
-                {vocaloidCommunityLists.slice(0, visibleCount).map((community) => (
+                {communities.slice(0, visibleCount).map((community) => (
                     <div
                         key={community.name}
                         className="group relative flex h-full flex-col rounded-xl border border-white/10 bg-white/5 p-6 shadow-lg transition-all duration-300 ease-in-out hover:border-cyan-400/30 hover:bg-white/10"
@@ -30,14 +31,14 @@ export function VocaloidCommunity() {
                                 </div>
                                 <h3 className="text-lg font-bold text-slate-100">{community.name}</h3>
                             </div>
-                            <p className="mt-4 text-sm text-slate-300">{community.description}</p>
+                            <p className="mt-4 text-sm text-slate-400">{community.description}</p>
                         </div>
                         <div className="mt-6">
                             <a
                                 href={community.url}
                                 target="_blank"
                                 rel="noopener noreferrer"
-                                className="flex w-full items-center justify-center gap-2 rounded-full bg-slate-700/50 px-4 py-2 text-sm font-semibold text-cyan-400 ring-1 ring-slate-600 transition-colors hover:bg-slate-700"
+                                className="flex w-full items-center justify-center gap-2 rounded-full bg-cyan-400/10 px-4 py-2 text-sm font-semibold text-cyan-300 ring-1 ring-cyan-400/30 transition-colors hover:bg-cyan-400/20 hover:text-white"
                             >
                                 <ExternalLink size={16} />
                                 <span>바로가기</span>
