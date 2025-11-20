@@ -3,7 +3,7 @@
 import React, { useState } from 'react';
 import { vocaloidBirthdays } from '@/data/vocaloidBirthdayLists';
 import { linkedSites } from "@/data/linkedSites";
-import { Calendar, ExternalLink, Send } from "lucide-react";
+import { Calendar, ExternalLink, Send, ArrowRight } from "lucide-react";
 import { LinkedSiteCard } from './LinkedSiteCard';
 import { BirthdayListItem, VocaloidBirthday } from './BirthdayListItem';
 
@@ -66,16 +66,18 @@ export function Footer() {
                             <p>하츠네 미쿠를 좋아하는 팬심을 담아서 열심히 만들었습니다, <span className="font-bold text-[#39C5BB]">미쿠 사랑해</span>🩵</p>
                             <p>사이트 관련 문의 및 <span className="font-bold text-[#39C5BB]">편집자 지원</span>은 아래 메일로 부탁드립니다.</p>
                             <p className="font-bold text-[#39C5BB]">미쿠미쿠하게 해줄게 ♪</p>
-                            <a href="mailto:contact@hatsunemiku.me" className="flex items-center gap-1 font-semibold text-gray-600 hover:text-[#39C5BB]">
-                                <Send size={18}/> Send Mail
+                            <a href="mailto:contact@hatsunemiku.me"
+                               className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
+                                <Send size={16}/>
+                                문의하기
                             </a>
                         </div>
                     </div>
 
-                    {/* Upcoming Birthdays */}
+                    {/* Vocaloid Birthdays */}
                     <div className="w-sm flex flex-col">
                         <div className="mb-4">
-                            <h4 className="text-xl font-semibold text-gray-800">Upcoming Birthdays</h4>
+                            <h4 className="text-xl font-semibold text-gray-800">Vocaloid Birthdays</h4>
                             <div className="mt-2 h-1 w-18 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
                         </div>
                         <ul className="grid grid-cols-[auto_1fr] gap-y-1 flex-grow">
@@ -85,17 +87,17 @@ export function Footer() {
                         </ul>
                         {sortedBirthdays.length > 5 && (
                             <button onClick={() => setIsBirthdayModalOpen(true)}
-                                    className="flex items-center gap-1 pt-2 font-bold text-gray-600 hover:text-[#39C5BB]">
-                                <ExternalLink size={18}/>
-                                더보기
+                                    className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
+                                <span>더보기</span>
+                                <ArrowRight size={16}/>
                             </button>
                         )}
                     </div>
 
-                    {/* Linked Sites */}
+                    {/* Vocaloid Sites */}
                     <div className="w-sm flex flex-col">
                         <div className="mb-4">
-                            <h4 className="text-xl font-semibold text-gray-800">Linked Sites</h4>
+                            <h4 className="text-xl font-semibold text-gray-800">Vocaloid Sites</h4>
                             <div className="mt-2 h-1 w-18 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
                         </div>
                         <ul className="grid grid-cols-2 gap-3 flex-grow">
@@ -105,9 +107,9 @@ export function Footer() {
                         </ul>
                         {linkedSites.length > sitesForFooter.length && (
                             <button onClick={() => setIsLinkedSitesModalOpen(true)}
-                                    className="flex items-center gap-1 pt-2 font-bold text-gray-600 hover:text-[#39C5BB]">
-                                <ExternalLink size={18}/>
-                                더보기
+                                    className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
+                                <span>더보기</span>
+                                <ArrowRight size={16}/>
                             </button>
                         )}
                     </div>
@@ -121,12 +123,12 @@ export function Footer() {
                 </div>
             </div>
 
-            {/* Birthday Modal */}
+            {/* Vocaloid Birthday Modal */}
             {isBirthdayModalOpen && (
                 <div className="fixed inset-0 flex bg-black/50 items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full flex flex-col max-h-[90vh]">
                         <h3 className="flex items-center gap-2 text-xl font-bold mb-4 flex-shrink-0">
-                            <Calendar className="text-[#39C5BB]"/> Vocaloid Birthdays
+                            <Calendar className="text-[#39C5BB]"/> 보컬로이드 생일
                         </h3>
                         <div className="overflow-y-auto max-h-96">
                             <ul className="grid grid-cols-[auto_1fr] gap-y-1 pr-4">
@@ -143,12 +145,12 @@ export function Footer() {
                 </div>
             )}
 
-            {/* Linked Sites Modal */}
+            {/* Vocaloid Sites Modal */}
             {isLinkedSitesModalOpen && (
                 <div className="fixed inset-0 flex bg-black/50 items-center justify-center z-50">
                     <div className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full flex flex-col max-h-[90vh]">
                         <h3 className="flex items-center gap-2 text-xl font-bold mb-4 flex-shrink-0">
-                            <ExternalLink className="text-[#39C5BB]"/> Vocaloid Sites
+                            <ExternalLink className="text-[#39C5BB]"/> 보컬로이드 사이트
                         </h3>
                         <div className="overflow-y-auto max-h-96">
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pr-2">
