@@ -26,6 +26,7 @@ const iconMap: { [key: string]: React.ComponentType<IconProps> } = {
   "Official Facebook": FaFacebook,
   "Official Instagram": FaSquareInstagram,
   "KARENT Music": FaCompactDisc,
+  "K!!te": FaCompactDisc,
 };
 
 const LinkedSiteCard = ({site}: { site: { name: string, url: string } }) => {
@@ -114,11 +115,11 @@ export function Footer() {
               </div>
             </div>
 
-            {/* Voclaoid Birthdays */}
+            {/* Vocaloid Birthdays */}
             <div className="w-sm">
               <div className="mb-4">
                 <div className="flex items-center gap-2">
-                  <h4 className="text-xl font-semibold text-gray-800">Voclaoid Birthdays</h4>
+                  <h4 className="text-xl font-semibold text-gray-800">Vocaloid Birthdays</h4>
                 </div>
                 <div
                     className="mt-2 h-1 w-18 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
@@ -163,11 +164,11 @@ export function Footer() {
               )}
             </div>
 
-            {/* Linked Sites */}
+            {/* Vocaloid Sites */}
             <div className="w-sm">
               <div className="mb-4">
                 <div className="flex items-center gap-2">
-                  <h4 className="text-xl font-semibold text-gray-800">Linked Sites</h4>
+                  <h4 className="text-xl font-semibold text-gray-800">Vocaloid Sites</h4>
                 </div>
                 <div
                     className="mt-2 h-1 w-18 bg-gradient-to-r from-[#39C5BB] to-cyan-200 rounded-full"/>
@@ -201,14 +202,14 @@ export function Footer() {
           </div>
         </div>
 
-        {/* Birthday Modal */}
+        {/* Vocaloid Birthday Modal */}
         {isBirthdayModalOpen && (
             <div className="fixed inset-0 flex bg-black/50 items-center justify-center z-50">
               <div
                   className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full flex flex-col max-h-[90vh]">
                 <h3 className="flex items-center gap-2 text-xl font-bold mb-4 flex-shrink-0">
                   <Calendar className="text-black"/>
-                  Voclaoid Birthdays</h3>
+                  Vocaloid Birthdays</h3>
                 <div className="overflow-y-auto max-h-96">
                   <ul className="grid grid-cols-[auto_1fr] gap-y-1 pr-4">
                     {sortedBirthdays.map((vocaloid) => (
@@ -250,14 +251,14 @@ export function Footer() {
             </div>
         )}
 
-        {/* Linked Sites Modal */}
+        {/* Vocaloid Sites Modal */}
         {isLinkedSitesModalOpen && (
             <div className="fixed inset-0 flex bg-black/50 items-center justify-center z-50">
               <div
                   className="bg-white p-6 rounded-lg shadow-lg max-w-md w-full flex flex-col max-h-[90vh]">
                 <h3 className="flex items-center gap-2 text-xl font-bold mb-4 flex-shrink-0">
                   <ExternalLink className="text-black"/>
-                  Linked Sites</h3>
+                  Vocaloid Sites</h3>
                 <div className="overflow-y-auto max-h-96">
                   <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pr-2">
                     {linkedSites.map((site) => (
