@@ -67,7 +67,7 @@ export function Footer() {
                             <p>사이트 관련 문의 및 <span className="font-bold text-[#39C5BB]">편집자 지원</span>은 아래 메일로 부탁드립니다.</p>
                             <p className="font-bold text-[#39C5BB]">미쿠미쿠하게 해줄게 ♪</p>
                             <a href="mailto:contact@hatsunemiku.me"
-                               className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
+                               className="mt-4 inline-flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-gray-150 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
                                 <Send size={16}/>
                                 문의하기
                             </a>
@@ -87,7 +87,7 @@ export function Footer() {
                         </ul>
                         {sortedBirthdays.length > 5 && (
                             <button onClick={() => setIsBirthdayModalOpen(true)}
-                                    className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
+                                    className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-gray-150 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
                                 <span>더보기</span>
                                 <ArrowRight size={16}/>
                             </button>
@@ -107,7 +107,7 @@ export function Footer() {
                         </ul>
                         {linkedSites.length > sitesForFooter.length && (
                             <button onClick={() => setIsLinkedSitesModalOpen(true)}
-                                    className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg border border-gray-200 bg-gray-100 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
+                                    className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-gray-150 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
                                 <span>더보기</span>
                                 <ArrowRight size={16}/>
                             </button>
@@ -115,12 +115,16 @@ export function Footer() {
                     </div>
                 </div>
 
-                {/* Copyright */}
-                <div className="mt-8 border-t border-gray-200/80 pt-6 text-center text-sm text-gray-600">
-                    <p className="font-semibold">&copy; {new Date().getFullYear()} HatsuneMiku.me</p>
-                    <p className="mt-2 font-light">This is a non-commercial fan-made website.</p>
-                    <p className="font-light">Hatsune Miku and other VOCALOID characters are trademarks and copyrights of Crypton Future Media, INC. and their respective owners.</p>
-                </div>
+              {/* Copyright */}
+              <div className="mt-12 border-t border-gray-200/80 pt-8 text-center">
+                <p className="text-sm font-semibold text-gray-700">
+                  &copy; {new Date().getFullYear()} HatsuneMiku.me
+                </p>
+                <p className="mt-2 text-xs text-gray-500">
+                  This is a non-commercial fan-made website. All characters, music, and other trademarks/copyrights
+                  are the property of their respective owners, including Crypton Future Media, INC.
+                </p>
+              </div>
             </div>
 
             {/* Vocaloid Birthday Modal */}
