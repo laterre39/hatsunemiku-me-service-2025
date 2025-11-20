@@ -31,7 +31,7 @@ export const vocaloidCommunityLists = [
   },
   {
     name: "VocaVerse Network",
-    description: "VVN",
+    description: "VVN Vocaloid community",
     url: "https://vocaverse.network/",
   },
 ];

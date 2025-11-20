@@ -2,19 +2,20 @@
 
 import { useState } from "react";
 import { vocaloidCommunityLists } from "@/data/vocaloidCommunityLists";
-import { Music, ExternalLink, ChevronDown } from "lucide-react";
+import { Music, ExternalLink, ChevronDown, ChevronUp } from "lucide-react";
 
 const INITIAL_VISIBLE_COUNT = 6;
 
 export function VocaloidCommunity() {
-    const [visibleCount, setVisibleCount] = useState(INITIAL_VISIBLE_COUNT);
+    const [isExpanded, setIsExpanded] = useState(false);
     const communities = vocaloidCommunityLists;
 
-    const showMore = () => {
-        setVisibleCount(communities.length);
+    const toggleExpansion = () => {
+        setIsExpanded(!isExpanded);
     };
 
-    const hasMore = communities.length > visibleCount;
+    const visibleCount = isExpanded ? communities.length : INITIAL_VISIBLE_COUNT;
+    const canToggle = communities.length > INITIAL_VISIBLE_COUNT;
 
     return (
         <div className="text-white">
@@ -48,14 +49,14 @@ export function VocaloidCommunity() {
                 ))}
             </div>
 
-            {hasMore && (
+            {canToggle && (
                 <div className="mt-8 flex justify-center">
                     <button
-                        onClick={showMore}
+                        onClick={toggleExpansion}
                         className="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/20"
                     >
-                        <span>더보기</span>
-                        <ChevronDown size={20} />
+                        <span>{isExpanded ? '닫기' : '더보기'}</span>
+                        {isExpanded ? <ChevronUp size={20} /> : <ChevronDown size={20} />}
                     </button>
                 </div>
             )}
