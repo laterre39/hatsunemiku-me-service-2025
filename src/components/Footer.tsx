@@ -5,13 +5,9 @@ import {vocaloidBirthdays} from '@/data/vocaloidBirthdayLists';
 import {linkedSites} from "@/data/linkedSites";
 import {
   AudioLines,
-  Cake,
   Calendar,
-  CircleArrowOutUpRight,
   ExternalLink,
-  Github,
   Send,
-  Sparkles
 } from "lucide-react";
 import {FaCompactDisc, FaFacebook, FaSquareInstagram, FaSquareXTwitter} from "react-icons/fa6";
 
