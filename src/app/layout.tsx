@@ -1,13 +1,61 @@
-"use client";
-
+import type { Metadata } from "next";
 import "./globals.css";
-import {Header} from "@/components/Header";
-import {Footer} from "@/components/Footer";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 import localFont from 'next/font/local'
-import {FlowbiteClient} from '@/components/FlowbiteClient';
-import {ScrollToTopButton} from '@/components/ScrollToTopButton';
-import {BuyMeACoffee} from "@/components/BuyMeACoffee";
-import {Helmet, HelmetProvider} from "@dr.pogodin/react-helmet";
+import { FlowbiteClient } from '@/components/FlowbiteClient';
+import { ScrollToTopButton } from '@/components/ScrollToTopButton';
+import { BuyMeACoffee } from "@/components/BuyMeACoffee";
+
+const siteConfig = {
+  title: "HATSUNEMIKU.ME",
+  description: "하츠네 미쿠와 보컬로이드 팬들을 위한 비공식 팬 사이트입니다. 최신 인기곡, 이벤트, 커뮤니티 정보를 확인하세요.",
+  url: "https://hatsunemiku.me",
+  keywords: ["하츠네 미쿠", "보컬로이드", "Hatsune Miku", "Vocaloid"],
+  author: "39AREA",
+  ogImage: "https://hatsunemiku.me/cherrypop.png",
+};
+
+export const metadata: Metadata = {
+  metadataBase: new URL(siteConfig.url),
+  title: {
+    default: siteConfig.title,
+    template: `%s | ${siteConfig.title}`,
+  },
+  description: siteConfig.description,
+  keywords: siteConfig.keywords,
+  authors: [{ name: siteConfig.author, url: siteConfig.url }],
+  creator: siteConfig.author,
+  
+  icons: {
+    icon: "/cherrypop_ico.png",
+  },
+
+  openGraph: {
+    type: "website",
+    locale: "ko_KR",
+    url: siteConfig.url,
+    title: siteConfig.title,
+    description: siteConfig.description,
+    siteName: siteConfig.title,
+    images: [
+      {
+        url: siteConfig.ogImage,
+        width: 800,
+        height: 600,
+        alt: siteConfig.title,
+      },
+    ],
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: siteConfig.title,
+    description: siteConfig.description,
+    images: [siteConfig.ogImage],
+    creator: `@${siteConfig.author}`,
+  },
+};
 
 const pretendard = localFont({
   src: '../assets/fonts/PretendardVariable.woff2',
@@ -17,57 +65,24 @@ const pretendard = localFont({
 })
 
 export default function RootLayout({
-                                     children,
-                                   }: Readonly<{
+  children,
+}: Readonly<{
   children: React.ReactNode;
 }>) {
-  const siteUrl = "https://hatsunemiku.me/";
-  const title = "HATSUNEMIKU.ME";
-  const description = "하츠네 미쿠와 보컬로이드 공식 정보 & 최신 뉴스 아카이브. 신곡, 라이브 콘서트, 이벤트 소식 등 모든 것을 가장 빠르게 만나보세요";
-  const imageUrl = `${siteUrl}cherrypop.png`;
-
   return (
-      <HelmetProvider>
-        <html lang="ko" className={`${pretendard.variable} scroll-smooth`}>
-        <body>
-        <Helmet>
-          <title>{title}</title>
-          <link rel="canonical" href="https://hatsunemiku.me/"/>
-          <meta name="description" content={description}/>
-          <meta charSet="utf-8"/>
-          <link rel="icon" href="/cherrypop_ico.png"/>
-
-          {/* Open Graph / Facebook */}
-          <meta property="og:type" content="website"/>
-          <meta property="og:url" content={siteUrl}/>
-          <meta property="og:title" content={title}/>
-          <meta property="og:description" content={description}/>
-          <meta property="og:image" content={imageUrl}/>
-          <meta property="og:image:width" content="800"/>
-          <meta property="og:image:height" content="600"/>
-          <meta property="og:site_name" content={title}/>
-          <meta property="og:locale" content="ko_KR"/>
-
-          {/* Twitter */}
-          <meta property="twitter:card" content="summary_large_image"/>
-          <meta property="twitter:url" content={siteUrl}/>
-          <meta property="twitter:title" content={title}/>
-          <meta property="twitter:description" content={description}/>
-          <meta property="twitter:image" content={imageUrl}/>
-        </Helmet>
-
-        <div className="relative flex min-h-screen flex-col bg-[url('/main_bg.png')] bg-repeat">
-          <Header/>
+    <html lang="ko" className={`${pretendard.variable} scroll-smooth`}>
+      <body className="bg-[url('/main_bg.png')] bg-repeat">
+        <div className="relative flex min-h-screen flex-col">
+          <Header />
           <main className="flex-1 container mx-auto px-4 max-w-5xl">
             {children}
           </main>
-          <Footer/>
-          <FlowbiteClient/>
-          <ScrollToTopButton/>
-          <BuyMeACoffee/>
+          <Footer />
+          <FlowbiteClient />
+          <ScrollToTopButton />
+          <BuyMeACoffee />
         </div>
-        </body>
-        </html>
-      </HelmetProvider>
+      </body>
+    </html>
   );
 }
