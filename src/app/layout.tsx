@@ -1,35 +1,13 @@
-import type {Metadata} from "next";
-import "./globals.css";
-import {Header} from "@/components/Header";
-import {Footer} from "@/components/Footer";
-import localFont from 'next/font/local'
-import {FlowbiteClient} from '@/components/FlowbiteClient';
-import {ScrollToTopButton} from '@/components/ScrollToTopButton';
-import {BuyMeACoffee} from "@/components/BuyMeACoffee";
+"use client";
 
-export const metadata: Metadata = {
-  metadataBase: new URL('https://hatsunemiku.me/'),
-  title: "HATSUNEMIKU.ME",
-  description: "みくみくにしてあげる♪ - Fan Site",
-  icons: {
-    icon: "/cherrypop_ico.png",
-  },
-  openGraph: {
-    title: "HATSUNEMIKU.ME",
-    description: "みくみくにしてあげる♪ - Fan Site",
-    images: [
-      {
-        url: "/cherrypop.png", // 공유될 이미지 경로
-        width: 800,
-        height: 600,
-        alt: "HATSUNEMIKU.ME",
-      },
-    ],
-    siteName: "HATSUNEMIKU.ME",
-    locale: 'ko_KR',
-    type: 'website',
-  },
-};
+import "./globals.css";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
+import localFont from 'next/font/local'
+import { FlowbiteClient } from '@/components/FlowbiteClient';
+import { ScrollToTopButton } from '@/components/ScrollToTopButton';
+import { BuyMeACoffee } from "@/components/BuyMeACoffee";
+import { Helmet } from "react-helmet";
 
 const pretendard = localFont({
   src: '../assets/fonts/PretendardVariable.woff2',
@@ -43,10 +21,39 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const siteUrl = "https://hatsunemiku.me/";
+  const title = "HATSUNEMIKU.ME";
+  const description = "みくみくにしてあげる♪ - Fan Site";
+  const imageUrl = `${siteUrl}cherrypop.png`;
+
   return (
     <html lang="ko" className={`${pretendard.variable} scroll-smooth`}>
-      <body className= "bg-[url('/main_bg.png')] bg-repeat">
-        <div className="relative flex min-h-screen flex-col">
+      <body>
+        <Helmet>
+          <title>{title}</title>
+          <meta name="description" content={description} />
+          <link rel="icon" href="/cherrypop_ico.png" />
+          
+          {/* Open Graph / Facebook */}
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content={siteUrl} />
+          <meta property="og:title" content={title} />
+          <meta property="og:description" content={description} />
+          <meta property="og:image" content={imageUrl} />
+          <meta property="og:image:width" content="800" />
+          <meta property="og:image:height" content="600" />
+          <meta property="og:site_name" content={title} />
+          <meta property="og:locale" content="ko_KR" />
+
+          {/* Twitter */}
+          <meta property="twitter:card" content="summary_large_image" />
+          <meta property="twitter:url" content={siteUrl} />
+          <meta property="twitter:title" content={title} />
+          <meta property="twitter:description" content={description} />
+          <meta property="twitter:image" content={imageUrl} />
+        </Helmet>
+        
+        <div className="relative flex min-h-screen flex-col bg-[url('/main_bg.png')] bg-repeat">
           <Header />
           <main className="flex-1 container mx-auto px-4 max-w-5xl">
             {children}
