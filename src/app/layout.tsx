@@ -7,7 +7,7 @@ import localFont from 'next/font/local'
 import { FlowbiteClient } from '@/components/FlowbiteClient';
 import { ScrollToTopButton } from '@/components/ScrollToTopButton';
 import { BuyMeACoffee } from "@/components/BuyMeACoffee";
-import { Helmet } from "react-helmet";
+import { Helmet } from "@dr.pogodin/react-helmet";
 
 const pretendard = localFont({
   src: '../assets/fonts/PretendardVariable.woff2',
@@ -23,7 +23,7 @@ export default function RootLayout({
 }>) {
   const siteUrl = "https://hatsunemiku.me/";
   const title = "HATSUNEMIKU.ME";
-  const description = "みくみくにしてあげる♪ - Fan Site";
+  const description = "하츠네 미쿠와 보컬로이드 공식 정보 & 최신 뉴스 아카이브. 신곡, 라이브 콘서트, 이벤트 소식 등 모든 것을 가장 빠르게 만나보세요";
   const imageUrl = `${siteUrl}cherrypop.png`;
 
   return (
@@ -31,7 +31,9 @@ export default function RootLayout({
       <body>
         <Helmet>
           <title>{title}</title>
+          <link rel="canonical" href="https://hatsunemiku.me/" />
           <meta name="description" content={description} />
+          <meta charSet="utf-8" />
           <link rel="icon" href="/cherrypop_ico.png" />
           
           {/* Open Graph / Facebook */}
