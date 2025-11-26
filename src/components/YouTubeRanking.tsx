@@ -79,7 +79,7 @@ export function YouTubeRanking() {
     };
 
     fetchSongs();
-  }, []); // youtubeSongs를 의존성 배열에서 제거하여 무한 루프 방지
+  }, [youtubeSongs.length]); // youtubeSongs를 의존성 배열에서 제거하여 무한 루프 방지
 
   if (loading) {
     return <p className="text-white text-center">Loading YouTube songs...</p>;

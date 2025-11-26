@@ -73,7 +73,7 @@ export function SpotifyRanking() {
     };
 
     fetchSongs();
-  }, []); // spotifySongs를 의존성 배열에서 제거
+  }, [spotifySongs.length]); // spotifySongs를 의존성 배열에서 제거
 
   if (loading) {
     return <p className="text-white text-center">Loading Spotify songs...</p>;
