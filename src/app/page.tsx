@@ -1,5 +1,3 @@
-"use client";
-
 import { AudioLines, CalendarClock } from 'lucide-react';
 import { YouTubeSlider } from '@/components/YouTubeSlider';
 import { Tooltip } from '@/components/Tooltip';

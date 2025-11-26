@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from 'react';
 import { SongList } from '@/components/SongList';
 import { Song } from '@/types/song';
