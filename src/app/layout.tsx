@@ -13,7 +13,7 @@ const siteConfig = {
   url: "https://hatsunemiku.me",
   keywords: ["하츠네 미쿠", "보컬로이드", "Hatsune Miku", "Vocaloid"],
   author: "39AREA",
-  ogImage: "https://hatsunemiku.me/cherrypop.png",
+  ogImage: "https://hatsunemiku.me/og_image.png",
 };
 
 export const metadata: Metadata = {
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   creator: siteConfig.author,
   
   icons: {
-    icon: "/cherrypop_ico.png",
+    icon: "/favicon.ico",
   },
 
   openGraph: {
