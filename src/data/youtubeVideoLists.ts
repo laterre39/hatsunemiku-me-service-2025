@@ -19,6 +19,7 @@ export const youtubeVideoData = {
         'rQwimqfxjR8', // Find your voice / サツキ feat. 初音ミク【ボイスケアのど飴×初音ミク】
         'lwqxhoOTgmw', // Tyler - くるくるぱー（feat.小春六花）
         'ow4AwxeK-bs', // 衣替え (feat. 初音ミク)
-        '-WJ_hbjjxSo', // 【CONNECT ~心的连接~】 CONNECT ~마음의 맞닿음~ feat.뤄톈이
+        'vQ_NFqtGDgo', // Aiobahn & TAK feat. 初音ミク - DIVA
+        '8Cm-7oCq9HA', // TAK - ‘PPPP’ feat. 하츠네 미쿠, 카사네 테토
     ]
 };
