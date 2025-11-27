@@ -13,6 +13,17 @@ import { SiNextdotjs, SiReact, SiTypescript, SiTailwindcss, SiVercel } from "rea
 import React from 'react';
 import Image from 'next/image';
 import { specialThanksList } from "@/data/specialThanksList";
+import {Metadata} from "next";
+
+export const metadata: Metadata = {
+  title: 'About',
+  description: 'HatsuneMiku.me 프로젝트와 팀 39AREA, 그리고 기술 스택을 소개합니다.',
+  openGraph: {
+    title: 'About | HATSUNEMIKU.ME',
+    description: 'HatsuneMiku.me 프로젝트와 팀 39AREA, 그리고 기술 스택을 소개합니다.',
+    url: 'https://hatsunemiku.me/about',
+  },
+};
 
 const SectionCard = ({ icon, title, children }: {
   icon: React.ReactNode;
