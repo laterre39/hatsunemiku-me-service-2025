@@ -11,6 +11,8 @@
   "dependencies": {
     "canvas-confetti": "^1.9.3",
     "cheerio": "^1.1.2",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
     "flowbite": "^3.1.2",
     "flowbite-react": "^0.12.6",
     "googleapis": "^166.0.0",
