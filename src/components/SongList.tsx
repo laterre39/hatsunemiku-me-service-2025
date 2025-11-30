@@ -1,58 +1,74 @@
-import Image from 'next/image';
-import { Clock } from 'lucide-react';
+"use client";
 
-interface Song {
-  rank: number;
-  title: string;
-  artist: string;
-  album?: string; // album 필드를 옵셔널로 변경
-  duration: string;
-  thumbnailUrl: string;
-  platformId: string; // YouTube video ID or Spotify track ID
-}
+import Image from 'next/image';
+import { Song } from '@/types/song';
+import Link from 'next/link';
+import { useState, useEffect } from 'react';
+import { ImageOff } from 'lucide-react';
 
 interface SongListProps {
-  song: Song; // 단일 Song 객체를 받도록 변경
-  platformType: 'youtube' | 'spotify'; // Add platformType prop
+    song: Song;
+    platformType: 'youtube' | 'spotify';
 }
 
-export function SongList({ song, platformType }: SongListProps) {
-  const handleCardClick = (platformId: string) => {
-    let url = '';
-    if (platformType === 'youtube') {
-      url = `https://www.youtube.com/watch?v=${platformId}`;
-    } else if (platformType === 'spotify') {
-      url = `https://open.spotify.com/track/${platformId}`;
-    }
-    if (url) {
-      window.open(url, '_blank');
-    }
-  };
-
-  return (
-    <div
-      key={song.rank}
-      className="flex items-center gap-4 p-3 bg-white/5 rounded-lg transition-all duration-300 hover:bg-white/10 hover:shadow-md cursor-pointer w-full"
-      onClick={() => handleCardClick(song.platformId)}
-    >
-      <span className="w-8 text-center text-xl font-bold text-white/30">{song.rank}</span>
-      <Image
-        src={song.thumbnailUrl}
-        alt={song.title}
-        width={64}
-        height={64}
-        unoptimized={true}
-        className="w-16 h-16 rounded-lg object-cover flex-shrink-0 shadow-sm"
-      />
-      <div className="flex-1 min-w-0">
-        <p className="font-semibold text-white truncate text-base">{song.title}</p>
-        <p className="text-sm text-white/60 truncate">{song.artist}</p>
-        {song.album && <p className="text-xs text-white/40 truncate italic">{song.album}</p>}
-      </div>
-      <div className="flex items-center gap-1 text-xs text-white/40 font-mono px-2">
-        <Clock size={14} />
-        <span>{song.duration}</span>
-      </div>
+const FallbackThumbnail = () => (
+    <div className="absolute inset-0 flex items-center justify-center bg-slate-800/50 border-b border-white/10">
+        <ImageOff className="h-10 w-10 text-slate-500" />
     </div>
-  );
+);
+
+export function SongList({ song, platformType }: SongListProps) {
+    const [imageUrl, setImageUrl] = useState(song.thumbnailUrl);
+    const [imageError, setImageError] = useState(false);
+
+    useEffect(() => {
+        setImageUrl(song.thumbnailUrl);
+        setImageError(false);
+    }, [song.thumbnailUrl]);
+
+    const handleImageError = () => {
+        if (imageUrl.includes('maxresdefault.jpg')) {
+            setImageUrl(`https://i.ytimg.com/vi/${song.platformId}/hqdefault.jpg`);
+        } else {
+            setImageError(true);
+        }
+    };
+
+    const platformLink = song.platformId
+        ? `https://www.youtube.com/watch?v=${song.platformId}`
+        : '#';
+
+    return (
+        <div className="group relative rounded-lg overflow-hidden bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1">
+            <Link href={platformLink} target="_blank" rel="noopener noreferrer">
+                <div className="relative w-full aspect-video">
+                    {!imageError ? (
+                        <Image
+                            src={imageUrl}
+                            alt={song.title}
+                            fill
+                            sizes="(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw"
+                            className="object-cover transition-transform duration-300 group-hover:scale-105"
+                            onError={handleImageError}
+                            unoptimized={imageUrl.includes('nicovideo')}
+                        />
+                    ) : (
+                        <FallbackThumbnail />
+                    )}
+                    <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+                    <div className="absolute top-2 right-2 flex items-center gap-2 text-white">
+                        <span className="font-bold text-xl md:text-2xl drop-shadow-lg">#{song.rank}</span>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 p-2 md:p-3 bg-gradient-to-t from-black/80 to-transparent">
+                        <h3 className="font-semibold text-sm md:text-base text-white truncate" title={song.title}>
+                            {song.title}
+                        </h3>
+                        <p className="text-xs md:text-sm text-gray-300 truncate" title={song.artist}>
+                            {song.artist}
+                        </p>
+                    </div>
+                </div>
+            </Link>
+        </div>
+    );
 }
