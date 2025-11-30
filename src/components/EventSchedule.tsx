@@ -1,26 +1,16 @@
-import {vocaloidEventLists} from "@/data/vocaloidEventLists";
-import {ArrowRight, Calendar, ExternalLink} from "lucide-react";
+import { vocaloidEventLists } from "@/data/vocaloidEventLists";
+import { ArrowRight, Calendar, ExternalLink } from "lucide-react";
 import Link from "next/link";
-
-// Helper function to format date strings for the Date constructor
-const formatDateForDateObject = (dateStr: string) => dateStr.replace(/\./g, '-');
-
-// Helper function to get the current date at midnight KST
-const getTodayKST = () => {
-    const now = new Date();
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
-    const kstOffset = 9 * 60 * 60 * 1000;
-    const kstDate = new Date(utc + kstOffset);
-    kstDate.setUTCHours(0, 0, 0, 0);
-    return kstDate;
-};
+import { getTodayInKST, formatDateForDateObject } from "@/lib/dateUtils";
 
 export function EventSchedule() {
-    const today = getTodayKST();
+    const today = getTodayInKST();
 
     const upcomingEvents = vocaloidEventLists
         .filter(event => {
             const endDate = event.eventEndDate ? new Date(formatDateForDateObject(event.eventEndDate)) : new Date(formatDateForDateObject(event.eventStartDate));
+            // Set time to the end of the day for accurate comparison
+            endDate.setHours(23, 59, 59, 999);
             return endDate >= today;
         })
         .sort((a, b) => {

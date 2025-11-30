@@ -4,19 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { vocaloidEventLists } from "@/data/vocaloidEventLists";
 import { Calendar, ExternalLink } from "lucide-react";
 import Pagination from "@/components/Pagination";
-
-// Helper function to format date strings for the Date constructor
-const formatDateForDateObject = (dateStr: string) => dateStr.replace(/\./g, '-');
-
-// Helper function to get the current date at midnight KST
-const getTodayKST = () => {
-    const now = new Date();
-    const utc = now.getTime() + (now.getTimezoneOffset() * 60 * 1000);
-    const kstOffset = 9 * 60 * 60 * 1000;
-    const kstDate = new Date(utc + kstOffset);
-    kstDate.setUTCHours(0, 0, 0, 0);
-    return kstDate;
-};
+import { getTodayInKST, formatDateForDateObject } from "@/lib/dateUtils";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -25,14 +13,20 @@ export function EventPageClient() {
     const mainRef = useRef<HTMLElement>(null);
     const isInitialMount = useRef(true);
 
-    const today = getTodayKST();
-    const currentYear = today.getFullYear();
+    const today = getTodayInKST();
+    const currentYear = new Date().getFullYear(); // Use client's local year for display is fine
 
     const sortedEvents = [...vocaloidEventLists].sort((a, b) => {
         const dateA = new Date(formatDateForDateObject(a.eventStartDate));
         const dateB = new Date(formatDateForDateObject(b.eventStartDate));
-        const aIsPast = (a.eventEndDate ? new Date(formatDateForDateObject(a.eventEndDate)) : dateA) < today;
-        const bIsPast = (b.eventEndDate ? new Date(formatDateForDateObject(b.eventEndDate)) : dateB) < today;
+        
+        const endDateA = a.eventEndDate ? new Date(formatDateForDateObject(a.eventEndDate)) : dateA;
+        endDateA.setHours(23, 59, 59, 999);
+        const aIsPast = endDateA < today;
+
+        const endDateB = b.eventEndDate ? new Date(formatDateForDateObject(b.eventEndDate)) : dateB;
+        endDateB.setHours(23, 59, 59, 999);
+        const bIsPast = endDateB < today;
 
         if (aIsPast && !bIsPast) return 1;
         if (!aIsPast && bIsPast) return -1;
@@ -63,25 +57,24 @@ export function EventPageClient() {
                 {displayedEvents.map((event) => {
                     const startDate = new Date(formatDateForDateObject(event.eventStartDate));
                     const endDate = event.eventEndDate ? new Date(formatDateForDateObject(event.eventEndDate)) : null;
+                    
+                    const effectiveEndDate = endDate || startDate;
+                    effectiveEndDate.setHours(23, 59, 59, 999);
 
                     let status, statusColor;
-                    const isEventOngoing = endDate && today >= startDate && today <= endDate;
+                    const isEventOngoing = today >= startDate && today <= effectiveEndDate;
+
                     if (isEventOngoing) {
                         status = "진행 중";
                         statusColor = "text-green-400";
+                    } else if (effectiveEndDate < today) {
+                        status = "종료";
+                        statusColor = "text-gray-500";
                     } else {
                         const diffTime = startDate.getTime() - today.getTime();
                         const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                        if (diffDays === 0) {
-                            status = "D-DAY";
-                            statusColor = "text-red-400";
-                        } else if (diffDays < 0) {
-                            status = "종료";
-                            statusColor = "text-gray-500";
-                        } else {
-                            status = `D-${diffDays}`;
-                            statusColor = "text-cyan-400";
-                        }
+                        status = diffDays === 0 ? "D-DAY" : `D-${diffDays}`;
+                        statusColor = diffDays === 0 ? "text-red-400" : "text-cyan-400";
                     }
 
                     const dateDisplay = endDate ? `${event.eventStartDate} ~ ${event.eventEndDate}` : event.eventStartDate;
