@@ -1,298 +1,140 @@
 "use client";
 
-import {useEffect, useRef, useState} from 'react';
-import {FaSpotify, FaYoutube} from 'react-icons/fa6';
-import Image from 'next/image';
-import Link from 'next/link';
-import {AlertTriangle, Clock, Eye, Headphones, Music4} from 'lucide-react';
-import Pagination from "@/components/Pagination";
+import { useState, useEffect, useRef } from 'react';
+import { SongList } from '@/components/SongList';
+import { Song } from '@/types/song';
+import Pagination from '@/components/Pagination';
+import { FaExclamationTriangle } from 'react-icons/fa';
 
-// --- Types ---
-interface YouTubeItem {
-    id: { videoId: string };
-    snippet: {
-        title: string;
-        channelTitle: string;
-        thumbnails: { high: { url: string } };
-    };
-    statistics: { viewCount: string };
-    durationInSeconds?: number;
+interface VocaDbPv {
+    service: string;
+    url: string;
+    thumbUrl: string;
+    author: string;
 }
 
-interface SpotifyItem {
-    id: string;
+interface VocaDbArtistInfo {
+    categories: string;
     name: string;
-    artists: { name: string }[];
-    album: { name: string, images: { url: string }[] };
-    external_urls: { spotify: string };
-    popularity?: number;
-    duration_ms?: number;
 }
 
-const ITEMS_PER_PAGE = 10;
-
-// --- Helper Functions ---
-const decodeHtmlEntities = (text: string): string => {
-    if (typeof window === 'undefined') {
-        return text.replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-    }
-    const parser = new DOMParser();
-    const doc = parser.parseFromString(text, 'text/html');
-    return doc.documentElement.textContent || '';
-};
-
-const formatViewCount = (count: string) => {
-    const num = parseInt(count, 10);
-    if (num >= 100000000) return `${(num / 100000000).toFixed(1)}억`;
-    if (num >= 10000) return `${(num / 10000).toFixed(0)}만`;
-    return num.toLocaleString();
-};
-
-const formatYouTubeDuration = (totalSeconds: number | undefined) => {
-    if (totalSeconds === undefined) return "0:00";
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${String(seconds).padStart(2, '0')}`;
-};
-
-const formatSpotifyDuration = (ms: number | undefined) => {
-    if (ms === undefined) return "0:00";
-    const totalSeconds = Math.floor(ms / 1000);
-    const minutes = Math.floor(totalSeconds / 60);
-    const seconds = totalSeconds % 60;
-    return `${minutes}:${String(seconds).padStart(2, '0')}`;
-};
-
-// A new normalized type for display
-interface DisplayItem {
-    id: string;
-    href: string;
-    imageUrl: string;
-    title: string;
-    artist: string;
-    albumName?: string;
-    duration: string;
-    views?: string;
-    popularity?: number;
+interface VocaDbSong {
+    id: number;
+    name: string;
+    artistString: string;
+    artists: VocaDbArtistInfo[];
+    pvs: VocaDbPv[];
 }
 
-// --- Loading Error Component ---
-const LoadingError = ({message}: { message: string }) => (
-    <div
-        className="flex flex-col items-center justify-center gap-4 rounded-2xl bg-white/[.03] p-8 border border-dashed border-white/20 text-center">
-        <AlertTriangle className="text-yellow-400" size={40}/>
-        <p className="text-gray-300">랭킹 정보를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요.</p>
-    </div>
-);
+const ITEMS_PER_PAGE = 12;
 
-
-// --- Reusable Ranking List Component (Updated Design) ---
-const RankingList = ({items, page}: { items: DisplayItem[]; page: number }) => {
-    if (!items || items.length === 0) {
-        return <LoadingError message="랭킹 정보를 불러오는 데 실패했습니다. 잠시 후 다시 시도해 주세요."/>;
-    }
-
-    return (
-        <ul className="space-y-4">
-            {items.map((item, index) => {
-                const rank = (page - 1) * ITEMS_PER_PAGE + index + 1;
-
-                return (
-                    <li key={item.id}>
-                        <Link href={item.href} target="_blank" rel="noopener noreferrer"
-                              className="flex items-center gap-4 rounded-2xl bg-white/[.03] p-3 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:shadow-lg hover:border-white/20 hover:-translate-y-1">
-
-                            {/* Rank */}
-                            <div
-                                className="w-12 text-center text-2xl font-bold text-gray-400 flex-shrink-0">{rank}</div>
-
-                            {/* Image */}
-                            <div
-                                className="relative w-16 h-16 md:w-28 md:h-16 flex-shrink-0 overflow-hidden rounded-lg group">
-                                <Image
-                                    src={item.imageUrl}
-                                    alt={item.title}
-                                    fill
-                                    sizes="(max-width: 768px) 64px, 112px"
-                                    unoptimized={true}
-                                    className="object-cover transition-transform duration-300 group-hover:scale-110"
-                                />
-                                <div
-                                    className="absolute inset-0 bg-black/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <Music4 className="text-white" size={32}/>
-                                </div>
-                            </div>
-
-                            {/* Main content wrapper */}
-                            <div className="flex-grow flex flex-col md:flex-row md:justify-between md:items-end min-w-0">
-                                {/* Left side: Info */}
-                                <div className="flex flex-col min-w-0 md:pr-4">
-                                    <p className="truncate font-medium text-white text-base md:text-lg">
-                                        {item.title}
-                                    </p>
-                                    <p className="truncate text-sm text-gray-300 mt-1">
-                                        {item.artist}
-                                    </p>
-                                    {item.albumName && (
-                                        <p className="truncate text-xs text-gray-400 mt-1 hidden md:block">
-                                            {item.albumName}
-                                        </p>
-                                    )}
-                                </div>
-
-                                {/* Right side: Stats (as a row) */}
-                                <div
-                                    className="flex-shrink-0 flex items-center gap-3 text-xs text-gray-300 mt-2 md:mt-0">
-                                    <div
-                                        className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
-                                        <Clock size={14}/>
-                                        <span>{item.duration}</span>
-                                    </div>
-                                    {item.views && (
-                                        <div
-                                            className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
-                                            <Eye size={14}/>
-                                            <span>{item.views}</span>
-                                        </div>
-                                    )}
-                                    {item.popularity !== undefined && (
-                                        <div
-                                            className="flex items-center font-bold gap-1.5 rounded-full bg-white/10 px-2.5 py-1">
-                                            <Headphones size={14}/>
-                                            <span>{item.popularity}</span>
-                                        </div>
-                                    )}
-                                </div>
-                            </div>
-                        </Link>
-                    </li>
-                );
-            })}
-        </ul>
-    );
+const getYouTubeId = (url: string): string | null => {
+    const regex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/;
+    const match = url.match(regex);
+    return match ? match[1] : null;
 };
 
+const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
+    return items.map((item, index) => {
+        const producer = item.artists?.find(artist => artist.categories === 'Producer');
+        const artistName = producer ? producer.name : item.artistString;
 
-// --- Main Music Page Component ---
-export default function MusicPage() {
-    const [platform, setPlatform] = useState<'youtube' | 'spotify'>('youtube');
-    const [rankings, setRankings] = useState<{ youtube: YouTubeItem[]; spotify: SpotifyItem[] }>({
-        youtube: [],
-        spotify: []
+        let targetPv: VocaDbPv | undefined;
+        const youtubePvs = item.pvs?.filter(pv => pv.service === 'Youtube') || [];
+        
+        targetPv = youtubePvs.find(pv => pv.author && !pv.author.includes('Topic'));
+
+        if (!targetPv && youtubePvs.length > 0) {
+            targetPv = youtubePvs[0];
+        }
+
+        if (!targetPv) {
+            targetPv = item.pvs?.find(pv => pv.service === 'NicoNicoDouga');
+        }
+
+        const youtubeId = (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) : null;
+
+        const thumbnailUrl = youtubeId
+            ? `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`
+            : targetPv?.thumbUrl || '';
+
+        return {
+            rank: index + 1,
+            title: item.name,
+            artist: artistName,
+            thumbnailUrl: thumbnailUrl,
+            platformId: youtubeId || '',
+            duration: 'N/A',
+        };
     });
+};
+
+export default function MusicPage() {
+    const [songs, setSongs] = useState<Song[]>([]);
     const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(false);
     const [currentPage, setCurrentPage] = useState(1);
     const mainRef = useRef<HTMLElement>(null);
-    const isInitialMount = useRef(true);
 
     useEffect(() => {
-        const fetchData = async () => {
+        const fetchSongs = async () => {
             try {
-                setLoading(true);
-                const [youtubeRes, spotifyRes] = await Promise.all([
-                    fetch('/api/youtube-ranking'),
-                    fetch('/api/spotify-ranking'),
-                ]);
-                const youtubeData = await youtubeRes.json();
-                const spotifyData = await spotifyRes.json();
-                setRankings({youtube: youtubeData.items || [], spotify: spotifyData.data?.items || []});
-            } catch (error) {
-                console.error("Failed to fetch rankings:", error);
+                const res = await fetch('/api/vocadb-ranking');
+                if (!res.ok) {
+                    throw new Error(`API call failed: ${res.statusText}`);
+                }
+                const data = await res.json();
+                setSongs(transformVocaDbData(data.items));
+            } catch (err) {
+                console.error('Failed to fetch VocaDB songs:', err);
+                setError(true);
             } finally {
                 setLoading(false);
             }
         };
-        fetchData();
+
+        fetchSongs();
     }, []);
 
     useEffect(() => {
-        if (isInitialMount.current) {
-            isInitialMount.current = false;
-        } else if (mainRef.current) {
-            mainRef.current.scrollIntoView({behavior: 'smooth', block: 'start'});
+        if (mainRef.current) {
+            mainRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
         }
-    }, [currentPage, platform]);
+    }, [currentPage]);
 
-    const handlePlatformChange = (p: 'youtube' | 'spotify') => {
-        setPlatform(p);
-        setCurrentPage(1);
-    };
-
-    const totalPages = Math.ceil((platform === 'youtube' ? rankings.youtube.length : rankings.spotify.length) / ITEMS_PER_PAGE);
-
-    let displayedItems: DisplayItem[];
-    if (platform === 'youtube') {
-        const paginatedYouTubeItems = rankings.youtube.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
-        displayedItems = paginatedYouTubeItems.map(item => ({
-            id: item.id.videoId,
-            href: `https://www.youtube.com/watch?v=${item.id.videoId}`,
-            imageUrl: item.snippet.thumbnails.high.url,
-            title: decodeHtmlEntities(item.snippet.title),
-            artist: item.snippet.channelTitle,
-            duration: formatYouTubeDuration(item.durationInSeconds),
-            views: formatViewCount(item.statistics.viewCount),
-        }));
-    } else {
-        const paginatedSpotifyItems = rankings.spotify.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
-        displayedItems = paginatedSpotifyItems.map(item => ({
-            id: item.id,
-            href: item.external_urls.spotify,
-            imageUrl: item.album.images[0].url,
-            title: decodeHtmlEntities(item.name),
-            artist: item.artists.map(a => a.name).join(', '),
-            albumName: item.album.name,
-            duration: formatSpotifyDuration(item.duration_ms),
-            popularity: item.popularity,
-        }));
-    }
+    const totalPages = Math.ceil(songs.length / ITEMS_PER_PAGE);
+    const paginatedSongs = songs.slice((currentPage - 1) * ITEMS_PER_PAGE, currentPage * ITEMS_PER_PAGE);
 
     return (
-        <main ref={mainRef} className="mx-auto max-w-4xl py-12 px-4 scroll-mt-20">
+        <main ref={mainRef} className="mx-auto max-w-6xl py-12 px-4 scroll-mt-20">
             <div className="text-center mb-12">
                 <h1 className="text-4xl font-bold text-white mb-4">보컬로이드 음악 랭킹</h1>
-                <p className="text-lg text-gray-300">각 플랫폼의 인기 보컬로이드 음악 랭킹을 제공하고 있습니다.</p>
+                <p className="text-lg text-gray-300">인기 있는 신곡 보컬로이드 랭킹을 제공하고 있습니다.</p>
             </div>
 
-            {/* Platform Tabs */}
-            <div className="mb-8 flex justify-center">
-                <div className="relative flex w-full max-w-xs items-center rounded-full bg-black/25">
-                    <div
-                        className={`absolute h-full w-1/2 rounded-full transition-transform duration-300 ease-in-out
-              ${platform === 'youtube' ? 'translate-x-0 bg-red-500' : 'translate-x-full bg-green-500'}`}
-                    />
-                    <button
-                        onClick={() => handlePlatformChange('youtube')}
-                        className="relative z-10 flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-center font-semibold transition-colors"
-                    >
-                        <FaYoutube size={22} className={platform === 'youtube' ? 'text-white' : 'text-red-500'}/>
-                        <span className={platform === 'youtube' ? 'text-white' : 'text-gray-300'}>YouTube</span>
-                    </button>
-                    <button
-                        onClick={() => handlePlatformChange('spotify')}
-                        className="relative z-10 flex flex-1 items-center justify-center gap-2 rounded-full py-2.5 text-center font-semibold transition-colors"
-                    >
-                        <FaSpotify size={22} className={platform === 'spotify' ? 'text-white' : 'text-green-500'}/>
-                        <span className={platform === 'spotify' ? 'text-white' : 'text-gray-300'}>Spotify</span>
-                    </button>
+            {loading ? (
+                <p className="text-white text-center">랭킹을 불러오는 중입니다...</p>
+            ) : error ? (
+                <div className="flex flex-col items-center justify-center min-h-[240px] text-white bg-gray-800/5 rounded-lg p-4">
+                    <FaExclamationTriangle className="w-8 h-8 text-yellow-400 mb-2" />
+                    <p className="font-semibold">VocaDB 오류</p>
+                    <p className="text-sm text-gray-400">API 오류로 VocaDB 데이터를 가져오지 못했습니다.</p>
                 </div>
-            </div>
-
-            {/* Rankings Display */}
-            <div>
-                {loading ? (
-                    <p className="text-center text-white">랭킹을 불러오는 중입니다...</p>
-                ) : (
-                    <RankingList items={displayedItems} page={currentPage}/>
-                )}
-            </div>
-
-            {/* Pagination Controls */}
-            {!loading && totalPages > 1 && (
-                <Pagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={setCurrentPage}
-                />
+            ) : (
+                <>
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                        {paginatedSongs.map((song) => (
+                            <SongList key={song.rank} song={song}/>
+                        ))}
+                    </div>
+                    {totalPages > 1 && (
+                        <Pagination
+                            currentPage={currentPage}
+                            totalPages={totalPages}
+                            onPageChange={setCurrentPage}
+                        />
+                    )}
+                </>
             )}
         </main>
     );
