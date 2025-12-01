@@ -5,7 +5,6 @@ import { SongList } from '@/components/SongList';
 import { Song } from '@/types/song';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
-// #region VocaDB Type Definitions
 interface VocaDbPv {
     service: string;
     url: string;
@@ -25,7 +24,6 @@ interface VocaDbSong {
     artists: VocaDbArtistInfo[];
     pvs: VocaDbPv[];
 }
-// #endregion
 
 const getYouTubeId = (url: string): string | null => {
     const regex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/;
@@ -33,8 +31,8 @@ const getYouTubeId = (url: string): string | null => {
     return match ? match[1] : null;
 };
 
-const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
-    return items.slice(0, 20).map((item, index) => {
+const transformVocaDbData = (items: VocaDbSong[], limit: number): Song[] => {
+    return items.slice(0, limit).map((item, index) => {
         const producer = item.artists?.find(artist => artist.categories === 'Producer');
         const artistName = producer ? producer.name : item.artistString;
 
@@ -68,7 +66,7 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
     });
 };
 
-export function VocaDbRanking() {
+export function VocaDbRanking({ limit = 10 }: { limit?: number }) {
     const [songs, setSongs] = useState<Song[]>([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(false);
@@ -81,7 +79,7 @@ export function VocaDbRanking() {
                     throw new Error(`API call failed: ${res.statusText}`);
                 }
                 const data = await res.json();
-                setSongs(transformVocaDbData(data.items));
+                setSongs(transformVocaDbData(data.items, limit));
             } catch (err) {
                 console.error('Failed to fetch VocaDB songs:', err);
                 setError(true);
@@ -91,7 +89,7 @@ export function VocaDbRanking() {
         };
 
         fetchSongs();
-    }, []);
+    }, [limit]);
 
     if (loading) {
         return <p className="text-white text-center">Loading VocaDB ranking...</p>;
@@ -108,7 +106,7 @@ export function VocaDbRanking() {
     }
 
     return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {songs.map((song) => (
                 <SongList key={song.rank} song={song} platformType="youtube" />
             ))}
