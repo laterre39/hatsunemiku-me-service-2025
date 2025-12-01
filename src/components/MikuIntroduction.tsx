@@ -1,10 +1,11 @@
 import Image from 'next/image';
+import { differenceInDays } from 'date-fns';
+import { getTodayInKST, getMikuBirthdayInJST } from '@/lib/dateUtils';
 
-// 미쿠 탄생일로부터 경과 일수 계산
-const mikuBirthday = new Date('2007-08-31');
-const today = new Date();
-const diffTime = Math.abs(today.getTime() - mikuBirthday.getTime());
-const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+const todayInJST = getTodayInKST();
+const mikuBirthdayInJST = getMikuBirthdayInJST();
+
+const diffDays = differenceInDays(todayInJST, mikuBirthdayInJST) + 1;
 
 export function MikuIntroduction() {
   return (
