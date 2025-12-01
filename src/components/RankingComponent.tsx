@@ -7,7 +7,7 @@ import { ArrowRight } from "lucide-react";
 export function RankingComponent() {
     return (
         <div>
-            <VocaDbRanking/>
+            <VocaDbRanking limit={12} />
             <div className="flex justify-end mt-6 text-center">
                 <Link href="/music"
                       className="inline-flex items-center gap-2 rounded-lg bg-white/5 px-6 py-3 font-semibold text-white transition-colors hover:bg-white/10">
