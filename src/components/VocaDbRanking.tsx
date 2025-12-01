@@ -108,7 +108,7 @@ export function VocaDbRanking({ limit = 10 }: { limit?: number }) {
     return (
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             {songs.map((song) => (
-                <SongList key={song.rank} song={song} platformType="youtube" />
+                <SongList key={song.rank} song={song}/>
             ))}
         </div>
     );
