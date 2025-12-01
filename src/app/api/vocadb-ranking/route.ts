@@ -16,13 +16,13 @@ interface VocaDbSong {
         pvType: string;
         url: string;
         thumbUrl: string;
+        disabled: boolean;
     }>;
 }
 
 export async function GET() {
     const apiUrl = new URL('https://vocadb.net/api/songs');
     
-    // Parameters for the /api/songs endpoint
     apiUrl.searchParams.append('sort', 'RatingScore');
     apiUrl.searchParams.append('since', "2160");
     apiUrl.searchParams.append('pvServices', 'Youtube, NicoNicoDouga');
@@ -43,9 +43,13 @@ export async function GET() {
         }
 
         const data: { items: VocaDbSong[] } = await response.json();
-        const songs = data.items;
+        
+        const filteredSongs = data.items.map(song => ({
+            ...song,
+            pvs: song.pvs.filter(pv => !pv.disabled),
+        })).filter(song => song.pvs.length > 0);
 
-        const top50Songs = songs.slice(0, 50);
+        const top50Songs = filteredSongs.slice(0, 50);
 
         return NextResponse.json({
             lastUpdated: new Date().toISOString(),

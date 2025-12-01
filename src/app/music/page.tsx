@@ -55,7 +55,7 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
         const youtubeId = (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) : null;
 
         const thumbnailUrl = youtubeId
-            ? `https://i.ytimg.com/vi/${youtubeId}/maxresdefault.jpg`
+            ? `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`
             : targetPv?.thumbUrl || '';
 
         return {
