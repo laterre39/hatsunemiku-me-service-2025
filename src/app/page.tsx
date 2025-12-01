@@ -14,10 +14,10 @@ export default function Home() {
 
             {/* My Vocaloid Pick Section */}
             <section className="mx-auto max-w-5xl pb-24">
-                <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
+                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>My Vocaloid Pick</h2>
-                    <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 5개의 영상을 서비스 하고 있습니다."/>
+                    <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 20개의 영상을 서비스 하고 있습니다."/>
                 </div>
                 <YouTubeSlider/>
                 <div className="flex items-center justify-end gap-2 text-sm text-slate-400 mt-3">
@@ -28,27 +28,27 @@ export default function Home() {
 
             {/* Miku Introduction Section */}
             <section className="mx-auto max-w-5xl pb-24">
-                <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
+                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>About Hatsune Miku</h2>
-                    <Tooltip text="지금 바로 윤회! 이번에도 맺어지지 않네 🩵 거짓말하면 바늘 천 개, 맹세해 🩷 다음 생에서는 꼭 다시 만나자?"/>
+                    <Tooltip text="🍒 まじで 愛していい感 すきすき？ 恋していい感 すきすき？ どれみが怖いぞ チェリーチェリー そうでもない感 むりむり？ どうでもいい感 むりむり？ トゲみが怖いぞ ベイビーベイビー"/>
                 </div>
                 <MikuIntroduction/>
             </section>
 
             {/* Vocaloid Ranking Section */}
             <section className="mx-auto max-w-5xl pb-24">
-                <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
+                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>Vocaloid Ranking</h2>
-                    <Tooltip text="유튜브와 스포티파이에서 특정 알고리즘을 통해 3개월 간의 보컬로이드 랭킹을 가져와서 집계하고 있습니다."/>
+                    <Tooltip text="보컬로이드 신곡 랭킹을 집계해서 제공하고 있습니다 [VocaDB 제공]"/>
                 </div>
                 <RankingComponent/>
             </section>
 
             {/* Vocaloid Event Schedule Section */}
             <section className="mx-auto max-w-5xl pb-24">
-                <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
+                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>Vocaloid Event Schedule</h2>
                     <Tooltip text="올해의 보컬로이드 관련 이벤트 스케쥴을 안내합니다."/>
@@ -58,7 +58,7 @@ export default function Home() {
 
             {/* Vocaloid Community Section */}
             <section className="mx-auto max-w-5xl pb-24">
-                <div className="flex items-center mb-4 gap-2 font-bold text-2xl text-white">
+                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
                     <AudioLines/>
                     <h2>Vocaloid Community</h2>
                     <Tooltip text="국내 보컬로이드 커뮤니티를 소개합니다."/>
