@@ -26,6 +26,7 @@ export async function GET() {
     
     apiUrl.searchParams.append('sort', 'RatingScore');
     apiUrl.searchParams.append('since', "2160");
+    apiUrl.searchParams.append('songTypes', 'Original, Remix, Remaster');
     apiUrl.searchParams.append('pvServices', 'Youtube, NicoNicoDouga');
     apiUrl.searchParams.append('fields', 'Artists, PVs');
     apiUrl.searchParams.append('maxResults', '50');
