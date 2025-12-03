@@ -11,6 +11,7 @@ interface VocaDbSong {
     thumbUrl: string;
     publishDate: string;
     songType: string;
+    lengthSeconds: number;
     pvs: Array<{
         service: string;
         pvType: string;
