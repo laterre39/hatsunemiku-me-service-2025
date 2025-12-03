@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef } from 'react';
-import { SongList } from '@/components/SongList';
+import { SongCard } from '@/components/SongCard';
 import { Song } from '@/types/song';
 import Pagination from '@/components/Pagination';
 import { FaExclamationTriangle } from 'react-icons/fa';
@@ -24,6 +24,7 @@ interface VocaDbSong {
     artistString: string;
     artists: VocaDbArtistInfo[];
     pvs: VocaDbPv[];
+    lengthSeconds: number;
 }
 
 const ITEMS_PER_PAGE = 12;
@@ -32,6 +33,13 @@ const getYouTubeId = (url: string): string | null => {
     const regex = /(?:youtube\.com\/(?:[^/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?/ ]{11})/;
     const match = url.match(regex);
     return match ? match[1] : null;
+};
+
+const formatDuration = (totalSeconds: number): string => {
+    if (isNaN(totalSeconds) || totalSeconds < 0) return "0:00";
+    const minutes = Math.floor(totalSeconds / 60);
+    const seconds = totalSeconds % 60;
+    return `${minutes}:${String(seconds).padStart(2, '0')}`;
 };
 
 const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
@@ -64,7 +72,7 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
             artist: artistName,
             thumbnailUrl: thumbnailUrl,
             platformId: youtubeId || '',
-            duration: 'N/A',
+            duration: formatDuration(item.lengthSeconds),
         };
     });
 };
@@ -122,9 +130,9 @@ export default function MusicPage() {
                 </div>
             ) : (
                 <>
-                    <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+                    <div className="grid grid-cols-2 md:grid-cols-3 gap-x-6 gap-y-10">
                         {paginatedSongs.map((song) => (
-                            <SongList key={song.rank} song={song}/>
+                            <SongCard key={song.rank} song={song}/>
                         ))}
                     </div>
                     {totalPages > 1 && (
