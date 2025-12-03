@@ -6,7 +6,8 @@ import {
   Users,
   User,
   AudioLines,
-  Sparkles
+  Sparkles,
+  Link as LinkIcon
 } from 'lucide-react';
 import { FaFacebook, FaInstagram, FaXTwitter, FaGithub } from "react-icons/fa6";
 import { SiNextdotjs, SiReact, SiTypescript, SiTailwindcss, SiVercel } from "react-icons/si";
@@ -72,6 +73,8 @@ const getSocialIcon = (type: string) => {
       return <FaFacebook {...iconProps} />;
     case 'github':
       return <FaGithub {...iconProps} />;
+    case 'link':
+      return <LinkIcon {...iconProps} />;
     default:
       return <ExternalLink {...iconProps} />;
   }
@@ -82,25 +85,28 @@ export default function AboutPage() {
     {
       name: 'MIKUMIKU',
       role: 'Project Lead & Developer',
-      avatarUrl: '',
+      avatarUrl: '/about/miku_profile.png',
+      description: '하츠네 미쿠를 사랑하는 마음으로 프로젝트를 시작했습니다. 모두가 즐길 수 있는 공간이 되길 바랍니다.',
       socials: [
-        { type: 'x', url: 'https://x.com/your-profile' },
+        { type: 'link', url: 'https://hatsunemiku.me/' },
       ]
     },
     {
       name: 'JOWON',
       role: 'Developer',
-      avatarUrl: '',
+      avatarUrl: '/about/miku_profile.png',
+      description: '미쿠의 목소리가 더 많은 사람들에게 닿을 수 있도록, 안정적인 서비스를 위해 노력하겠습니다.',
       socials: [
-        { type: 'x', url: 'https://x.com/your-profile' },
+        { type: 'link', url: 'https://hatsunemiku.me/' },
       ]
     },
     {
-      name: '初音ミク',
-      role: 'Hatsune Miku',
+      name: '치즈나베',
+      role: 'Developer',
       avatarUrl: '/about/miku_profile.png',
+      description: '보컬로이드 씬의 즐거움을 함께 나누고 싶습니다. 기술로써 그 마음에 기여합니다.',
       socials: [
-        { type: 'x', url: 'https://x.com/cfm_miku_en' },
+        { type: 'link', url: 'https://hatsunemiku.me/' },
       ]
     },
   ];
@@ -128,8 +134,8 @@ export default function AboutPage() {
           <SectionCard icon={<Heart size={24} className="text-red-400"/>} title="프로젝트 소개">
             <p>
               이 프로젝트는 하츠네 미쿠와 보컬로이드 음악을 사랑하는 팬들을 위한 비영리 팬 프로젝트입니다.
-              <br/><br/>
               흩어져 있는 다양한 정보를 한곳에 모아 한국 팬들이 보다 쉽고 깊이 있게 보컬로이드 문화를 즐길 수 있도록 돕는 것을 목표로 하고 있습니다.
+              앞으로의 활동 많은 기대 부탁드립니다.
             </p>
           </SectionCard>
 
@@ -171,7 +177,8 @@ export default function AboutPage() {
                     </div>
                     <h4 className="mt-4 text-lg font-bold text-white">{member.name}</h4>
                     <p className="text-sm text-cyan-400">{member.role}</p>
-                    <div className="mt-2 flex justify-center gap-2">
+                    <p className="mt-4 text-sm text-slate-300 min-h-[40px]">{member.description}</p>
+                    <div className="mt-4 flex justify-center gap-2">
                       {member.socials.map(social => (
                           <a key={social.type} href={social.url} target="_blank"
                              rel="noopener noreferrer" className="p-1">
