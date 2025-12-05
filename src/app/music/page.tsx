@@ -2,15 +2,18 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { SongCard } from '@/components/SongCard';
-import { Song } from '@/types/song';
+import { Song, Pv } from '@/types/song';
 import Pagination from '@/components/Pagination';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
 interface VocaDbPv {
+    id: number;
     service: string;
     url: string;
     thumbUrl: string;
     author: string;
+    disabled: boolean;
+    pvType: string;
 }
 
 interface VocaDbArtistInfo {
@@ -66,6 +69,22 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
             ? `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`
             : targetPv?.thumbUrl || '';
 
+
+        const validPvs = item.pvs.filter(pv => 
+            !pv.disabled && 
+            pv.pvType === 'Original' &&
+            !pv.author.includes('- Topic')
+        );
+
+
+        const uniquePvs = Array.from(new Map(validPvs.map(pv => [pv.service, pv])).values());
+
+        const activePvs: Pv[] = uniquePvs.map(pv => ({
+            id: pv.id,
+            service: pv.service,
+            url: pv.url
+        }));
+
         return {
             rank: index + 1,
             title: item.name,
@@ -73,6 +92,7 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
             thumbnailUrl: thumbnailUrl,
             platformId: youtubeId || '',
             duration: formatDuration(item.lengthSeconds),
+            pvs: activePvs,
         };
     });
 };
@@ -135,6 +155,7 @@ export default function MusicPage() {
                             <SongCard key={song.rank} song={song}/>
                         ))}
                     </div>
+
                     {totalPages > 1 && (
                         <Pagination
                             currentPage={currentPage}
