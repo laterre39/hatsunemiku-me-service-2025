@@ -124,6 +124,9 @@ export function Footer() {
                   This is a non-commercial fan-made website. All characters, music, and other trademarks/copyrights
                   are the property of their respective owners, including Crypton Future Media, INC.
                 </p>
+                <p className="mt-2 text-xs text-gray-500">
+                  Ranking data is provided under the <a href="https://wiki.vocadb.net/docs/license" target="_blank" rel="noopener noreferrer" className="text-cyan-600 hover:underline">Creative Commons Attribution license</a> by <a href="https://vocadb.net/" target="_blank" rel="noopener noreferrer" className="text-cyan-600 hover:underline">VocaDB</a>.
+                </p>
               </div>
             </div>
 
