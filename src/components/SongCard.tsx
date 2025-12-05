@@ -21,7 +21,6 @@ const platformIcons: { [key: string]: React.ReactElement } = {
     Vimeo: <FaVimeo />,
 };
 
-// 플랫폼 우선순위 (정렬용)
 const platformOrder: { [key: string]: number } = {
     Youtube: 1,
     NicoNicoDouga: 2,
@@ -80,7 +79,7 @@ const getRankBorderStyle = (rank: number): string => {
         case 3:
             return 'border-slate-400';
         default:
-            return 'border-transparent';
+            return 'border-white/30';
     }
 };
 
@@ -105,7 +104,7 @@ export function SongCard({ song }: SongCardProps) {
 
     return (
         <div className="group flex flex-col h-full">
-            <Link href={platformLink} target="_blank" rel="noopener noreferrer" className="relative w-full aspect-video rounded-lg overflow-hidden border-2 transition-transform duration-300 hover:-translate-y-1 ${rankBorderStyle}">
+            <Link href={platformLink} target="_blank" rel="noopener noreferrer" className={`relative w-full aspect-video rounded-lg overflow-hidden border-2 ${rankBorderStyle} transition-all duration-300 hover:-translate-y-1`}>
                 {/* Image Section */}
                 {!imageError ? (
                     <Image
