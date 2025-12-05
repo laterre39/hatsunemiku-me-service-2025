@@ -62,6 +62,7 @@ const transformVocaDbData = (items: VocaDbSong[], limit: number): Song[] => {
             thumbnailUrl: thumbnailUrl,
             platformId: youtubeId || '',
             duration: 'N/A',
+            pvs: [],
         };
     });
 };
