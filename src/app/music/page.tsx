@@ -51,16 +51,24 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
         const artistName = producer ? producer.name : item.artistString;
 
         let targetPv: VocaDbPv | undefined;
-        const youtubePvs = item.pvs?.filter(pv => pv.service === 'Youtube') || [];
-        
-        targetPv = youtubePvs.find(pv => pv.author && !pv.author.includes('Topic'));
+        const enabledPvs = item.pvs.filter(pv => !pv.disabled);
 
-        if (!targetPv && youtubePvs.length > 0) {
-            targetPv = youtubePvs[0];
+        targetPv = enabledPvs.find(pv => pv.service === 'Youtube' && pv.pvType === 'Original' && !pv.author.includes('Topic'));
+
+        if (!targetPv) {
+            targetPv = enabledPvs.find(pv => pv.service === 'NicoNicoDouga' && pv.pvType === 'Original');
         }
 
         if (!targetPv) {
-            targetPv = item.pvs?.find(pv => pv.service === 'NicoNicoDouga');
+            targetPv = enabledPvs.find(pv => pv.service === 'Youtube' && !pv.author.includes('Topic'));
+        }
+        
+        if (!targetPv) {
+            targetPv = enabledPvs.find(pv => pv.service === 'NicoNicoDouga');
+        }
+
+        if (!targetPv && enabledPvs.length > 0) {
+            targetPv = enabledPvs[0];
         }
 
         const youtubeId = (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) : null;
@@ -69,16 +77,12 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
             ? `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`
             : targetPv?.thumbUrl || '';
 
-
-        const validPvs = item.pvs.filter(pv => 
+        const validPvs = item.pvs.filter(pv =>
             !pv.disabled && 
             pv.pvType === 'Original' &&
             !pv.author.includes('- Topic')
         );
-
-
         const uniquePvs = Array.from(new Map(validPvs.map(pv => [pv.service, pv])).values());
-
         const activePvs: Pv[] = uniquePvs.map(pv => ({
             id: pv.id,
             service: pv.service,
@@ -90,7 +94,7 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
             title: item.name,
             artist: artistName,
             thumbnailUrl: thumbnailUrl,
-            platformId: youtubeId || '',
+            platformId: (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) || '' : '',
             duration: formatDuration(item.lengthSeconds),
             pvs: activePvs,
         };
