@@ -3,10 +3,10 @@ import { NextResponse } from 'next/server';
 // Revalidate at most every 6 hours
 export const revalidate = 21600;
 
-// VocaDB API에서 사용하는 노래 타입 정의
 interface VocaDbSong {
     id: number;
     name: string;
+    defaultName: string;
     artistString: string;
     thumbUrl: string;
     publishDate: string;
@@ -29,7 +29,7 @@ export async function GET() {
     apiUrl.searchParams.append('songTypes', 'Original, Remix, Remaster');
     apiUrl.searchParams.append('pvServices', 'Youtube, NicoNicoDouga');
     apiUrl.searchParams.append('fields', 'Artists, PVs');
-    apiUrl.searchParams.append('maxResults', '50');
+    apiUrl.searchParams.append('maxResults', '100');
 
     try {
         const response = await fetch(apiUrl.toString(), {
@@ -46,12 +46,25 @@ export async function GET() {
 
         const data: { items: VocaDbSong[] } = await response.json();
         
-        const filteredSongs = data.items.map(song => ({
-            ...song,
-            pvs: song.pvs.filter(pv => !pv.disabled),
-        })).filter(song => song.pvs.length > 0);
+        const uniqueSongs = [];
+        const seenNames = new Set();
 
-        const top50Songs = filteredSongs.slice(0, 50);
+        for (const song of data.items) {
+            const normalizedName = song.defaultName.trim().toLowerCase();
+            if (!seenNames.has(normalizedName)) {
+                uniqueSongs.push(song);
+                seenNames.add(normalizedName);
+            }
+        }
+
+        const songsWithValidPvs = uniqueSongs
+            .map(song => ({
+                ...song,
+                pvs: song.pvs.filter(pv => !pv.disabled),
+            }))
+            .filter(song => song.pvs.length > 0);
+
+        const top50Songs = songsWithValidPvs.slice(0, 50);
 
         return NextResponse.json({
             lastUpdated: new Date().toISOString(),
