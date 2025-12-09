@@ -5,6 +5,7 @@
 import crypto from 'crypto';
 import * as cheerio from 'cheerio';
 import prisma from './prisma';
+import { VocaNews } from "@prisma/client";
 
 // ==================== RSS 피드 URL ====================
 const MIKU_RSS_URL = 'https://news.google.com/rss/search?q=%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF&hl=ja&gl=JP&ceid=JP:ja';
@@ -138,7 +139,7 @@ export async function getNewsFromDatabase(category: 'hatsuneMiku' | 'vocaloid'):
       orderBy: { date: 'desc' },
     });
 
-    return dbItems.map((item) => ({
+    return dbItems.map((item: VocaNews) => ({
       id: item.id,
       date: item.date.toISOString().split('T')[0],
       htmlContent: item.title_jp,
