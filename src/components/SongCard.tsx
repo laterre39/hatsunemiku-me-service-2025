@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Song } from '@/types/song';
 import Link from 'next/link';
 import { Crown, ImageOff, Clock } from 'lucide-react';
-import { FaYoutube, FaSoundcloud, FaBandcamp, FaVimeo, FaSpotify } from "react-icons/fa";
+import { FaYoutube, FaSpotify } from "react-icons/fa";
 import { SiNiconico, SiBilibili } from "react-icons/si";
 
 interface SongCardProps {
@@ -16,20 +16,21 @@ const platformIcons: { [key: string]: React.ReactElement } = {
     Youtube: <FaYoutube />,
     NicoNicoDouga: <SiNiconico />,
     Bilibili: <SiBilibili />,
-    SoundCloud: <FaSoundcloud />,
-    Bandcamp: <FaBandcamp />,
-    Vimeo: <FaVimeo />,
     Spotify: <FaSpotify />,
 };
 
 const platformOrder: { [key: string]: number } = {
     Youtube: 1,
     NicoNicoDouga: 2,
-    Bilibili: 3,
-    SoundCloud: 4,
-    Spotify: 5,
-    Bandcamp: 6,
-    Vimeo: 7,
+    Spotify: 3,
+    Bilibili: 4,
+};
+
+const platformColors: { [key: string]: string } = {
+    Youtube: 'hover:text-red-500',
+    NicoNicoDouga: 'hover:text-white',
+    Bilibili: 'hover:text-blue-400',
+    Spotify: 'hover:text-green-500',
 };
 
 const FallbackThumbnail = (): React.JSX.Element => (
@@ -90,6 +91,7 @@ export function SongCard({ song }: SongCardProps) {
 
     return (
         <div className="group flex flex-col h-full">
+            {/* Image Section (Link) */}
             <Link href={platformLink} target="_blank" rel="noopener noreferrer" className={`relative w-full aspect-video rounded-lg overflow-hidden border-2 ${rankBorderStyle} transition-all duration-300 hover:-translate-y-1`}>
                 {!imageError ? (
                     <Image src={imageUrl} alt={song.title} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-300 group-hover:scale-105" onError={handleImageError} unoptimized={imageUrl.includes('nicovideo') || imageUrl.includes('ytimg')} />
@@ -97,22 +99,28 @@ export function SongCard({ song }: SongCardProps) {
                 <RankBadge rank={song.rank} />
             </Link>
 
+            {/* Text Section (No Link) */}
             <div className="pt-3 flex flex-col flex-grow">
                 <h3 className="font-semibold text-base text-white truncate" title={song.title}>{song.title}</h3>
                 <p className="text-sm text-gray-300 mt-1 truncate" title={song.artist}>{song.artist}</p>
                 
+                {/* Footer Section */}
                 <div className="flex items-center justify-between mt-auto pt-3">
-                    <div className="flex items-center gap-2">
+                    {/* Platform Icons */}
+                    <div className="flex items-center gap-1 bg-white/15 px-2 py-1 rounded-full">
                         {allLinks
                             .filter(link => platformIcons[link.service])
                             .sort((a, b) => (platformOrder[a.service] || 99) - (platformOrder[b.service] || 99))
                             .map(link => (
-                                <a href={link.url} key={link.id} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200 text-lg">
+                                <a href={link.url} key={link.id} target="_blank" rel="noopener noreferrer" 
+                                   className={`flex items-center justify-center w-6 h-6 text-gray-300 ${platformColors[link.service] || 'hover:text-white'} transition-all duration-200 text-base`}
+                                   title={`${link.service}(으)로 이동`}>
                                     {platformIcons[link.service]}
                                 </a>
                             ))}
                     </div>
-                    <div className="flex items-center gap-1 text-sm text-gray-300 flex-shrink-0">
+                    {/* Duration */}
+                    <div className="flex items-center gap-2 text-sm text-gray-300 bg-white/15 px-2 py-1 rounded-full">
                         <Clock size={14} />
                         <span>{song.duration}</span>
                     </div>
