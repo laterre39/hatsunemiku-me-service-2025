@@ -4,6 +4,11 @@ export interface Pv {
     url: string;
 }
 
+export interface WebLink {
+    description: string;
+    url: string;
+}
+
 export interface Song {
     rank: number;
     title: string;
@@ -13,4 +18,5 @@ export interface Song {
     thumbnailUrl: string;
     platformId: string;
     pvs: Pv[];
+    webLinks: WebLink[];
 }

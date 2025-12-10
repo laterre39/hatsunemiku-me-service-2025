@@ -19,6 +19,12 @@ interface VocaDbSong {
         thumbUrl: string;
         disabled: boolean;
     }>;
+    webLinks: Array<{ // webLinks 속성 추가
+        category: string;
+        description: string;
+        disabled: boolean;
+        url: string;
+    }>;
 }
 
 export async function GET() {
@@ -28,7 +34,7 @@ export async function GET() {
     apiUrl.searchParams.append('since', "2160");
     apiUrl.searchParams.append('songTypes', 'Original, Remix, Remaster');
     apiUrl.searchParams.append('pvServices', 'Youtube, NicoNicoDouga');
-    apiUrl.searchParams.append('fields', 'Artists, PVs');
+    apiUrl.searchParams.append('fields', 'Artists, PVs, WebLinks');
     apiUrl.searchParams.append('maxResults', '100');
 
     try {

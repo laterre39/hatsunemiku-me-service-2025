@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { SongCard } from '@/components/SongCard';
-import { Song, Pv } from '@/types/song';
+import { Song, Pv, WebLink } from '@/types/song';
 import Pagination from '@/components/Pagination';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
@@ -16,6 +16,12 @@ interface VocaDbPv {
     pvType: string;
 }
 
+interface VocaDbWebLink {
+    description: string;
+    disabled: boolean;
+    url: string;
+}
+
 interface VocaDbArtistInfo {
     categories: string;
     name: string;
@@ -27,6 +33,7 @@ interface VocaDbSong {
     artistString: string;
     artists: VocaDbArtistInfo[];
     pvs: VocaDbPv[];
+    webLinks: VocaDbWebLink[];
     lengthSeconds: number;
 }
 
@@ -54,40 +61,29 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
         const enabledPvs = item.pvs.filter(pv => !pv.disabled);
 
         targetPv = enabledPvs.find(pv => pv.service === 'Youtube' && pv.pvType === 'Original' && !pv.author.includes('Topic'));
-
         if (!targetPv) {
             targetPv = enabledPvs.find(pv => pv.service === 'NicoNicoDouga' && pv.pvType === 'Original');
         }
-
         if (!targetPv) {
             targetPv = enabledPvs.find(pv => pv.service === 'Youtube' && !pv.author.includes('Topic'));
         }
-        
         if (!targetPv) {
             targetPv = enabledPvs.find(pv => pv.service === 'NicoNicoDouga');
         }
-
         if (!targetPv && enabledPvs.length > 0) {
             targetPv = enabledPvs[0];
         }
 
         const youtubeId = (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) : null;
+        const thumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg` : targetPv?.thumbUrl || '';
 
-        const thumbnailUrl = youtubeId
-            ? `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`
-            : targetPv?.thumbUrl || '';
-
-        const validPvs = item.pvs.filter(pv =>
-            !pv.disabled && 
-            pv.pvType === 'Original' &&
-            !pv.author.includes('- Topic')
-        );
+        const validPvs = item.pvs.filter(pv => !pv.disabled && pv.pvType === 'Original' && !pv.author.includes('- Topic'));
         const uniquePvs = Array.from(new Map(validPvs.map(pv => [pv.service, pv])).values());
-        const activePvs: Pv[] = uniquePvs.map(pv => ({
-            id: pv.id,
-            service: pv.service,
-            url: pv.url
-        }));
+        const activePvs: Pv[] = uniquePvs.map(pv => ({ id: pv.id, service: pv.service, url: pv.url }));
+
+        const activeWebLinks: WebLink[] = (item.webLinks || [])
+            .filter(link => !link.disabled && link.description === 'Spotify')
+            .map(link => ({ description: link.description, url: link.url }));
 
         return {
             rank: index + 1,
@@ -97,6 +93,7 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
             platformId: (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) || '' : '',
             duration: formatDuration(item.lengthSeconds),
             pvs: activePvs,
+            webLinks: activeWebLinks,
         };
     });
 };
@@ -124,7 +121,6 @@ export default function MusicPage() {
                 setLoading(false);
             }
         };
-
         fetchSongs();
     }, []);
 

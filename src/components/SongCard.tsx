@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Song } from '@/types/song';
 import Link from 'next/link';
 import { Crown, ImageOff, Clock } from 'lucide-react';
-import { FaYoutube, FaSoundcloud, FaBandcamp, FaVimeo } from "react-icons/fa";
+import { FaYoutube, FaSoundcloud, FaBandcamp, FaVimeo, FaSpotify } from "react-icons/fa";
 import { SiNiconico, SiBilibili } from "react-icons/si";
 
 interface SongCardProps {
@@ -19,6 +19,7 @@ const platformIcons: { [key: string]: React.ReactElement } = {
     SoundCloud: <FaSoundcloud />,
     Bandcamp: <FaBandcamp />,
     Vimeo: <FaVimeo />,
+    Spotify: <FaSpotify />,
 };
 
 const platformOrder: { [key: string]: number } = {
@@ -26,8 +27,9 @@ const platformOrder: { [key: string]: number } = {
     NicoNicoDouga: 2,
     Bilibili: 3,
     SoundCloud: 4,
-    Bandcamp: 5,
-    Vimeo: 6,
+    Spotify: 5,
+    Bandcamp: 6,
+    Vimeo: 7,
 };
 
 const FallbackThumbnail = (): React.JSX.Element => (
@@ -38,30 +40,18 @@ const FallbackThumbnail = (): React.JSX.Element => (
 
 const RankBadge = ({ rank }: { rank: number }): React.JSX.Element => {
     const rankStyles: { [key: number]: { className: string; icon: React.JSX.Element } } = {
-        1: {
-            className: 'text-[#39C5BB]',
-            icon: <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} />,
-        },
-        2: {
-            className: 'text-[#FF7BAC]',
-            icon: <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} />,
-        },
-        3: {
-            className: 'text-slate-400',
-            icon: <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} />,
-        },
+        1: { className: 'text-[#39C5BB]', icon: <Crown className="w-5 h-5" /> },
+        2: { className: 'text-[#FF7BAC]', icon: <Crown className="w-5 h-5" /> },
+        3: { className: 'text-slate-400', icon: <Crown className="w-5 h-5" /> },
     };
-
     const style = rankStyles[rank];
-
-    if (rank > 3) {
+    if (!style) {
         return (
             <div className="absolute top-2 right-2 flex items-center gap-1.5 font-bold text-xl text-white" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }}>
                 <span>#{rank}</span>
             </div>
         );
     }
-
     return (
         <div className={`absolute top-2 right-2 flex items-center gap-1.5 font-bold text-xl ${style.className}`} style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.7))' }}>
             {style.icon}
@@ -72,14 +62,10 @@ const RankBadge = ({ rank }: { rank: number }): React.JSX.Element => {
 
 const getRankBorderStyle = (rank: number): string => {
     switch (rank) {
-        case 1:
-            return 'border-[#39C5BB]';
-        case 2:
-            return 'border-[#FF7BAC]';
-        case 3:
-            return 'border-slate-400';
-        default:
-            return 'border-white/30';
+        case 1: return 'border-[#39C5BB]';
+        case 2: return 'border-[#FF7BAC]';
+        case 3: return 'border-slate-400';
+        default: return 'border-white/10';
     }
 };
 
@@ -92,59 +78,40 @@ export function SongCard({ song }: SongCardProps) {
         setImageError(false);
     }, [song.thumbnailUrl]);
 
-    const handleImageError = () => {
-        setImageError(true);
-    };
+    const handleImageError = () => { setImageError(true); };
 
-    const platformLink = song.platformId
-        ? `https://www.youtube.com/watch?v=${song.platformId}`
-        : '#';
-
+    const platformLink = song.platformId ? `https://www.youtube.com/watch?v=${song.platformId}` : '#';
     const rankBorderStyle = getRankBorderStyle(song.rank);
+
+    const allLinks = [
+        ...song.pvs.map(pv => ({ id: pv.id, service: pv.service, url: pv.url })),
+        ...song.webLinks.map(link => ({ id: link.url, service: link.description, url: link.url }))
+    ];
 
     return (
         <div className="group flex flex-col h-full">
             <Link href={platformLink} target="_blank" rel="noopener noreferrer" className={`relative w-full aspect-video rounded-lg overflow-hidden border-2 ${rankBorderStyle} transition-all duration-300 hover:-translate-y-1`}>
-                {/* Image Section */}
                 {!imageError ? (
-                    <Image
-                        src={imageUrl}
-                        alt={song.title}
-                        fill
-                        sizes="(max-width: 768px) 50vw, 33vw"
-                        className="object-cover transition-transform duration-300 group-hover:scale-105"
-                        onError={handleImageError}
-                        unoptimized={imageUrl.includes('nicovideo') || imageUrl.includes('ytimg')}
-                    />
-                ) : (
-                    <FallbackThumbnail />
-                )}
+                    <Image src={imageUrl} alt={song.title} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-300 group-hover:scale-105" onError={handleImageError} unoptimized={imageUrl.includes('nicovideo') || imageUrl.includes('ytimg')} />
+                ) : ( <FallbackThumbnail /> )}
                 <RankBadge rank={song.rank} />
             </Link>
 
-            {/* Text Section */}
             <div className="pt-3 flex flex-col flex-grow">
-                <h3 className="font-semibold text-base text-white truncate" title={song.title}>
-                    {song.title}
-                </h3>
-                <p className="text-sm text-gray-300 mt-1 truncate" title={song.artist}>
-                    {song.artist}
-                </p>
+                <h3 className="font-semibold text-base text-white truncate" title={song.title}>{song.title}</h3>
+                <p className="text-sm text-gray-300 mt-1 truncate" title={song.artist}>{song.artist}</p>
                 
-                {/* Footer Section */}
-                <div className="flex items-center justify-between mt-auto pt-2">
-                    {/* Platform Links */}
-                    <div className="flex items-center gap-1">
-                        {song.pvs
-                            .filter(pv => platformIcons[pv.service])
+                <div className="flex items-center justify-between mt-auto pt-3">
+                    <div className="flex items-center gap-2">
+                        {allLinks
+                            .filter(link => platformIcons[link.service])
                             .sort((a, b) => (platformOrder[a.service] || 99) - (platformOrder[b.service] || 99))
-                            .map(pv => (
-                                <a href={pv.url} key={pv.id} target="_blank" rel="noopener noreferrer" className="flex items-center w-8 h-8 rounded-full bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200 text-lg">
-                                    {platformIcons[pv.service]}
+                            .map(link => (
+                                <a href={link.url} key={link.id} target="_blank" rel="noopener noreferrer" className="flex items-center justify-center w-8 h-8 rounded-full bg-white/5 text-gray-400 hover:text-white hover:bg-white/10 transition-all duration-200 text-lg">
+                                    {platformIcons[link.service]}
                                 </a>
                             ))}
                     </div>
-                    {/* Duration */}
                     <div className="flex items-center gap-1 text-sm text-gray-300 flex-shrink-0">
                         <Clock size={14} />
                         <span>{song.duration}</span>
