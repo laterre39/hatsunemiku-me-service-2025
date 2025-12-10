@@ -4,7 +4,8 @@ import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import { Song } from '@/types/song';
 import Link from 'next/link';
-import { Crown, ImageOff, Clock } from 'lucide-react';
+import { ImageOff, Clock } from 'lucide-react';
+import { FaCrown } from "react-icons/fa6";
 import { FaYoutube, FaSpotify } from "react-icons/fa";
 import { SiNiconico, SiBilibili } from "react-icons/si";
 
@@ -40,10 +41,10 @@ const FallbackThumbnail = (): React.JSX.Element => (
 );
 
 const RankBadge = ({ rank }: { rank: number }): React.JSX.Element => {
-    const rankStyles: { [key: number]: { className: string; icon: React.JSX.Element } } = {
-        1: { className: 'text-[#39C5BB]', icon: <Crown className="w-5 h-5" /> },
-        2: { className: 'text-[#FF7BAC]', icon: <Crown className="w-5 h-5" /> },
-        3: { className: 'text-slate-400', icon: <Crown className="w-5 h-5" /> },
+    const rankStyles: { [key: number]: { className: string; } } = {
+        1: { className: 'text-[#39C5BB]' },
+        2: { className: 'text-[#FF7BAC]' },
+        3: { className: 'text-slate-400' },
     };
     const style = rankStyles[rank];
     if (!style) {
@@ -55,19 +56,29 @@ const RankBadge = ({ rank }: { rank: number }): React.JSX.Element => {
     }
     return (
         <div className={`absolute top-2 right-2 flex items-center gap-1.5 font-bold text-xl ${style.className}`} style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.7))' }}>
-            {style.icon}
-            <span>{rank}</span>
+            <span>#{rank}</span>
         </div>
     );
 };
 
-const getRankBorderStyle = (rank: number): string => {
-    switch (rank) {
-        case 1: return 'border-[#39C5BB]';
-        case 2: return 'border-[#FF7BAC]';
-        case 3: return 'border-slate-400';
-        default: return 'border-white/10';
-    }
+const RankRibbon = ({ rank }: { rank: number }) => {
+    if (rank > 3) return null;
+
+    const ribbonStyles: { [key: number]: { bg: string; icon?: React.ReactElement } } = {
+        1: { bg: 'bg-[#39C5BB]', icon: <FaCrown className="w-5 h-5 text-white" /> },
+        2: { bg: 'bg-[#FF7BAC]', icon: <FaCrown className="w-5 h-5 text-white" /> },
+        3: { bg: 'bg-slate-400', icon: <FaCrown className="w-5 h-5 text-white" /> },
+    };
+
+    const style = ribbonStyles[rank];
+
+    return (
+        <div className="absolute top-0 left-0 w-18 h-18 overflow-hidden">
+            <div className={`absolute top-0 left-0 w-full h-full ${style.bg} transform -rotate-45 -translate-x-1/2 -translate-y-1/2 flex items-end justify-center pb-1`}>
+                {style.icon}
+            </div>
+        </div>
+    );
 };
 
 export function SongCard({ song }: SongCardProps) {
@@ -82,7 +93,6 @@ export function SongCard({ song }: SongCardProps) {
     const handleImageError = () => { setImageError(true); };
 
     const platformLink = song.platformId ? `https://www.youtube.com/watch?v=${song.platformId}` : '#';
-    const rankBorderStyle = getRankBorderStyle(song.rank);
 
     const allLinks = [
         ...song.pvs.map(pv => ({ id: pv.id, service: pv.service, url: pv.url })),
@@ -92,11 +102,12 @@ export function SongCard({ song }: SongCardProps) {
     return (
         <div className="group flex flex-col h-full">
             {/* Image Section (Link) */}
-            <Link href={platformLink} target="_blank" rel="noopener noreferrer" className={`relative w-full aspect-video rounded-lg overflow-hidden border-2 ${rankBorderStyle} transition-all duration-300 hover:-translate-y-1`}>
+            <Link href={platformLink} target="_blank" rel="noopener noreferrer" className="relative w-full aspect-video rounded-lg overflow-hidden bg-white/5 border border-white/10 transition-transform duration-300 hover:-translate-y-1">
                 {!imageError ? (
                     <Image src={imageUrl} alt={song.title} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-300 group-hover:scale-105" onError={handleImageError} unoptimized={imageUrl.includes('nicovideo') || imageUrl.includes('ytimg')} />
                 ) : ( <FallbackThumbnail /> )}
                 <RankBadge rank={song.rank} />
+                <RankRibbon rank={song.rank} />
             </Link>
 
             {/* Text Section (No Link) */}
