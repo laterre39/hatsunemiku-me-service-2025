@@ -42,19 +42,15 @@ const transformVocaDbData = (items: VocaDbSong[], limit: number): Song[] => {
         const enabledPvs = item.pvs.filter(pv => !pv.disabled);
 
         targetPv = enabledPvs.find(pv => pv.service === 'Youtube' && pv.pvType === 'Original' && !pv.author.includes('Topic'));
-
         if (!targetPv) {
             targetPv = enabledPvs.find(pv => pv.service === 'NicoNicoDouga' && pv.pvType === 'Original');
         }
-
         if (!targetPv) {
             targetPv = enabledPvs.find(pv => pv.service === 'Youtube' && !pv.author.includes('Topic'));
         }
-        
         if (!targetPv) {
             targetPv = enabledPvs.find(pv => pv.service === 'NicoNicoDouga');
         }
-
         if (!targetPv && enabledPvs.length > 0) {
             targetPv = enabledPvs[0];
         }
@@ -73,6 +69,7 @@ const transformVocaDbData = (items: VocaDbSong[], limit: number): Song[] => {
             platformId: (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) || '' : '',
             duration: 'N/A',
             pvs: [],
+            webLinks: [],
         };
     });
 };
