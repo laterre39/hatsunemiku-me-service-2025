@@ -19,7 +19,7 @@ export default function Home() {
                     <h2>My Vocaloid Pick</h2>
                     <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 20개의 영상을 서비스 하고 있습니다."/>
                 </div>
-                <YouTubeSlider/>
+                <YouTubeSlider videos={youtubeVideoData.videos} />
                 <div className="flex items-center justify-end gap-2 text-sm text-slate-400 mt-3">
                     <CalendarClock size={16} />
                     <span>Last Updated: {youtubeVideoData.lastUpdated}</span>

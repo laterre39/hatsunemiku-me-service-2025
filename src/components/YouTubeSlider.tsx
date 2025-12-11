@@ -6,7 +6,6 @@ import type { Swiper as SwiperType } from 'swiper';
 import { Autoplay, Navigation, Pagination } from 'swiper/modules';
 import { ChevronsLeft, ChevronsRight } from 'lucide-react';
 import YouTube from 'react-youtube';
-import { youtubeVideoData } from "@/data/youtubeVideoLists";
 
 import 'swiper/css';
 import 'swiper/css/navigation';
@@ -21,13 +20,17 @@ function shuffleArray<T>(array: T[]): T[] {
   return newArray;
 }
 
-export function YouTubeSlider() {
+interface YouTubeSliderProps {
+  videos: string[];
+}
+
+export function YouTubeSlider({ videos }: YouTubeSliderProps) {
   const playerRefs = useRef<Map<string, YT.Player>>(new Map());
   const progressContentRef = useRef<HTMLDivElement>(null);
   const swiperRef = useRef<SwiperType | null>(null);
   const [isAutoplayRunning, setIsAutoplayRunning] = useState(true);
 
-  const shuffledVideoIds = useMemo(() => shuffleArray(youtubeVideoData.videos).slice(0, 10), []);
+  const shuffledVideoIds = useMemo(() => shuffleArray(videos).slice(0, 10), [videos]);
 
   const opts = {
     playerVars: {
