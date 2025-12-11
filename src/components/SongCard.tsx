@@ -99,17 +99,17 @@ export function SongCard({ song }: SongCardProps) {
     ];
 
     return (
-        <div className="group flex flex-col h-full">
-            {/* Image Section (Link) */}
-            <Link href={platformLink} target="_blank" rel="noopener noreferrer" className="relative w-full aspect-video rounded-lg overflow-hidden bg-white/5 border border-white/10 transition-transform duration-300 hover:-translate-y-1">
+        <Link href={platformLink} target="_blank" rel="noopener noreferrer" className="group flex flex-col h-full transition-transform duration-300 hover:-translate-y-1">
+            {/* Image Section */}
+            <div className="relative w-full aspect-video rounded-lg overflow-hidden bg-white/5 border border-white/10">
                 {!imageError ? (
                     <Image src={imageUrl} alt={song.title} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-300 group-hover:scale-105" onError={handleImageError} unoptimized={imageUrl.includes('nicovideo') || imageUrl.includes('ytimg')} />
                 ) : ( <FallbackThumbnail /> )}
                 <RankBadge rank={song.rank} />
                 <RankRibbon rank={song.rank} />
-            </Link>
+            </div>
 
-            {/* Text Section (No Link) */}
+            {/* Text Section */}
             <div className="pt-3 flex flex-col flex-grow">
                 <h3 className="font-semibold text-base text-white truncate" title={song.title}>{song.title}</h3>
                 <p className="text-sm text-gray-300 mt-1 truncate" title={song.artist}>{song.artist}</p>
@@ -117,14 +117,15 @@ export function SongCard({ song }: SongCardProps) {
                 {/* Footer Section */}
                 <div className="flex items-center justify-between mt-auto pt-3">
                     {/* Platform Icons */}
-                    <div className="flex items-center gap-1 bg-white/15 px-2 py-1 rounded-full">
+                    <div className="flex items-center gap-1 bg-white/15 px-2 py-1 rounded-full" onClick={(e) => e.preventDefault()}>
                         {allLinks
                             .filter(link => platformIcons[link.service])
                             .sort((a, b) => (platformOrder[a.service] || 99) - (platformOrder[b.service] || 99))
                             .map(link => (
                                 <a href={link.url} key={link.id} target="_blank" rel="noopener noreferrer" 
                                    className={`flex items-center justify-center w-6 h-6 text-gray-300 ${platformColors[link.service] || 'hover:text-white'} transition-all duration-200 text-base`}
-                                   title={`${link.service}(으)로 이동`}>
+                                   title={`${link.service}(으)로 이동`}
+                                   onClick={(e) => e.stopPropagation()}>
                                     {platformIcons[link.service]}
                                 </a>
                             ))}
@@ -136,6 +137,6 @@ export function SongCard({ song }: SongCardProps) {
                     </div>
                 </div>
             </div>
-        </div>
+        </Link>
     );
 }
