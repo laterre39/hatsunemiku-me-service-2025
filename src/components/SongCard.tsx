@@ -5,8 +5,7 @@ import Image from 'next/image';
 import { Song } from '@/types/song';
 import Link from 'next/link';
 import { ImageOff, Clock } from 'lucide-react';
-import { FaCrown } from "react-icons/fa6";
-import { FaYoutube, FaSpotify } from "react-icons/fa";
+import { FaCrown, FaSpotify, FaYoutube } from "react-icons/fa6";
 import { SiNiconico, SiBilibili } from "react-icons/si";
 
 interface SongCardProps {
