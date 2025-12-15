@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { SongList } from '@/components/SongList';
-import { Song } from '@/types/song';
+import { Song, Pv, WebLink } from '@/types/song';
 import { FaExclamationTriangle } from 'react-icons/fa';
 
 interface VocaDbPv {
@@ -34,7 +34,7 @@ const getYouTubeId = (url: string): string | null => {
 };
 
 const transformVocaDbData = (items: VocaDbSong[], limit: number): Song[] => {
-    return items.slice(0, limit).map((item, index) => {
+    const transformedSongs = items.map((item, index) => {
         const producer = item.artists?.find(artist => artist.categories === 'Producer');
         const artistName = producer ? producer.name : item.artistString;
 
@@ -55,23 +55,33 @@ const transformVocaDbData = (items: VocaDbSong[], limit: number): Song[] => {
             targetPv = enabledPvs[0];
         }
 
-        const youtubeId = (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) : null;
+        if (!targetPv) return null;
 
+        const youtubeId = (targetPv.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) : null;
         const thumbnailUrl = youtubeId
             ? `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg`
-            : targetPv?.thumbUrl || '';
+            : targetPv.thumbUrl || '';
 
-        return {
-            rank: index + 1,
-            title: item.name,
+        // Song 타입에 맞게 객체 생성
+        const songObject: Omit<Song, 'rank'> = {
+            title: item.name || 'Untitled',
             artist: artistName,
             thumbnailUrl: thumbnailUrl,
-            platformId: (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) || '' : '',
+            platformId: youtubeId || '',
+            mainUrl: targetPv.url,
             duration: 'N/A',
-            pvs: [],
-            webLinks: [],
+            pvs: [] as Pv[], // 빈 배열에 타입 명시
+            webLinks: [] as WebLink[], // 빈 배열에 타입 명시
         };
+        
+        return songObject;
     });
+
+    // null을 필터링하고, rank를 추가하여 최종 Song[] 타입으로 변환
+    return transformedSongs
+        .filter((song): song is Omit<Song, 'rank'> => song !== null)
+        .slice(0, limit)
+        .map((song, index) => ({ ...song, rank: index + 1 }));
 };
 
 export function VocaDbRanking({ limit = 10 }: { limit?: number }) {
