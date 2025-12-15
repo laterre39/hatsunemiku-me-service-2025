@@ -53,36 +53,34 @@ const formatDuration = (totalSeconds: number): string => {
 };
 
 const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
-    return items.map((item, index) => {
+    const transformedSongs = items.map((item, index) => {
         const producer = item.artists?.find(artist => artist.categories === 'Producer');
         const artistName = producer ? producer.name : item.artistString;
 
-        let targetPv: VocaDbPv | undefined;
         const enabledPvs = item.pvs.filter(pv => !pv.disabled);
+        const enabledWebLinks = item.webLinks.filter(link => !link.disabled);
 
-        targetPv = enabledPvs.find(pv => pv.service === 'Youtube' && pv.pvType === 'Original' && !pv.author.includes('Topic'));
-        if (!targetPv) {
-            targetPv = enabledPvs.find(pv => pv.service === 'NicoNicoDouga' && pv.pvType === 'Original');
-        }
-        if (!targetPv) {
-            targetPv = enabledPvs.find(pv => pv.service === 'Youtube' && !pv.author.includes('Topic'));
-        }
-        if (!targetPv) {
-            targetPv = enabledPvs.find(pv => pv.service === 'NicoNicoDouga');
-        }
-        if (!targetPv && enabledPvs.length > 0) {
-            targetPv = enabledPvs[0];
-        }
+        let mainUrl = '';
+        const youtubeOriginal = enabledPvs.find(pv => pv.service === 'Youtube' && pv.pvType === 'Original' && !pv.author.includes('Topic'));
+        const spotifyLink = enabledWebLinks.find(link => link.description === 'Spotify');
+        const nicoOriginal = enabledPvs.find(pv => pv.service === 'NicoNicoDouga' && pv.pvType === 'Original');
+        const bilibiliOriginal = enabledPvs.find(pv => pv.service === 'Bilibili' && pv.pvType === 'Original');
 
-        const youtubeId = (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) : null;
-        const thumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg` : targetPv?.thumbUrl || '';
+        if (youtubeOriginal) mainUrl = youtubeOriginal.url;
+        else if (spotifyLink) mainUrl = spotifyLink.url;
+        else if (nicoOriginal) mainUrl = nicoOriginal.url;
+        else if (bilibiliOriginal) mainUrl = bilibiliOriginal.url;
 
-        const validPvs = item.pvs.filter(pv => !pv.disabled && pv.pvType === 'Original' && !pv.author.includes('- Topic'));
-        const uniquePvs = Array.from(new Map(validPvs.map(pv => [pv.service, pv])).values());
-        const activePvs: Pv[] = uniquePvs.map(pv => ({ id: pv.id, service: pv.service, url: pv.url }));
+        if (!mainUrl) return null;
 
-        const activeWebLinks: WebLink[] = (item.webLinks || [])
-            .filter(link => !link.disabled && link.description === 'Spotify')
+        const primaryPv = youtubeOriginal || nicoOriginal || bilibiliOriginal;
+        const youtubeId = primaryPv?.service === 'Youtube' ? getYouTubeId(primaryPv.url) : null;
+        const thumbnailUrl = youtubeId ? `https://i.ytimg.com/vi/${youtubeId}/mqdefault.jpg` : primaryPv?.thumbUrl || '';
+
+        const activePvs: Pv[] = Array.from(new Map(enabledPvs.map(pv => [pv.service, pv])).values())
+            .map(pv => ({ id: pv.id, service: pv.service, url: pv.url }));
+        const activeWebLinks: WebLink[] = enabledWebLinks
+            .filter(link => link.description === 'Spotify')
             .map(link => ({ description: link.description, url: link.url }));
 
         return {
@@ -90,12 +88,17 @@ const transformVocaDbData = (items: VocaDbSong[]): Song[] => {
             title: item.name,
             artist: artistName,
             thumbnailUrl: thumbnailUrl,
-            platformId: (targetPv?.service === 'Youtube' && targetPv.url) ? getYouTubeId(targetPv.url) || '' : '',
+            platformId: youtubeId || '', // 대표 유튜브 ID
+            mainUrl: mainUrl, // 최우선 이동 링크
             duration: formatDuration(item.lengthSeconds),
             pvs: activePvs,
             webLinks: activeWebLinks,
         };
     });
+
+    return transformedSongs
+        .filter((song): song is Song => song !== null)
+        .map((song, index) => ({ ...song, rank: index + 1 }));
 };
 
 export default function MusicPage() {

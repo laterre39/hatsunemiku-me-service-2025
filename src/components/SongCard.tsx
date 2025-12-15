@@ -90,8 +90,6 @@ export function SongCard({ song }: SongCardProps) {
 
     const handleImageError = () => { setImageError(true); };
 
-    const platformLink = song.platformId ? `https://www.youtube.com/watch?v=${song.platformId}` : '#';
-
     const allLinks = [
         ...song.pvs.map(pv => ({ id: pv.id, service: pv.service, url: pv.url })),
         ...song.webLinks.map(link => ({ id: link.url, service: link.description, url: link.url }))
@@ -100,7 +98,7 @@ export function SongCard({ song }: SongCardProps) {
     return (
         <div className="group flex flex-col h-full transition-transform duration-300 hover:-translate-y-1">
             {/* Image Section */}
-            <a href={platformLink} target="_blank" rel="noopener noreferrer" className="relative w-full aspect-video rounded-lg overflow-hidden bg-white/5 border border-white/10 block">
+            <a href={song.mainUrl} target="_blank" rel="noopener noreferrer" className="relative w-full aspect-video rounded-lg overflow-hidden bg-white/5 border border-white/10 block">
                 {!imageError ? (
                     <Image src={imageUrl} alt={song.title} fill sizes="(max-width: 768px) 50vw, 33vw" className="object-cover transition-transform duration-300 group-hover:scale-105" onError={handleImageError} unoptimized={imageUrl.includes('nicovideo') || imageUrl.includes('ytimg')} />
                 ) : ( <FallbackThumbnail /> )}
@@ -110,7 +108,7 @@ export function SongCard({ song }: SongCardProps) {
 
             {/* Text Section */}
             <div className="pt-3 flex flex-col flex-grow">
-                <a href={platformLink} target="_blank" rel="noopener noreferrer">
+                <a href={song.mainUrl} target="_blank" rel="noopener noreferrer">
                     <h3 className="font-semibold text-base text-white truncate group-hover:text-teal-400 transition-colors" title={song.title}>{song.title}</h3>
                     <p className="text-sm text-gray-300 mt-1 truncate" title={song.artist}>{song.artist}</p>
                 </a>

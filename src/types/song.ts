@@ -17,6 +17,7 @@ export interface Song {
     duration: string;
     thumbnailUrl: string;
     platformId: string;
+    mainUrl: string;
     pvs: Pv[];
     webLinks: WebLink[];
 }
