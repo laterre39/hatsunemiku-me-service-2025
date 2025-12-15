@@ -1,4 +1,4 @@
-import type { NextConfig } from "next";
+import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
   images: {
@@ -7,23 +7,16 @@ const nextConfig: NextConfig = {
         protocol: 'https',
         hostname: 'i.ytimg.com',
         port: '',
-        pathname: '**',
+        pathname: '/vi/**',
       },
       {
         protocol: 'https',
         hostname: 'i.scdn.co',
         port: '',
-        pathname: '**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'nicovideo.cdn.nimg.jp',
-        port: '',
-        pathname: '**',
+        pathname: '/image/**',
       },
     ],
   },
-  /* config options here */
 };
 
 export default nextConfig;
