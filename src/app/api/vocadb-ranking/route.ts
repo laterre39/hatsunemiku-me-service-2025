@@ -35,7 +35,7 @@ export async function GET() {
     apiUrl.searchParams.append('songTypes', 'Original, Remix, Remaster');
     apiUrl.searchParams.append('pvServices', 'Youtube, NicoNicoDouga');
     apiUrl.searchParams.append('fields', 'Artists, PVs, WebLinks');
-    apiUrl.searchParams.append('maxResults', '100');
+    apiUrl.searchParams.append('maxResults', '150');
 
     try {
         const response = await fetch(apiUrl.toString(), {
