@@ -88,7 +88,7 @@ export function YouTubeSlider({ videos }: YouTubeSliderProps) {
             }}
             onAutoplayTimeLeft={onAutoplayTimeLeft}
             onAutoplayStop={() => setIsAutoplayRunning(false)}
-            className="mySwiper rounded-lg overflow-hidden"
+            className="custom-swiper rounded-lg overflow-hidden" // mySwiper -> custom-swiper
             onSlideChange={onSlideChange}
         >
           {shuffledVideoIds.map((videoId) => (

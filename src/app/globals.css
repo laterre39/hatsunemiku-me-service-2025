@@ -14,27 +14,32 @@
   .container {
     @apply px-4;
   }
-}
 
-/* Swiper Navigation Arrows (Custom) */
-.swiper-button-next-custom,
-.swiper-button-prev-custom {
-  color: #ffffff;
-}
+  /* Swiper Custom Styles */
+  .custom-swiper {
+    --swiper-theme-color: #ffffff;
+    --swiper-navigation-color: #ffffff;
+    --swiper-pagination-color: #ffffff;
+  }
 
-/* Swiper Pagination Dots */
-.mySwiper .swiper-pagination-bullet {
-  background: #888888;
-  opacity: 0.7;
-  width: 10px; /* Adjust size as needed */
-  height: 10px; /* Adjust size as needed */
-  border-radius: 50%; /* Make them round */
-  transition: all 0.3s ease;
-}
-
-.mySwiper .swiper-pagination-bullet-active {
-  background: #ffffff;
-  opacity: 1;
-  width: 12px; /* Slightly larger when active */
-  height: 12px;
+  .custom-swiper .swiper-pagination-bullet {
+    @apply bg-white/50 opacity-100;
+  }
+  .custom-swiper .swiper-pagination-bullet-active {
+    @apply bg-white;
+  }
+  .custom-swiper .swiper-button-next,
+  .custom-swiper .swiper-button-prev {
+    transform: scale(0.5);
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  .custom-swiper:hover .swiper-button-next,
+  .custom-swiper:hover .swiper-button-prev {
+    opacity: 0.7;
+  }
+  .custom-swiper .swiper-button-next:hover,
+  .custom-swiper .swiper-button-prev:hover {
+    opacity: 1;
+  }
 }

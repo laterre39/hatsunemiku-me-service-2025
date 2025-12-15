@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { ImageOff, MessageSquareQuote, ArrowDownCircle } from 'lucide-react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { EffectFade, Autoplay, Pagination, Navigation } from 'swiper/modules';
-import Image from 'next/image'; // Image 컴포넌트 import
+import Image from 'next/image';
 import 'swiper/css';
 import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
@@ -68,10 +68,7 @@ export default function PlaylistCardFeatured({ playlistId, platform, playlistTit
           {creator && <p className="text-xs text-neutral-500">Curated by <span className="text-neutral-400 font-medium">{creator}</span></p>}
         </div>
 
-        <div className="relative aspect-video w-full mb-4 rounded-xl overflow-hidden shadow-lg group/swiper">
-          <style jsx global>{`
-            /* ... styles ... */
-          `}</style>
+        <div className="relative aspect-video w-full mb-4 rounded-xl overflow-hidden shadow-lg custom-swiper">
           <Swiper
             modules={[EffectFade, Autoplay, Pagination, Navigation]}
             effect="fade"
