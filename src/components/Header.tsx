@@ -13,8 +13,8 @@ const poppins = Poppins({
 const navItems = [
     {href: '/about', label: 'About'},
     {href: '/music', label: 'Music'},
+    {href: '/playlists', label: 'Playlist'},
     {href: '/event', label: 'Event'},
-    {href: '/gallery', label: 'Gallery'},
     {href: '/news', label: 'News'},
 ];
 
