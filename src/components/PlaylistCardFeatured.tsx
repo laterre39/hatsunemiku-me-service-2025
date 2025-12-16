@@ -63,7 +63,7 @@ export default function PlaylistCardFeatured({ playlistId, platform, playlistTit
       <div className="p-5 pb-2 flex-grow">
         <div className="mb-4">
           <div className="flex justify-between items-start mb-2">
-            <h2 className="text-xl font-bold text-white leading-tight line-clamp-2 pr-2">{playlistTitle}</h2>
+            <h2 className="text-lg font-bold text-white leading-tight truncate pr-2" title={playlistTitle}>{playlistTitle}</h2>
           </div>
           {creator && <p className="text-xs text-neutral-500">Curated by <span className="text-neutral-400 font-medium">{creator}</span></p>}
         </div>

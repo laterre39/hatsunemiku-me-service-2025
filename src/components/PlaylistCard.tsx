@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { Music, ListMusic, ImageOff, Star, MessageSquareQuote, ChevronDown, ChevronUp, ExternalLink } from 'lucide-react';
 import { FaYoutube, FaSpotify } from 'react-icons/fa';
-import Image from 'next/image'; // Image 컴포넌트 import
+import Image from 'next/image';
 
 interface VideoItem {
   id: string;
@@ -73,7 +73,7 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
     >
       <div className="p-6 pb-4">
         <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
-          <h2 className="text-2xl font-bold text-white pr-4">{playlistTitle}</h2>
+          <h2 className="text-xl font-bold text-white pr-4">{playlistTitle}</h2>
           
           <div className="flex items-center gap-2 flex-wrap">
             <a 
