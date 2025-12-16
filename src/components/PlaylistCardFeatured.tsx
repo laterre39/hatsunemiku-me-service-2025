@@ -10,6 +10,23 @@ import 'swiper/css/effect-fade';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 
+// --- 스켈레톤 UI ---
+const PlaylistCardFeaturedSkeleton = () => (
+  <div className="bg-neutral-900/70 border border-neutral-800 rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm flex flex-col h-full animate-pulse">
+    <div className="p-5 pb-2 flex-grow">
+      <div className="mb-4">
+        <div className="h-6 w-3/4 bg-neutral-700/50 rounded-md mb-2"></div>
+        <div className="h-4 w-1/2 bg-neutral-700/50 rounded-md"></div>
+      </div>
+      <div className="relative aspect-video w-full mb-4 rounded-xl bg-neutral-700/50"></div>
+      <div className="w-full h-16 bg-neutral-700/50 rounded-xl mb-2"></div>
+    </div>
+    <div className="p-4 pt-0 mt-auto">
+      <div className="w-full h-12 bg-neutral-700/50 rounded-xl"></div>
+    </div>
+  </div>
+);
+
 interface VideoItem {
   id: string;
   title: string;
@@ -49,7 +66,7 @@ export default function PlaylistCardFeatured({ playlistId, platform, playlistTit
   }, [platform, playlistId]);
 
   if (loading) {
-    return <div className="bg-gray-800/50 rounded-2xl animate-pulse aspect-[4/5] md:aspect-auto md:h-full" />;
+    return <PlaylistCardFeaturedSkeleton />;
   }
 
   if (!playlistData) return null;

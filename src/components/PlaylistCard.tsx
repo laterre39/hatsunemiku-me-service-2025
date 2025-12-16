@@ -5,6 +5,33 @@ import { Music, ListMusic, ImageOff, Star, MessageSquareQuote, ChevronDown, Chev
 import { FaYoutube, FaSpotify } from 'react-icons/fa';
 import Image from 'next/image';
 
+// --- 스켈레톤 UI ---
+const PlaylistCardSkeleton = () => (
+  <div className="bg-neutral-900/70 border border-neutral-800 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm flex flex-col animate-pulse">
+    <div className="p-6 pb-4">
+      <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
+        <div className="w-3/4 h-8 bg-neutral-700/50 rounded-md"></div>
+        <div className="flex items-center gap-2 flex-wrap">
+          <div className="w-24 h-8 bg-neutral-700/50 rounded-full"></div>
+          <div className="w-20 h-8 bg-neutral-700/50 rounded-full"></div>
+        </div>
+      </div>
+      <div className="w-full h-24 bg-neutral-700/50 rounded-xl"></div>
+    </div>
+    <div className="px-6 mb-3 mt-2">
+      <div className="w-1/3 h-6 bg-neutral-700/50 rounded-md"></div>
+    </div>
+    <div className="grid grid-cols-2 md:grid-cols-5 gap-4 px-6 mb-6">
+      {[...Array(5)].map((_, i) => (
+        <div key={i} className={`w-full aspect-video bg-neutral-700/50 rounded-lg ${i === 4 ? 'hidden md:block' : ''}`}></div>
+      ))}
+    </div>
+    <div className="px-6 pb-6">
+      <div className="w-full h-12 bg-neutral-700/50 rounded-lg"></div>
+    </div>
+  </div>
+);
+
 interface VideoItem {
   id: string;
   title: string;
@@ -45,7 +72,7 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
   }, [platform, playlistId]);
 
   if (loading) {
-    return <div className="bg-gray-800/50 rounded-2xl animate-pulse h-96" />;
+    return <PlaylistCardSkeleton />;
   }
 
   if (error || !playlistData) {
