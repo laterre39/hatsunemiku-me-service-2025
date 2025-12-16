@@ -177,8 +177,8 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
             <ul className="space-y-1 pb-4">
               {allTracks.map((item, index) => (
                 <li key={item.id} className="flex items-center p-2 rounded-lg hover:bg-neutral-800/60 transition-colors duration-200 group border border-transparent hover:border-neutral-700/50">
-                  <span className="text-neutral-500 w-8 text-center text-sm font-bold mr-2 group-hover:text-teal-400 transition-colors">{index + 1}</span>
-                  <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex-grow min-w-0">
+                  <span className="flex-shrink-0 text-neutral-500 w-8 text-center text-sm font-bold mr-2 group-hover:text-teal-400 transition-colors">{index + 1}</span>
+                  <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-0">
                     <p className="text-sm text-neutral-200 truncate group-hover:text-white transition-colors">{item.title}</p>
                     <p className="text-xs text-neutral-500 truncate group-hover:text-neutral-400 transition-colors">{item.artist}</p>
                   </a>
