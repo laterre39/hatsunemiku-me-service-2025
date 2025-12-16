@@ -25,7 +25,7 @@ export async function GET(request: NextRequest) {
     }
 
     const response = await fetch(apiUrl, {
-      next: { revalidate: 86400 } // 24시간 캐시
+      next: { revalidate: 21600 } // 6시간 캐시 (하루 4번)
     });
 
     if (!response.ok) {
