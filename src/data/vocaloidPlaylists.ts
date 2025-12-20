@@ -13,7 +13,7 @@ export const vocaloidPlaylists: PlaylistInfo[] = [
     id: 'PL4DYOoQTb3ibYGtVQ26U28ZC0d1rxaKzC',
     platform: 'youtube', // youtube, spotify 플랫폼을 지정합니다.
     title: 'MIKU EXPO 2025 ASIA in Seoul',
-    description: '한국에서 개최된 미쿠 엑스포 인 서울의 감동을 지금 느꺄보세요!',
+    description: '서울의 밤을 민트색으로 물들였던 그날, 감동을 지금 느껴보세요!',
     creator: 'MIKUMIKU',
     //featuredTrackIndices: [0, 2, 4, 6, 8], // 섬네일에 표시될 음악을 5개 정의합니다.
     isSlider: true, // 추천 플리에 보일지 여부
@@ -22,7 +22,7 @@ export const vocaloidPlaylists: PlaylistInfo[] = [
     id: 'PL4DYOoQTb3iY-jliX1Ta_sCwpz02esiZz',
     platform: 'youtube',
     title: '한국의 보카로p',
-    description: '보컬로이드도 신토불이! 한국의 프로듀서들을 만나보세요.',
+    description: '익숙함 속에 새로움을 더하다. 독창적인 세계관을 구축한 한국의 크리에이터들을 만나보세요.',
     creator: 'MIKUMIKU 외 2명',
     isSlider: true,
   },
