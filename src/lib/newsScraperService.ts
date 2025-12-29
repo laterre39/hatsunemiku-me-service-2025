@@ -12,12 +12,6 @@ const MIKU_RSS_URL = 'https://news.google.com/rss/search?q=%E5%88%9D%E9%9F%B3%E3
 const VOCALOID_RSS_URL = 'https://news.google.com/rss/search?q=VOCALOID&hl=ja&gl=JP&ceid=JP:ja';
 
 // ==================== 타입 정의 ====================
-interface WikiItem {
-  id: number;
-  date: string | null;
-  htmlContent: string | null;
-}
-
 interface RSSItem {
   title: string;
   link: string;
@@ -132,19 +126,13 @@ async function saveNewsToDatabase(category: string, rssItems: RSSItem[]): Promis
 
 // ==================== DB 조회 함수 ====================
 
-export async function getNewsFromDatabase(category: 'hatsuneMiku' | 'vocaloid'): Promise<WikiItem[]> {
+export async function getNewsFromDatabase(category: 'hatsuneMiku' | 'vocaloid'): Promise<VocaNews[]> {
   try {
     const dbItems = await prisma.vocaNews.findMany({
       where: { category },
       orderBy: { date: 'desc' },
     });
-
-    return dbItems.map((item: VocaNews) => ({
-      id: item.id,
-      date: item.date.toISOString().split('T')[0],
-      htmlContent: item.title_jp,
-    }));
-
+    return dbItems;
   } catch (error) {
     console.error(`❌ DB 조회 실패 (${category}):`, error);
     return [];
