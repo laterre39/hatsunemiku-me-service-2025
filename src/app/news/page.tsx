@@ -1,16 +1,10 @@
 import { Suspense } from 'react';
 import Link from 'next/link';
-import { CalendarDays, Newspaper } from 'lucide-react';
+import { CalendarDays, Music2, ArrowRight } from 'lucide-react';
 import Pagination from '../../components/Pagination';
 import { getNewsFromDatabase } from '@/lib/newsScraperService';
 
 const ITEMS_PER_PAGE = 10;
-
-interface WikiItem {
-  id: number;
-  date: string | null;
-  htmlContent: string | null;
-}
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 async function NewsList({ searchParams }: Readonly<{ searchParams: any }>) {
@@ -19,7 +13,6 @@ async function NewsList({ searchParams }: Readonly<{ searchParams: any }>) {
   const currentPage = Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1;
   const activeTab = resolvedSearchParams?.tab === 'vocaloid' ? 'vocaloid' : 'hatsuneMiku';
 
-  // ✅ 변경: DB에서 뉴스 조회
   const items = await getNewsFromDatabase(activeTab);
 
   const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
@@ -37,59 +30,80 @@ async function NewsList({ searchParams }: Readonly<{ searchParams: any }>) {
 
       {/* 탭 전환 */}
       <div className="mb-12 flex justify-center">
-        <div className="relative flex w-full max-w-xs items-center rounded-full bg-black/25 p-1">
+        <div className="relative flex w-full max-w-sm items-center rounded-full bg-neutral-900/50 p-1.5 border border-white/10 backdrop-blur-sm">
           <div
-            className={`absolute h-full top-0 left-0 w-1/2 rounded-full transition-transform duration-300 ease-in-out p-1 ${
-              activeTab === 'hatsuneMiku' ? 'translate-x-0' : 'translate-x-full'
-            }`}>
-            <div className="w-full h-full rounded-full bg-cyan-400/90" />
-          </div>
+            className={`absolute h-[calc(100%-0.75rem)] top-1.5 left-1.5 w-[calc(50%-0.375rem)] rounded-full transition-transform duration-300 ease-out shadow-lg ${
+              activeTab === 'hatsuneMiku' ? 'translate-x-0 bg-teal-500' : 'translate-x-full bg-blue-500'
+            }`}
+          />
           <Link
             href="/news?tab=hatsuneMiku"
-            className="relative z-10 flex-1 rounded-full py-2 text-center font-semibold text-sm transition-colors duration-300"
+            className="relative z-10 flex-1 rounded-full py-2.5 text-center font-bold text-sm transition-colors duration-300"
           >
-            <span className={activeTab === 'hatsuneMiku' ? 'text-black' : 'text-white/80'}>하츠네 미쿠</span>
+            <span className={activeTab === 'hatsuneMiku' ? 'text-white' : 'text-gray-400 hover:text-white'}>하츠네 미쿠</span>
           </Link>
           <Link
             href="/news?tab=vocaloid"
-            className="relative z-10 flex-1 rounded-full py-2 text-center font-semibold text-sm transition-colors duration-300"
+            className="relative z-10 flex-1 rounded-full py-2.5 text-center font-bold text-sm transition-colors duration-300"
           >
-            <span className={activeTab === 'vocaloid' ? 'text-black' : 'text-white/80'}>보컬로이드</span>
+            <span className={activeTab === 'vocaloid' ? 'text-white' : 'text-gray-400 hover:text-white'}>보컬로이드</span>
           </Link>
         </div>
       </div>
 
       {/* 뉴스 목록 */}
-      <div className="space-y-4">
+      <div className="space-y-6">
         {paginatedItems.length > 0 ? (
           paginatedItems.map((item) => (
-            <div key={item.id} className="bg-white/5 rounded-xl border border-white/10 flex overflow-hidden transition-all duration-300 hover:border-cyan-400/50 hover:bg-white/10">
-              <div className="flex-shrink-0 flex items-center justify-center w-20 bg-black/10 border-r border-white/5">
-                <Newspaper size={28} className="text-white/50" />
-              </div>
-              <div className="p-5 flex-grow">
-                {item.date && (
-                  <div className="flex items-center gap-2.5 mb-3">
-                    <CalendarDays size={16} className="text-cyan-400/80" />
-                    <span className="font-semibold text-sm text-white/80 tracking-wide">{item.date}</span>
+            <a 
+              key={item.id} 
+              href={item.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block group bg-white/5 border border-white/10 rounded-2xl overflow-hidden hover:border-white/20 hover:bg-white/10 transition-all duration-300 hover:-translate-y-1 shadow-lg backdrop-blur-sm"
+            >
+              <div className="flex flex-col md:flex-row">
+                {/* 썸네일/아이콘 영역 */}
+                <div className="md:w-40 h-40 md:h-auto flex-shrink-0 bg-black/10 flex items-center justify-center relative overflow-hidden md:border-r md:border-white/10">
+                  <Music2 className="w-12 h-12 text-neutral-600 group-hover:text-teal-400 transition-colors duration-300" />
+                </div>
+                
+                {/* 콘텐츠 영역 */}
+                <div className="p-6 flex flex-col flex-grow">
+                  <div>
+                    {item.date && (
+                      <div className="flex items-center gap-2 mb-3 text-xs font-medium text-neutral-400 uppercase tracking-wider">
+                        <CalendarDays size={14} />
+                        <span>{item.date.toISOString().split('T')[0]}</span>
+                      </div>
+                    )}
+                    <h3 className="text-lg font-semibold text-gray-100 group-hover:text-white transition-colors h-14 line-clamp-2 leading-snug">
+                      {item.title_jp}
+                    </h3>
                   </div>
-                )}
-                <div className="prose prose-invert prose-sm max-w-none text-gray-300">
-                  {item.htmlContent}
+                  
+                  <div className="flex items-center text-sm font-medium text-gray-500 group-hover:text-teal-400 transition-colors mt-auto pt-4">
+                    <span>자세히 보기</span>
+                    <ArrowRight size={16} className="ml-1 transform group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           ))
         ) : (
-          <div className="text-center py-12 bg-white/5 rounded-xl border border-white/10">
-            <p className="text-xl text-gray-500">관련 뉴스를 찾을 수 없습니다.</p>
+          <div className="text-center py-20 bg-white/5 rounded-2xl border border-white/10 backdrop-blur-sm">
+            <Music2 className="w-16 h-16 text-gray-700 mx-auto mb-4" />
+            <p className="text-xl text-gray-500 font-medium">관련 뉴스를 찾을 수 없습니다.</p>
+            <p className="text-sm text-gray-600 mt-2">나중에 다시 확인해 주세요.</p>
           </div>
         )}
       </div>
 
       {/* 페이지네이션 */}
       {totalPages > 1 && (
-        <Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/news?tab=${activeTab}`} />
+        <div className="mt-16">
+          <Pagination currentPage={currentPage} totalPages={totalPages} basePath={`/news?tab=${activeTab}`} />
+        </div>
       )}
     </main>
   );
