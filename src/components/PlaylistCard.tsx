@@ -103,9 +103,11 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
           <h2 className="text-xl font-bold text-white pr-4 group-hover:text-teal-400 transition-colors">{playlistTitle}</h2>
           
           <div className="flex items-center gap-2 flex-wrap">
-            <div className="flex-shrink-0 bg-neutral-800/50 text-neutral-400 text-xs font-medium px-2.5 py-1.5 rounded-md flex items-center gap-1.5 border border-neutral-700/50">
-              <Music size={12} />
-              <span>{playlistData.totalResults}곡</span>
+            <div className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-neutral-900/50 border border-white/10 backdrop-blur-md">
+              <div className="w-6 h-6 rounded-full bg-teal-500/20 flex items-center justify-center">
+                <Music size={12} className="text-teal-400" />
+              </div>
+              <span className="text-xs font-medium text-neutral-300">{playlistData.totalResults} Tracks</span>
             </div>
           </div>
         </div>
@@ -135,7 +137,7 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
             href={item.url} 
             target="_blank" 
             rel="noopener noreferrer" 
-            className={`group/item relative rounded-lg overflow-hidden bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 shadow-lg ${index === 4 ? 'hidden md:block' : ''}`}
+            className={`group/item relative rounded-lg overflow-hidden bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/10 hover:-translate-y-1 shadow-lg ${index === 4 ? 'hidden md:block' : ''}`}
           >
             <div className="relative w-full aspect-video">
               {item.thumbnail ? (
@@ -166,17 +168,17 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
         </a>
 
         <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm transition-all duration-300 group/btn shadow-lg hover:bg-teal-500/20 hover:border-teal-500/50 hover:shadow-[0_0_20px_rgba(20,184,166,0.15)] hover:-translate-y-0.5">
-          <ListMusic className="w-5 h-5 text-teal-400 group-hover/btn:text-teal-300 transition-colors" />
+          <ListMusic className="w-5 h-5 text-teal-400 group-hover/btn:text-white transition-colors" />
           <span className="font-medium text-sm">{isExpanded ? '트랙 리스트 숨기기' : '모든 트랙 보기'}</span>
           {isExpanded ? <ChevronUp className="w-4 h-4 text-neutral-500 group-hover/btn:text-white" /> : <ChevronDown className="w-4 h-4 text-neutral-500 group-hover/btn:text-white" />}
         </button>
       </div>
-      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="px-6 pb-6 min-h-0 border-t border-neutral-800/50 pt-4">
-          <div className="max-h-[600px] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-neutral-800/30 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-600 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500 transition-colors">
+      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="px-6 pb-6 min-h-0 border-t border-white/10 pt-4">
+          <div className="max-h-[600px] overflow-y-auto pr-2 pb-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-neutral-800/30 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-600 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500 transition-colors">
             <ul className="space-y-1 pb-4">
               {allTracks.map((item, index) => (
-                <li key={item.id} className="flex items-center p-2 rounded-lg hover:bg-neutral-800/60 transition-colors duration-200 group/item border border-transparent hover:border-neutral-700/50">
+                <li key={item.id} className="flex items-center p-2 rounded-lg transition-all duration-200 group/item border border-transparent hover:bg-white/10 hover:border-white/10">
                   <span className="flex-shrink-0 text-neutral-500 w-8 text-center text-sm font-bold mr-2 group-hover/item:text-teal-400 transition-colors">{index + 1}</span>
                   <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-0">
                     <p className="text-sm text-neutral-200 truncate group-hover/item:text-white transition-colors">{item.title}</p>
