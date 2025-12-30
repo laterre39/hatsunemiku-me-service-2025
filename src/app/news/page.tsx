@@ -77,7 +77,7 @@ async function NewsList({ searchParams }: Readonly<{ searchParams: any }>) {
                         <span>{new Date(item.date).toISOString().split('T')[0]}</span>
                       </div>
                     )}
-                    <h3 className="text-lg font-semibold text-gray-100 group-hover:text-white transition-colors h-14 line-clamp-2 leading-snug">
+                    <h3 className="text-base md:text-lg font-semibold text-gray-100 group-hover:text-white transition-colors md:h-14 line-clamp-3 md:line-clamp-2 leading-snug">
                       {item.title_jp}
                     </h3>
                   </div>
