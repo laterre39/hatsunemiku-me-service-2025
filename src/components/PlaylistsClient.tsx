@@ -82,13 +82,13 @@ export default function PlaylistsClient({ playlists }: PlaylistsClientProps) {
 
       {/* 전체 플레이리스트 섹션 */}
       <div id="bocalo-ply-section" className="border-t border-neutral-800 pt-12 mt-16 scroll-mt-20">
-        <div className="flex items-center gap-3 mb-8 max-w-4xl mx-auto">
+        <div className="flex items-center gap-3 mb-8">
           <ListMusic className="w-8 h-8 text-teal-400" />
           <h1 className="text-3xl font-bold text-white">
             보카로 플리
           </h1>
         </div>
-        <div className="flex flex-col gap-12 max-w-4xl mx-auto">
+        <div className="flex flex-col gap-12">
           {paginatedPlaylists.map((playlist) => (
             <PlaylistCard
               key={`${playlist.platform}-${playlist.id}`}
