@@ -103,17 +103,6 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
           <h2 className="text-xl font-bold text-white pr-4 group-hover:text-teal-400 transition-colors">{playlistTitle}</h2>
           
           <div className="flex items-center gap-2 flex-wrap">
-            <a 
-              href={playlistUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex-shrink-0 bg-neutral-800/50 text-neutral-400 text-xs font-medium px-3 py-1.5 rounded-md flex items-center gap-2 border border-neutral-700/50 hover:bg-neutral-700 hover:text-white transition-all duration-200 group/btn"
-              title={`Open in ${platformName}`}
-            >
-              <PlatformIcon className={`text-sm ${iconColor}`} />
-              <span>{platformName}</span>
-              <ExternalLink size={12} className="opacity-70 group-hover/btn:opacity-100 transition-opacity" />
-            </a>
             <div className="flex-shrink-0 bg-neutral-800/50 text-neutral-400 text-xs font-medium px-2.5 py-1.5 rounded-md flex items-center gap-1.5 border border-neutral-700/50">
               <Music size={12} />
               <span>{playlistData.totalResults}곡</span>
@@ -165,8 +154,19 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
       </div>
 
       <div className="px-6 pb-6">
-        <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-neutral-800/50 hover:bg-neutral-800 text-neutral-300 hover:text-white transition-all duration-200 border border-neutral-700/50 group/btn">
-          <ListMusic className={`w-5 h-5 transition-colors ${isExpanded ? 'text-teal-400' : 'text-neutral-400 group-hover/btn:text-teal-400'}`} />
+        <a 
+          href={playlistUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="w-full flex items-center justify-center gap-2 py-3.5 mb-3 rounded-xl bg-white/5 hover:bg-teal-600 border border-white/10 hover:border-teal-500 text-white font-semibold text-sm transition-all duration-300 group/platform-btn shadow-lg"
+        >
+          <PlatformIcon className={`text-lg ${iconColor} group-hover/platform-btn:text-white transition-colors`} />
+          <span className="font-medium text-sm">{platformName}에서 보기</span>
+          <ExternalLink size={16} className="opacity-70 group-hover/platform-btn:opacity-100 transition-opacity" />
+        </a>
+
+        <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/5 hover:bg-teal-600 border border-white/10 hover:border-teal-500 text-white font-semibold text-sm transition-all duration-300 group/btn shadow-lg">
+          <ListMusic className="w-5 h-5 text-teal-400 group-hover/btn:text-white transition-colors" />
           <span className="font-medium text-sm">{isExpanded ? '트랙 리스트 숨기기' : '모든 트랙 보기'}</span>
           {isExpanded ? <ChevronUp className="w-4 h-4 text-neutral-500 group-hover/btn:text-white" /> : <ChevronDown className="w-4 h-4 text-neutral-500 group-hover/btn:text-white" />}
         </button>
