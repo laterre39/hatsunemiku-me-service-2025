@@ -6,6 +6,7 @@ import crypto from 'crypto';
 import * as cheerio from 'cheerio';
 import prisma from './prisma';
 import { VocaNews } from "@prisma/client";
+import { unstable_cache } from 'next/cache';
 
 // ==================== RSS 피드 URL ====================
 const MIKU_RSS_URL = 'https://news.google.com/rss/search?q=%E5%88%9D%E9%9F%B3%E3%83%9F%E3%82%AF&hl=ja&gl=JP&ceid=JP:ja';
@@ -126,18 +127,22 @@ async function saveNewsToDatabase(category: string, rssItems: RSSItem[]): Promis
 
 // ==================== DB 조회 함수 ====================
 
-export async function getNewsFromDatabase(category: 'hatsuneMiku' | 'vocaloid'): Promise<VocaNews[]> {
-  try {
-    const dbItems = await prisma.vocaNews.findMany({
-      where: { category },
-      orderBy: { date: 'desc' },
-    });
-    return dbItems;
-  } catch (error) {
-    console.error(`❌ DB 조회 실패 (${category}):`, error);
-    return [];
-  }
-}
+export const getNewsFromDatabase = unstable_cache(
+  async (category: 'hatsuneMiku' | 'vocaloid'): Promise<VocaNews[]> => {
+    try {
+      const dbItems = await prisma.vocaNews.findMany({
+        where: { category },
+        orderBy: { date: 'desc' },
+      });
+      return dbItems;
+    } catch (error) {
+      console.error(`❌ DB 조회 실패 (${category}):`, error);
+      return [];
+    }
+  },
+  ['news-list'],
+  { revalidate: 21600, tags: ['news'] }
+);
 
 // ==================== 통합 함수 ====================
 
