@@ -51,8 +51,10 @@ export default function PlaylistsClient({ playlists }: PlaylistsClientProps) {
         const element = document.getElementById(targetPlaylistId);
         if (element) {
           element.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          element.classList.add('animate-pulse-once');
-          setTimeout(() => element.classList.remove('animate-pulse-once'), 2000);
+          element.classList.add('ring-2', 'ring-teal-500', 'ring-offset-2', 'ring-offset-black');
+          setTimeout(() => {
+            element.classList.remove('ring-2', 'ring-teal-500', 'ring-offset-2', 'ring-offset-black');
+          }, 2000);
           setTargetPlaylistId(null);
         }
       }, 100);
