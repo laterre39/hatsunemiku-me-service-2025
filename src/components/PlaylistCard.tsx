@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 // --- 스켈레톤 UI ---
 const PlaylistCardSkeleton = () => (
-  <div className="bg-neutral-900/70 border border-neutral-800 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm flex flex-col animate-pulse">
+  <div className="bg-white/5 border border-white/10 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm flex flex-col animate-pulse">
     <div className="p-6 pb-4">
       <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
         <div className="w-3/4 h-8 bg-neutral-700/50 rounded-md"></div>
@@ -96,7 +96,7 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
   return (
     <div 
       id={`playlist-${platform}-${playlistId}`} 
-      className="bg-neutral-900/70 border border-neutral-800 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm flex flex-col transition-all duration-300 scroll-mt-24 hover:border-teal-500/30"
+      className="bg-white/5 border border-white/10 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm flex flex-col transition-all duration-300 scroll-mt-24 hover:border-white/20 hover:bg-white/10"
     >
       <div className="p-6 pb-4">
         <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
