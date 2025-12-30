@@ -74,7 +74,7 @@ async function NewsList({ searchParams }: Readonly<{ searchParams: any }>) {
                     {item.date && (
                       <div className="flex items-center gap-2 mb-3 text-xs font-medium text-neutral-400 uppercase tracking-wider">
                         <CalendarDays size={14} />
-                        <span>{item.date.toISOString().split('T')[0]}</span>
+                        <span>{new Date(item.date).toISOString().split('T')[0]}</span>
                       </div>
                     )}
                     <h3 className="text-lg font-semibold text-gray-100 group-hover:text-white transition-colors h-14 line-clamp-2 leading-snug">
