@@ -12,7 +12,7 @@ import 'swiper/css/navigation';
 
 // --- 스켈레톤 UI ---
 const PlaylistCardFeaturedSkeleton = () => (
-  <div className="bg-neutral-900/70 border border-neutral-800 rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm flex flex-col h-full animate-pulse">
+  <div className="bg-white/5 border border-white/10 rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm flex flex-col h-full animate-pulse">
     <div className="p-5 pb-2 flex-grow">
       <div className="mb-4">
         <div className="h-6 w-3/4 bg-neutral-700/50 rounded-md mb-2"></div>
@@ -76,7 +76,7 @@ export default function PlaylistCardFeatured({ playlistId, platform, playlistTit
     : playlistData.items.slice(0, 5);
 
   return (
-    <div className="bg-neutral-900/70 border border-neutral-800 rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm flex flex-col h-full group hover:border-teal-500/30 transition-colors duration-300">
+    <div className="bg-white/5 border border-white/10 rounded-2xl shadow-xl overflow-hidden backdrop-blur-sm flex flex-col h-full group hover:bg-white/10 hover:border-white/20 transition-colors duration-300">
       <div className="p-5 pb-2 flex-grow">
         <div className="mb-4">
           <div className="flex justify-between items-start mb-2">
