@@ -7,7 +7,7 @@ import Image from 'next/image';
 
 // --- 스켈레톤 UI ---
 const PlaylistCardSkeleton = () => (
-  <div className="bg-neutral-900/70 border border-neutral-800 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm flex flex-col animate-pulse">
+  <div className="bg-white/5 border border-white/10 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm flex flex-col animate-pulse">
     <div className="p-6 pb-4">
       <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
         <div className="w-3/4 h-8 bg-neutral-700/50 rounded-md"></div>
@@ -96,27 +96,18 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
   return (
     <div 
       id={`playlist-${platform}-${playlistId}`} 
-      className="bg-neutral-900/70 border border-neutral-800 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm flex flex-col transition-all duration-300 scroll-mt-24 hover:border-teal-500/30"
+      className="bg-white/5 border border-white/10 rounded-2xl shadow-lg overflow-hidden backdrop-blur-sm flex flex-col transition-all duration-300 scroll-mt-24 hover:border-white/20 hover:bg-white/10 group"
     >
       <div className="p-6 pb-4">
         <div className="flex flex-col md:flex-row md:items-start justify-between mb-6 gap-4">
-          <h2 className="text-xl font-bold text-white pr-4">{playlistTitle}</h2>
+          <h2 className="text-xl font-bold text-white pr-4 group-hover:text-teal-400 transition-colors">{playlistTitle}</h2>
           
           <div className="flex items-center gap-2 flex-wrap">
-            <a 
-              href={playlistUrl} 
-              target="_blank" 
-              rel="noopener noreferrer"
-              className="flex-shrink-0 bg-neutral-800/50 text-neutral-400 text-xs font-medium px-3 py-1.5 rounded-md flex items-center gap-2 border border-neutral-700/50 hover:bg-neutral-700 hover:text-white transition-all duration-200 group"
-              title={`Open in ${platformName}`}
-            >
-              <PlatformIcon className={`text-sm ${iconColor}`} />
-              <span>{platformName}</span>
-              <ExternalLink size={12} className="opacity-70 group-hover:opacity-100 transition-opacity" />
-            </a>
-            <div className="flex-shrink-0 bg-neutral-800/50 text-neutral-400 text-xs font-medium px-2.5 py-1.5 rounded-md flex items-center gap-1.5 border border-neutral-700/50">
-              <Music size={12} />
-              <span>{playlistData.totalResults}곡</span>
+            <div className="flex items-center gap-2 pl-1 pr-3 py-1 rounded-full bg-neutral-900/50 border border-white/10 backdrop-blur-md">
+              <div className="w-6 h-6 rounded-full bg-teal-500/20 flex items-center justify-center">
+                <Music size={12} className="text-teal-400" />
+              </div>
+              <span className="text-xs font-medium text-neutral-300">{playlistData.totalResults} Tracks</span>
             </div>
           </div>
         </div>
@@ -146,15 +137,15 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
             href={item.url} 
             target="_blank" 
             rel="noopener noreferrer" 
-            className={`group relative rounded-lg overflow-hidden bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1 shadow-lg ${index === 4 ? 'hidden md:block' : ''}`}
+            className={`group/item relative rounded-lg overflow-hidden bg-white/5 border border-white/10 transition-all duration-300 hover:bg-white/10 hover:border-white/10 hover:-translate-y-1 shadow-lg ${index === 4 ? 'hidden md:block' : ''}`}
           >
             <div className="relative w-full aspect-video">
               {item.thumbnail ? (
-                <Image src={item.thumbnail} alt={item.title} fill className="object-cover transition-transform duration-300 group-hover:scale-105" />
+                <Image src={item.thumbnail} alt={item.title} fill className="object-cover transition-transform duration-300 group-hover/item:scale-105" />
               ) : (
                 <div className="absolute inset-0 flex items-center justify-center bg-slate-800/50"><ImageOff className="h-10 w-10 text-slate-500" /></div>
               )}
-              <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
+              <div className="absolute inset-0 bg-black/20 group-hover/item:bg-black/40 transition-colors" />
               <div className="absolute bottom-0 left-0 right-0 p-2 bg-gradient-to-t from-black/90 via-black/60 to-transparent">
                 <h3 className="font-semibold text-sm text-white truncate" title={item.title}>{item.title}</h3>
                 <p className="text-xs text-gray-300 truncate" title={item.artist}>{item.artist}</p>
@@ -165,22 +156,33 @@ export default function PlaylistCard({ playlistId, platform, playlistTitle, desc
       </div>
 
       <div className="px-6 pb-6">
-        <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex items-center justify-center gap-2 py-3 rounded-lg bg-neutral-800/50 hover:bg-neutral-800 text-neutral-300 hover:text-white transition-all duration-200 border border-neutral-700/50 group">
-          <ListMusic className={`w-5 h-5 transition-colors ${isExpanded ? 'text-teal-400' : 'text-neutral-400 group-hover:text-teal-400'}`} />
+        <a 
+          href={playlistUrl} 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="w-full flex items-center justify-center gap-2 py-3.5 mb-3 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm transition-all duration-300 group/platform-btn shadow-lg hover:bg-teal-500/20 hover:border-teal-500/50 hover:shadow-[0_0_20px_rgba(20,184,166,0.15)] hover:-translate-y-0.5"
+        >
+          <PlatformIcon className={`text-lg ${iconColor} group-hover/platform-btn:text-white transition-colors`} />
+          <span className="font-medium text-sm">{platformName}에서 보기</span>
+          <ExternalLink size={16} className="opacity-70 group-hover/platform-btn:opacity-100 transition-opacity" />
+        </a>
+
+        <button onClick={() => setIsExpanded(!isExpanded)} className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm transition-all duration-300 group/btn shadow-lg hover:bg-teal-500/20 hover:border-teal-500/50 hover:shadow-[0_0_20px_rgba(20,184,166,0.15)] hover:-translate-y-0.5">
+          <ListMusic className="w-5 h-5 text-teal-400 group-hover/btn:text-white transition-colors" />
           <span className="font-medium text-sm">{isExpanded ? '트랙 리스트 숨기기' : '모든 트랙 보기'}</span>
-          {isExpanded ? <ChevronUp className="w-4 h-4 text-neutral-500 group-hover:text-white" /> : <ChevronDown className="w-4 h-4 text-neutral-500 group-hover:text-white" />}
+          {isExpanded ? <ChevronUp className="w-4 h-4 text-neutral-500 group-hover/btn:text-white" /> : <ChevronDown className="w-4 h-4 text-neutral-500 group-hover/btn:text-white" />}
         </button>
       </div>
-      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[600px] opacity-100' : 'max-h-0 opacity-0'}`}>
-        <div className="px-6 pb-6 min-h-0 border-t border-neutral-800/50 pt-4">
-          <div className="max-h-[600px] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-neutral-800/30 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-600 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500 transition-colors">
+      <div className={`overflow-hidden transition-all duration-500 ease-in-out ${isExpanded ? 'max-h-[1000px] opacity-100' : 'max-h-0 opacity-0'}`}>
+        <div className="px-6 pb-6 min-h-0 border-t border-white/10 pt-4">
+          <div className="max-h-[600px] overflow-y-auto pr-2 pb-4 [&::-webkit-scrollbar]:w-2 [&::-webkit-scrollbar-track]:bg-neutral-800/30 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-600 [&::-webkit-scrollbar-thumb]:rounded-full hover:[&::-webkit-scrollbar-thumb]:bg-neutral-500 transition-colors">
             <ul className="space-y-1 pb-4">
               {allTracks.map((item, index) => (
-                <li key={item.id} className="flex items-center p-2 rounded-lg hover:bg-neutral-800/60 transition-colors duration-200 group border border-transparent hover:border-neutral-700/50">
-                  <span className="flex-shrink-0 text-neutral-500 w-8 text-center text-sm font-bold mr-2 group-hover:text-teal-400 transition-colors">{index + 1}</span>
+                <li key={item.id} className="flex items-center p-2 rounded-lg transition-all duration-200 group/item border border-transparent hover:bg-white/10 hover:border-white/10">
+                  <span className="flex-shrink-0 text-neutral-500 w-8 text-center text-sm font-bold mr-2 group-hover/item:text-teal-400 transition-colors">{index + 1}</span>
                   <a href={item.url} target="_blank" rel="noopener noreferrer" className="flex-1 min-w-0">
-                    <p className="text-sm text-neutral-200 truncate group-hover:text-white transition-colors">{item.title}</p>
-                    <p className="text-xs text-neutral-500 truncate group-hover:text-neutral-400 transition-colors">{item.artist}</p>
+                    <p className="text-sm text-neutral-200 truncate group-hover/item:text-white transition-colors">{item.title}</p>
+                    <p className="text-xs text-neutral-500 truncate group-hover/item:text-neutral-400 transition-colors">{item.artist}</p>
                   </a>
                 </li>
               ))}
