@@ -129,9 +129,9 @@ export default function PlaylistCardFeatured({ playlistId, platform, playlistTit
         <div className="mt-auto pt-2">
           <button 
             onClick={() => onMoveToPlaylist(playlistId, platform)}
-            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/5 hover:bg-teal-600 border border-white/10 hover:border-teal-500 text-white font-semibold text-sm transition-all duration-300 group/btn shadow-lg"
+            className="w-full flex items-center justify-center gap-2 py-3.5 rounded-xl bg-white/5 border border-white/10 text-white font-semibold text-sm transition-all duration-300 group/btn shadow-lg hover:bg-teal-500/20 hover:border-teal-500/50 hover:shadow-[0_0_20px_rgba(20,184,166,0.15)] hover:-translate-y-0.5"
           >
-            <ArrowDownCircle size={18} className="text-teal-400 group-hover/btn:text-white transition-colors" />
+            <ArrowDownCircle size={18} className="text-teal-400 group-hover/btn:text-teal-300 transition-colors" />
             <span>플레이리스트 보기</span>
           </button>
         </div>
