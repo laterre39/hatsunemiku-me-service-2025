@@ -12,8 +12,6 @@ export const metadata: Metadata = {
   },
 };
 
-export const revalidate = 21600; // 6시간마다 재검증 (6 * 60 * 60)
-
 export default async function EventPage() {
   const events = await getVocaEvents();
   return <EventPageClient initialEvents={events} />;
