@@ -43,3 +43,12 @@ model VocaPick {
 
   @@map("voca_pick") // 실제 테이블명 매핑
 }
+
+model VocaCommunity {
+  id          Int    @id @default(autoincrement()) // 커뮤니티 식별자 (PK)
+  name        String // 커뮤니티 이름
+  description String // 커뮤니티 설명
+  url         String // 커뮤니티 링크
+
+  @@map("voca_community") // 실제 테이블명 매핑
+}
