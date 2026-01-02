@@ -55,18 +55,30 @@ model VocaCommunity {
 
 model VocaBirthday {
   id    Int      @id @default(autoincrement()) // 생일 식별자 (PK)
-  name  String   // 캐릭터 이름
+  name  String // 캐릭터 이름
   date  DateTime // 생일 (출시일)
-  color String   // 대표 색상
+  color String // 대표 색상
 
   @@map("voca_birthday") // 실제 테이블명 매핑
 }
 
 model VocaSite {
   id   Int     @id @default(autoincrement()) // 사이트 식별자 (PK)
-  name String  // 사이트 이름
-  url  String  // 사이트 링크
+  name String // 사이트 이름
+  url  String // 사이트 링크
   show Boolean // 푸터 표시 여부
 
   @@map("voca_site") // 실제 테이블명 매핑
+}
+
+model VocaPlaylist {
+  id          Int     @id @default(autoincrement()) // 플레이리스트 식별자 (PK)
+  playlist_id String  @unique // 외부 플레이리스트 ID
+  platform    String // 플랫폼 (youtube, spotify)
+  name        String // 제목
+  description String? // 설명
+  creator     String? // 제작자
+  is_slider   Boolean @default(false) // 슬라이더 표시 여부
+
+  @@map("voca_playlist") // 실제 테이블명 매핑
 }
