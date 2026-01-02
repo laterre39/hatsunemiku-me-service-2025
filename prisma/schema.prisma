@@ -35,3 +35,11 @@ model VocaEvent {
 
   @@map("voca_event") // 실제 테이블명 매핑
 }
+
+model VocaPick {
+  id       Int     @id @default(autoincrement()) // 픽 식별자 (PK)
+  video_id String  @unique // 유튜브 비디오 ID
+  comment  String? // 비고 (주석)
+
+  @@map("voca_pick") // 실제 테이블명 매핑
+}

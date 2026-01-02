@@ -1,4 +1,4 @@
-import { AudioLines, CalendarClock } from 'lucide-react';
+import { AudioLines } from 'lucide-react';
 import { YouTubeSlider } from '@/components/YouTubeSlider';
 import { Tooltip } from '@/components/Tooltip';
 import { MikuIntroduction } from '@/components/MikuIntroduction';
@@ -6,12 +6,20 @@ import { EventSchedule } from "@/components/EventSchedule";
 import { RankingComponent } from "@/components/RankingComponent";
 import { MikuBirthdayConfetti } from "@/components/MikuBirthdayConfetti";
 import { VocaloidCommunity } from "@/components/VocaloidCommunity";
-import { youtubeVideoData } from "@/data/youtubeVideoLists";
 import { getVocaEvents } from "@/services/eventService";
+import { getVocaPicks } from "@/services/pickService";
+
+export const revalidate = 21600; // 6시간마다 재검증 (6 * 60 * 60)
 
 export default async function Home() {
+    // 이벤트 및 픽 목록 조회 (병렬 처리 가능)
+    const [events, picks] = await Promise.all([
+        getVocaEvents(),
+        getVocaPicks(),
+    ]);
 
-    const events = await getVocaEvents();
+    // YouTubeSlider에 전달할 비디오 ID 목록 추출
+    const videoIds = picks.map(pick => pick.videoId);
 
     return (
         <main>
@@ -23,11 +31,8 @@ export default async function Home() {
                     <h2>My Vocaloid Pick</h2>
                     <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 20개의 영상을 서비스 하고 있습니다."/>
                 </div>
-                <YouTubeSlider videos={youtubeVideoData.videos} />
-                <div className="flex items-center justify-end gap-2 text-sm text-slate-400 mt-3">
-                    <CalendarClock size={16} />
-                    <span>Last Updated: {youtubeVideoData.lastUpdated}</span>
-                </div>
+                <YouTubeSlider videos={videoIds} />
+                {/* Last Updated 정보는 DB에 없으므로 제거하거나 추후 별도 관리 필요 */}
             </section>
 
             {/* Miku Introduction Section */}
