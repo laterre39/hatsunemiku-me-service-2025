@@ -7,8 +7,12 @@ import { RankingComponent } from "@/components/RankingComponent";
 import { MikuBirthdayConfetti } from "@/components/MikuBirthdayConfetti";
 import { VocaloidCommunity } from "@/components/VocaloidCommunity";
 import { youtubeVideoData } from "@/data/youtubeVideoLists";
+import { getVocaEvents } from "@/services/eventService";
 
-export default function Home() {
+export default async function Home() {
+
+    const events = await getVocaEvents();
+
     return (
         <main>
 
@@ -53,7 +57,7 @@ export default function Home() {
                     <h2>Vocaloid Event Schedule</h2>
                     <Tooltip text="올해의 보컬로이드 관련 이벤트 스케쥴을 안내합니다."/>
                 </div>
-                <EventSchedule/>
+                <EventSchedule events={events}/>
             </section>
 
             {/* Vocaloid Community Section */}
