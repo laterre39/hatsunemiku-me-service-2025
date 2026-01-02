@@ -6,6 +6,8 @@ import localFont from 'next/font/local'
 import { FlowbiteClient } from '@/components/FlowbiteClient';
 import { ScrollToTopButton } from '@/components/ScrollToTopButton';
 import { BuyMeACoffee } from "@/components/BuyMeACoffee";
+import { getVocaBirthdays } from "@/services/birthdayService";
+import { getVocaSites } from "@/services/siteService";
 
 const siteConfig = {
   title: "HATSUNEMIKU.ME",
@@ -64,11 +66,16 @@ const pretendard = localFont({
   variable: '--font-pretendard',
 })
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const [birthdays, sites] = await Promise.all([
+    getVocaBirthdays(),
+    getVocaSites(),
+  ]);
+
   return (
     <html lang="ko" className={`${pretendard.variable} scroll-smooth`}>
       <body className="bg-[url('/main_bg.png')] bg-repeat">
@@ -77,7 +84,7 @@ export default function RootLayout({
           <main className="flex-1 container mx-auto px-4 max-w-5xl">
             {children}
           </main>
-          <Footer />
+          <Footer birthdays={birthdays} sites={sites} />
           <FlowbiteClient />
           <ScrollToTopButton />
           <BuyMeACoffee />

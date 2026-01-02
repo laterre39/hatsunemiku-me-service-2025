@@ -9,12 +9,14 @@ import { VocaloidCommunity } from "@/components/VocaloidCommunity";
 import { getVocaEvents } from "@/services/eventService";
 import { getVocaPicks } from "@/services/pickService";
 import { getVocaCommunities } from "@/services/communityService";
+import { getVocaBirthdays } from "@/services/birthdayService";
 
 export default async function Home() {
-    const [events, picks, communities] = await Promise.all([
+    const [events, picks, communities, birthdays] = await Promise.all([
         getVocaEvents(),
         getVocaPicks(),
         getVocaCommunities(),
+        getVocaBirthdays(),
     ]);
 
     const videoIds = picks.map(pick => pick.videoId);
@@ -73,7 +75,7 @@ export default async function Home() {
             </section>
 
             {/*생일 표시용 컴포넌트*/}
-            <MikuBirthdayConfetti />
+            <MikuBirthdayConfetti birthdays={birthdays} />
 
         </main>
     );

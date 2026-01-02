@@ -3,14 +3,18 @@
 import {Fragment, useEffect, useState} from 'react';
 import {X} from 'lucide-react';
 import confetti from 'canvas-confetti';
-import {vocaloidBirthdays} from '@/data/vocaloidBirthdayLists';
+import { VocaBirthday } from '@/services/birthdayService';
 
 interface BirthdayVocaloid {
     name: string;
     color: string;
 }
 
-export function MikuBirthdayConfetti() {
+interface MikuBirthdayConfettiProps {
+    birthdays: VocaBirthday[];
+}
+
+export function MikuBirthdayConfetti({ birthdays }: MikuBirthdayConfettiProps) {
     const [birthdayVocaloids, setBirthdayVocaloids] = useState<BirthdayVocaloid[]>([]);
     const [showBirthdayPopup, setShowBirthdayPopup] = useState(false);
 
@@ -30,7 +34,10 @@ export function MikuBirthdayConfetti() {
         const month = today.getUTCMonth() + 1; // 1-12
         const day = today.getUTCDate();
 
-        const todayVocaloids = vocaloidBirthdays.filter(v => v.month === month && v.day === day);
+        const todayVocaloids = birthdays.filter(v => {
+            const birthDate = new Date(v.date);
+            return (birthDate.getMonth() + 1) === month && birthDate.getDate() === day;
+        });
 
         if (todayVocaloids.length > 0) {
             setBirthdayVocaloids(todayVocaloids.map(v => ({ name: v.name, color: v.color })));
@@ -65,7 +72,7 @@ export function MikuBirthdayConfetti() {
 
             frame();
         }
-    }, []);
+    }, [birthdays]);
 
     const handleStopShowing = () => {
         const expires = new Date();

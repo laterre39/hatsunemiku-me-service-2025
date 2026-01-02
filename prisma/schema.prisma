@@ -52,3 +52,21 @@ model VocaCommunity {
 
   @@map("voca_community") // 실제 테이블명 매핑
 }
+
+model VocaBirthday {
+  id    Int      @id @default(autoincrement()) // 생일 식별자 (PK)
+  name  String   // 캐릭터 이름
+  date  DateTime // 생일 (출시일)
+  color String   // 대표 색상
+
+  @@map("voca_birthday") // 실제 테이블명 매핑
+}
+
+model VocaSite {
+  id   Int     @id @default(autoincrement()) // 사이트 식별자 (PK)
+  name String  // 사이트 이름
+  url  String  // 사이트 링크
+  show Boolean // 푸터 표시 여부
+
+  @@map("voca_site") // 실제 테이블명 매핑
+}
