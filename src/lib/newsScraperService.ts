@@ -127,22 +127,22 @@ async function saveNewsToDatabase(category: string, rssItems: RSSItem[]): Promis
 
 // ==================== DB 조회 함수 ====================
 
-export const getNewsFromDatabase = unstable_cache(
-  async (category: 'hatsuneMiku' | 'vocaloid'): Promise<VocaNews[]> => {
-    try {
-      const dbItems = await prisma.vocaNews.findMany({
-        where: { category },
-        orderBy: { date: 'desc' },
-      });
-      return dbItems;
-    } catch (error) {
-      console.error(`❌ DB 조회 실패 (${category}):`, error);
-      return [];
-    }
-  },
-  ['news-list'],
-  { revalidate: 21600, tags: ['news'] }
-);
+// export const getNewsFromDatabase = unstable_cache(
+//   async (category: 'hatsuneMiku' | 'vocaloid'): Promise<VocaNews[]> => {
+//     try {
+//       const dbItems = await prisma.vocaNews.findMany({
+//         where: { category },
+//         orderBy: { date: 'desc' },
+//       });
+//       return dbItems;
+//     } catch (error) {
+//       console.error(`❌ DB 조회 실패 (${category}):`, error);
+//       return [];
+//     }
+//   },
+//   ['news-list'],
+//   { revalidate: 21600, tags: ['news'] }
+// );
 
 // ==================== 통합 함수 ====================
 
