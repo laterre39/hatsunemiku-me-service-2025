@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/news-scraper",
+      "path": "/api/cron/scrape-news",
       "schedule": "0 19 * * *"
     }
   ]
