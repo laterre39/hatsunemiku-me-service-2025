@@ -1,5 +1,6 @@
 import { EventPageClient } from '@/components/EventPageClient';
-import type {Metadata} from "next";
+import type { Metadata } from "next";
+import { getVocaEvents } from "@/services/eventService";
 
 export const metadata: Metadata = {
   title: 'Event',
@@ -11,6 +12,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default function EventPage() {
-  return <EventPageClient />; // TODO:추후에 리팩토링
+export default async function EventPage() {
+  const events = await getVocaEvents();
+  return <EventPageClient initialEvents={events} />;
 }

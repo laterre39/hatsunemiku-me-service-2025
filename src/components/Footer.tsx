@@ -1,13 +1,18 @@
 'use client';
 
 import React, { useState } from 'react';
-import { vocaloidBirthdays } from '@/data/vocaloidBirthdayLists';
-import { linkedSites } from "@/data/linkedSites";
 import { Calendar, ExternalLink, Send, ArrowRight } from "lucide-react";
 import { LinkedSiteCard } from './LinkedSiteCard';
 import { BirthdayListItem, VocaloidBirthday } from './BirthdayListItem';
+import { VocaBirthday } from '@/services/birthdayService';
+import { VocaSite } from '@/services/siteService';
 
-export function Footer() {
+interface FooterProps {
+  birthdays: VocaBirthday[];
+  sites: VocaSite[];
+}
+
+export function Footer({ birthdays, sites }: FooterProps) {
     const [isBirthdayModalOpen, setIsBirthdayModalOpen] = useState(false);
     const [isLinkedSitesModalOpen, setIsLinkedSitesModalOpen] = useState(false);
 
@@ -20,8 +25,13 @@ export function Footer() {
     const today = getTodayKST();
     const currentYear = today.getUTCFullYear();
 
-    const sortedBirthdays: VocaloidBirthday[] = vocaloidBirthdays.map(vocaloid => {
-        const birthdayThisYear = new Date(Date.UTC(currentYear, vocaloid.month - 1, vocaloid.day));
+    const sortedBirthdays: VocaloidBirthday[] = birthdays.map(vocaloid => {
+        const birthDate = new Date(vocaloid.date);
+        const month = birthDate.getMonth() + 1;
+        const day = birthDate.getDate();
+        const year = birthDate.getFullYear();
+
+        const birthdayThisYear = new Date(Date.UTC(currentYear, month - 1, day));
         const diffDays = Math.round((birthdayThisYear.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
         let isHighlight = false;
@@ -34,7 +44,7 @@ export function Footer() {
         } else {
             let upcomingDDay = diffDays;
             if (diffDays < 0) {
-                const birthdayNextYear = new Date(Date.UTC(currentYear + 1, vocaloid.month - 1, vocaloid.day));
+                const birthdayNextYear = new Date(Date.UTC(currentYear + 1, month - 1, day));
                 upcomingDDay = Math.round((birthdayNextYear.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
             }
             dDayText = `D-${upcomingDDay}`;
@@ -42,15 +52,19 @@ export function Footer() {
         }
 
         return {
-            ...vocaloid,
+            name: vocaloid.name,
+            month,
+            day,
+            year,
+            color: vocaloid.color,
             dDayText,
             isHighlight,
             sortKey,
-            anniversary: currentYear - vocaloid.year
+            anniversary: currentYear - year
         };
     }).toSorted((a, b) => a.sortKey - b.sortKey);
 
-    const sitesForFooter = linkedSites.filter(site => site.showInFooter);
+    const sitesForFooter = sites.filter(site => site.show);
 
     return (
         <footer className="border-t border-gray-200/80 bg-white mt-12">
@@ -105,7 +119,7 @@ export function Footer() {
                                 <li key={site.name}><LinkedSiteCard site={site}/></li>
                             ))}
                         </ul>
-                        {linkedSites.length > sitesForFooter.length && (
+                        {sites.length > sitesForFooter.length && (
                             <button onClick={() => setIsLinkedSitesModalOpen(true)}
                                     className="mt-3 w-full flex items-center justify-center gap-2 rounded-lg border border-gray-300 bg-gray-150 px-4 py-2 text-sm font-semibold text-gray-600 transition-all hover:bg-cyan-50 hover:border-cyan-300 hover:text-cyan-700 hover:shadow-md">
                                 <span>더보기</span>
@@ -161,7 +175,7 @@ export function Footer() {
                         </h3>
                         <div className="overflow-y-auto max-h-96">
                             <ul className="grid grid-cols-1 sm:grid-cols-2 gap-3 pr-2">
-                                {linkedSites.map((site) => (
+                                {sites.map((site) => (
                                     <li key={site.name}><LinkedSiteCard site={site}/></li>
                                 ))}
                             </ul>

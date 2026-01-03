@@ -1,4 +1,4 @@
-import { AudioLines, CalendarClock } from 'lucide-react';
+import { AudioLines } from 'lucide-react';
 import { YouTubeSlider } from '@/components/YouTubeSlider';
 import { Tooltip } from '@/components/Tooltip';
 import { MikuIntroduction } from '@/components/MikuIntroduction';
@@ -6,9 +6,21 @@ import { EventSchedule } from "@/components/EventSchedule";
 import { RankingComponent } from "@/components/RankingComponent";
 import { MikuBirthdayConfetti } from "@/components/MikuBirthdayConfetti";
 import { VocaloidCommunity } from "@/components/VocaloidCommunity";
-import { youtubeVideoData } from "@/data/youtubeVideoLists";
+import { getVocaEvents } from "@/services/eventService";
+import { getVocaPicks } from "@/services/pickService";
+import { getVocaCommunities } from "@/services/communityService";
+import { getVocaBirthdays } from "@/services/birthdayService";
 
-export default function Home() {
+export default async function Home() {
+    const [events, picks, communities, birthdays] = await Promise.all([
+        getVocaEvents(),
+        getVocaPicks(),
+        getVocaCommunities(),
+        getVocaBirthdays(),
+    ]);
+
+    const videoIds = picks.map(pick => pick.videoId);
+
     return (
         <main>
 
@@ -19,11 +31,7 @@ export default function Home() {
                     <h2>My Vocaloid Pick</h2>
                     <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 20개의 영상을 서비스 하고 있습니다."/>
                 </div>
-                <YouTubeSlider videos={youtubeVideoData.videos} />
-                <div className="flex items-center justify-end gap-2 text-sm text-slate-400 mt-3">
-                    <CalendarClock size={16} />
-                    <span>Last Updated: {youtubeVideoData.lastUpdated}</span>
-                </div>
+                <YouTubeSlider videos={videoIds} />
             </section>
 
             {/* Miku Introduction Section */}
@@ -53,7 +61,7 @@ export default function Home() {
                     <h2>Vocaloid Event Schedule</h2>
                     <Tooltip text="올해의 보컬로이드 관련 이벤트 스케쥴을 안내합니다."/>
                 </div>
-                <EventSchedule/>
+                <EventSchedule events={events}/>
             </section>
 
             {/* Vocaloid Community Section */}
@@ -63,11 +71,11 @@ export default function Home() {
                     <h2>Vocaloid Community</h2>
                     <Tooltip text="국내 보컬로이드 커뮤니티를 소개합니다."/>
                 </div>
-                <VocaloidCommunity/>
+                <VocaloidCommunity communities={communities}/>
             </section>
 
             {/*생일 표시용 컴포넌트*/}
-            <MikuBirthdayConfetti />
+            <MikuBirthdayConfetti birthdays={birthdays} />
 
         </main>
     );

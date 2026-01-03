@@ -1,8 +1,8 @@
-import { PlaylistInfo } from "@/data/vocaloidPlaylists";
+import { VocaPlaylist } from "@/services/playlistService";
 import PlaylistCardFeatured from "./PlaylistCardFeatured";
 
 interface FeaturedPlaylistsProps {
-  playlists: PlaylistInfo[];
+  playlists: VocaPlaylist[];
   onMoveToPlaylist: (playlistId: string, platform: string) => void;
 }
 
@@ -18,7 +18,6 @@ export default function FeaturedPlaylists({ playlists, onMoveToPlaylist }: Featu
             playlistTitle={playlist.title}
             description={playlist.description}
             creator={playlist.creator}
-            featuredTrackIndices={playlist.featuredTrackIndices}
             onMoveToPlaylist={onMoveToPlaylist}
           />
         ))}

@@ -16,7 +16,7 @@ export function MikuIntroduction() {
         alt="체리팝 일러스트"
         width={500}
         height={500}
-        quality={80}
+        quality={75}
         priority={true}
         className="object-contain rounded-xl"
       />

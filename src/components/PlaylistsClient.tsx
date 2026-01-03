@@ -5,22 +5,20 @@ import PlaylistCard from '@/components/PlaylistCard';
 import FeaturedPlaylists from '@/components/FeaturedPlaylists';
 import { Sparkles, ListMusic } from 'lucide-react';
 import Pagination from '@/components/Pagination';
-import { PlaylistInfo } from '@/data/vocaloidPlaylists';
+import { VocaPlaylist } from '@/services/playlistService';
 
 const ITEMS_PER_PAGE = 5;
 
 interface PlaylistsClientProps {
-  playlists: PlaylistInfo[];
+  playlists: VocaPlaylist[];
 }
 
 export default function PlaylistsClient({ playlists }: PlaylistsClientProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [targetPlaylistId, setTargetPlaylistId] = useState<string | null>(null);
 
-  // isSlider가 true인 플레이리스트 중 3개만 선택
   const sliderPlaylists = playlists.filter(p => p.isSlider).slice(0, 3);
   
-  // 페이지네이션을 적용할 전체 플레이리스트
   const totalPages = Math.ceil(playlists.length / ITEMS_PER_PAGE);
   const paginatedPlaylists = playlists.slice(
     (currentPage - 1) * ITEMS_PER_PAGE,
@@ -44,7 +42,6 @@ export default function PlaylistsClient({ playlists }: PlaylistsClientProps) {
     }
   };
 
-  // 페이지 변경 후 타겟 플레이리스트로 스크롤 이동
   useEffect(() => {
     if (targetPlaylistId) {
       const timer = setTimeout(() => {
@@ -97,7 +94,6 @@ export default function PlaylistsClient({ playlists }: PlaylistsClientProps) {
               playlistTitle={playlist.title}
               description={playlist.description}
               creator={playlist.creator}
-              featuredTrackIndices={playlist.featuredTrackIndices}
             />
           ))}
         </div>
