@@ -19,6 +19,9 @@ export const getVocaEvents = unstable_cache(
       comment: event.comment,
     }));
   },
-  ['voca-events'],
-  { revalidate: 21600 }
+  ['voca-events-list'], // Cache Key
+  { 
+    revalidate: 21600,
+    tags: ['voca-events'] // Cache Tag
+  }
 );
