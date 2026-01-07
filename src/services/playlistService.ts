@@ -27,6 +27,9 @@ export const getVocaPlaylists = unstable_cache(
       isSlider: pl.is_slider,
     }));
   },
-  ['voca-playlists'],
-  { revalidate: 21600 }
+  ['voca-playlists-list'],
+  { 
+    revalidate: 21600,
+    tags: ['voca-playlists']
+  }
 );
