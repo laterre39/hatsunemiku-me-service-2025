@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import UserManagementClient from "@/components/UserManagementClient";
 import { Users, ArrowLeft, LayoutDashboard, ChevronRight } from "lucide-react";
@@ -8,7 +8,7 @@ import Link from "next/link";
 import LogoutButton from "@/components/LogoutButton";
 import AccessDenied from "@/components/AccessDenied";
 
-// 이 페이지는 항상 최신 데이터를 불러오도록 설정
+// 이 페이지는 항상 최신 데이터를 불러오도록 설정 (캐시 끄기)
 export const dynamic = 'force-dynamic';
 
 export default async function UserManagementPage() {
@@ -22,7 +22,7 @@ export default async function UserManagementPage() {
     return <AccessDenied />;
   }
 
-  // 병렬로 데이터 조회
+  // 병렬로 데이터 조회 (캐시 없이 직접 DB 조회)
   const [users, whitelist] = await Promise.all([
     prisma.user.findMany({
       orderBy: { name: 'asc' },
@@ -30,6 +30,7 @@ export default async function UserManagementPage() {
     prisma.whiteList.findMany({ orderBy: { id: 'desc' } }),
   ]);
 
+  // Prisma User 타입을 AppUser 타입으로 변환 (role이 string이므로 호환됨)
   const serializedUsers = users.map(user => ({
     id: user.id,
     name: user.name,

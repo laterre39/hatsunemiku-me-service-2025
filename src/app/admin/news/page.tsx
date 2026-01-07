@@ -1,6 +1,6 @@
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/auth";
 import prisma from "@/lib/prisma";
 import NewsManagementClient from "@/components/NewsManagementClient";
 import { Newspaper, ArrowLeft, LayoutDashboard, ChevronRight } from "lucide-react";
