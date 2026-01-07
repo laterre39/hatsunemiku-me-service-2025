@@ -26,6 +26,9 @@ export const getVocaNews = unstable_cache(
       title_kr: item.title_kr,
     }));
   },
-  ['voca-news'],
-  { revalidate: 21600 }
+  ['voca-news-list'], // Cache Key
+  { 
+    revalidate: 21600,
+    tags: ['voca-news'] // Cache Tag
+  }
 );
