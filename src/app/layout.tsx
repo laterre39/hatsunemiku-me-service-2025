@@ -8,6 +8,7 @@ import { ScrollToTopButton } from '@/components/ScrollToTopButton';
 import { BuyMeACoffee } from "@/components/BuyMeACoffee";
 import { getVocaBirthdays } from "@/services/birthdayService";
 import { getVocaSites } from "@/services/siteService";
+import AuthProvider from "@/components/AuthProvider";
 
 const siteConfig = {
   title: "HATSUNEMIKU.ME",
@@ -71,6 +72,7 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  // 푸터에 필요한 데이터 조회 (병렬 처리)
   const [birthdays, sites] = await Promise.all([
     getVocaBirthdays(),
     getVocaSites(),
@@ -79,16 +81,18 @@ export default async function RootLayout({
   return (
     <html lang="ko" className={`${pretendard.variable} scroll-smooth`}>
       <body className="bg-[url('/main_bg.png')] bg-repeat">
-        <div className="relative flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1 container mx-auto px-4 max-w-5xl">
-            {children}
-          </main>
-          <Footer birthdays={birthdays} sites={sites} />
-          <FlowbiteClient />
-          <ScrollToTopButton />
-          <BuyMeACoffee />
-        </div>
+        <AuthProvider>
+          <div className="relative flex min-h-screen flex-col">
+            <Header />
+            <main className="flex-1 container mx-auto px-4 max-w-5xl">
+              {children}
+            </main>
+            <Footer birthdays={birthdays} sites={sites} />
+            <FlowbiteClient />
+            <ScrollToTopButton />
+            <BuyMeACoffee />
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );
