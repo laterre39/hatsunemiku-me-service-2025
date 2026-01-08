@@ -20,7 +20,10 @@ export default async function PlaylistManagementPage() {
   }
 
   const playlists = await prisma.vocaPlaylist.findMany({
-    orderBy: { id: 'desc' },
+    orderBy: [
+      { order: 'asc' }, // 순서 기준 정렬
+      { id: 'desc' }
+    ],
   });
 
   return (

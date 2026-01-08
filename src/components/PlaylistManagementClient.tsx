@@ -1,9 +1,26 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Edit, Trash2, X, ExternalLink, ListMusic } from "lucide-react";
+import { Plus, Edit, Trash2, X, GripVertical, Save } from "lucide-react";
 import { FaYoutube, FaSpotify } from "react-icons/fa";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface VocaPlaylist {
   id: number;
@@ -13,10 +30,95 @@ interface VocaPlaylist {
   description: string | null;
   creator: string | null;
   is_slider: boolean;
+  order: number;
 }
 
 interface PlaylistManagementClientProps {
   initialPlaylists: VocaPlaylist[];
+}
+
+// Sortable Row Component
+function SortableRow({ playlist, selectedIds, handleSelectOne, openModal }: {
+  playlist: VocaPlaylist;
+  selectedIds: Set<number>;
+  handleSelectOne: (id: number) => void;
+  openModal: (playlist: VocaPlaylist) => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: playlist.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 10 : 1,
+    position: isDragging ? 'relative' as const : undefined,
+  };
+
+  return (
+    <tr
+      ref={setNodeRef}
+      style={style}
+      className={`transition-colors duration-200 ${selectedIds.has(playlist.id) ? 'bg-[#39C5BB]/10' : 'hover:bg-white/5'} ${isDragging ? 'bg-white/10 shadow-xl' : ''}`}
+    >
+      <td className="px-4 py-4 text-center">
+        <div className="flex justify-center items-center gap-2">
+          <button
+            {...attributes}
+            {...listeners}
+            className="cursor-grab active:cursor-grabbing text-gray-500 hover:text-white p-1 rounded hover:bg-white/10"
+          >
+            <GripVertical size={16} />
+          </button>
+          <input
+            type="checkbox"
+            checked={selectedIds.has(playlist.id)}
+            onChange={() => handleSelectOne(playlist.id)}
+            className="h-5 w-5 rounded border-gray-600 bg-gray-800 text-[#39C5BB] focus:ring-[#39C5BB] focus:ring-offset-0 cursor-pointer"
+          />
+        </div>
+      </td>
+      <td className="px-6 py-4 text-center">
+        <div className="flex justify-center">
+          {playlist.platform === 'youtube' ? (
+            <FaYoutube className="text-red-500 text-xl" />
+          ) : (
+            <FaSpotify className="text-green-500 text-xl" />
+          )}
+        </div>
+      </td>
+      <td className="px-6 py-4 text-left">
+        <div className="flex flex-col">
+          <span className="text-sm font-medium text-white">{playlist.name}</span>
+          <span className="text-xs text-gray-400 font-mono">{playlist.playlist_id}</span>
+        </div>
+      </td>
+      <td className="px-6 py-4 text-left text-sm text-gray-300">
+        {playlist.creator || "-"}
+      </td>
+      <td className="px-6 py-4 text-center">
+        {playlist.is_slider ? (
+          <span className="inline-flex items-center rounded-full bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400">ON</span>
+        ) : (
+          <span className="inline-flex items-center rounded-full bg-gray-500/10 px-2 py-1 text-xs font-medium text-gray-400">OFF</span>
+        )}
+      </td>
+      <td className="px-6 py-4 text-center">
+        <button
+          onClick={() => openModal(playlist)}
+          className="rounded-lg p-2 text-gray-400 transition-all hover:bg-white/10 hover:text-white hover:scale-110 mx-auto"
+          title="수정"
+        >
+          <Edit size={18} />
+        </button>
+      </td>
+    </tr>
+  );
 }
 
 export default function PlaylistManagementClient({ initialPlaylists }: PlaylistManagementClientProps) {
@@ -24,6 +126,8 @@ export default function PlaylistManagementClient({ initialPlaylists }: PlaylistM
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPlaylist, setCurrentPlaylist] = useState<VocaPlaylist | null>(null);
+  const [isOrderChanged, setIsOrderChanged] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
   const [formData, setFormData] = useState({
     playlistId: "",
@@ -36,9 +140,26 @@ export default function PlaylistManagementClient({ initialPlaylists }: PlaylistM
   
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  
+  const prevInitialPlaylistsRef = useRef(initialPlaylists);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   useEffect(() => {
-    setPlaylists(initialPlaylists);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (prevInitialPlaylistsRef.current !== initialPlaylists) {
+      setPlaylists(initialPlaylists);
+      setIsOrderChanged(false);
+      prevInitialPlaylistsRef.current = initialPlaylists;
+    }
   }, [initialPlaylists]);
 
   const isAllSelected = useMemo(() => playlists.length > 0 && selectedIds.size === playlists.length, [selectedIds, playlists]);
@@ -103,11 +224,8 @@ export default function PlaylistManagementClient({ initialPlaylists }: PlaylistM
     e.preventDefault();
     if (loading) return;
 
-    // 추천 노출 개수 제한 로직
     if (formData.isSlider) {
       const currentSliderCount = playlists.filter(p => p.is_slider).length;
-      // 수정 시: 현재 항목이 이미 켜져있었다면 카운트에서 제외할 필요 없음 (그대로 유지)
-      // 하지만 꺼져있던걸 켜는 경우라면 체크 필요
       const isTurningOn = currentPlaylist ? !currentPlaylist.is_slider : true;
 
       if (isTurningOn && currentSliderCount >= 3) {
@@ -165,17 +283,79 @@ export default function PlaylistManagementClient({ initialPlaylists }: PlaylistM
     }
   };
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setPlaylists((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        
+        const newItems = arrayMove(items, oldIndex, newIndex);
+        setIsOrderChanged(true); // 순서 변경 감지
+        return newItems;
+      });
+    }
+  };
+
+  const handleSaveOrder = async () => {
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      // 현재 화면에 보이는 순서대로 order 값을 재할당
+      const updatedPlaylists = playlists.map((item, index) => ({
+        id: item.id,
+        order: index,
+      }));
+
+      const response = await fetch("/api/playlists", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: updatedPlaylists }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update order");
+      
+      // 저장 성공 시 알림
+      alert("순서가 저장되었습니다.");
+      
+      // 서버 데이터 갱신 요청
+      router.refresh();
+      
+    } catch (error) {
+      console.error(error);
+      alert("순서 저장에 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <div>
       <div className="mb-6 flex justify-between items-center">
-        <div>
+        <div className="flex items-center gap-3">
           {selectedIds.size > 0 && (
             <button
               onClick={handleDeleteMany}
-              className="flex items-center gap-2 rounded-lg bg-red-500/20 px-4 py-2 font-bold text-red-400 transition-colors hover:bg-red-500/30"
+              disabled={isOrderChanged} // 순서 변경 중에는 삭제 비활성화
+              className="flex items-center gap-2 rounded-lg bg-red-500/20 px-4 py-2 font-bold text-red-400 transition-colors hover:bg-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Trash2 size={16} />
               {isAllSelected ? '모두 제거' : '선택 삭제'}
+            </button>
+          )}
+          {isOrderChanged && (
+            <button
+              onClick={handleSaveOrder}
+              className="flex items-center gap-2 rounded-lg bg-[#39C5BB] px-4 py-2 font-bold text-white transition-all hover:bg-[#2fa098] shadow-lg shadow-[#39C5BB]/20"
+            >
+              <Save size={16} />
+              순서 저장
             </button>
           )}
         </div>
@@ -189,91 +369,60 @@ export default function PlaylistManagementClient({ initialPlaylists }: PlaylistM
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-xl">
-        <table className="min-w-full divide-y divide-white/10 text-center">
-          <thead className="bg-white/5">
-            <tr>
-              <th scope="col" className="px-4 py-3 w-20 align-middle text-center">
-                <div className="flex flex-col items-center justify-center gap-1">
-                  <input
-                    type="checkbox"
-                    checked={isAllSelected}
-                    onChange={handleSelectAll}
-                    className="h-5 w-5 rounded border-gray-600 bg-gray-800 text-[#39C5BB] focus:ring-[#39C5BB] focus:ring-offset-0 cursor-pointer"
-                  />
-                  <span className="text-[10px] font-medium text-gray-400 whitespace-nowrap">전체</span>
-                </div>
-              </th>
-              <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-32">
-                플랫폼
-              </th>
-              <th scope="col" className="px-6 py-5 text-left text-sm font-semibold text-gray-300">
-                제목
-              </th>
-              <th scope="col" className="px-6 py-5 text-left text-sm font-semibold text-gray-300 w-32">
-                제작자
-              </th>
-              <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-48">
-                추천표시
-              </th>
-              <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-24">
-                수정
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/10">
-            {playlists.map((playlist) => (
-              <tr 
-                key={playlist.id} 
-                className={`transition-colors duration-200 ${selectedIds.has(playlist.id) ? 'bg-[#39C5BB]/10' : 'hover:bg-white/5'}`}
-              >
-                <td className="px-4 py-4 text-center">
-                  <div className="flex justify-center">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <table className="min-w-full divide-y divide-white/10 text-center">
+            <thead className="bg-white/5">
+              <tr>
+                <th scope="col" className="px-4 py-3 w-24 align-middle text-center">
+                  <div className="flex flex-col items-center justify-center gap-1 pl-8"> {/* pl-6 -> pl-8로 수정 */}
                     <input
                       type="checkbox"
-                      checked={selectedIds.has(playlist.id)}
-                      onChange={() => handleSelectOne(playlist.id)}
+                      checked={isAllSelected}
+                      onChange={handleSelectAll}
                       className="h-5 w-5 rounded border-gray-600 bg-gray-800 text-[#39C5BB] focus:ring-[#39C5BB] focus:ring-offset-0 cursor-pointer"
                     />
+                    <span className="text-[10px] font-medium text-gray-400 whitespace-nowrap">전체</span>
                   </div>
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <div className="flex justify-center">
-                    {playlist.platform === 'youtube' ? (
-                      <FaYoutube className="text-red-500 text-xl" />
-                    ) : (
-                      <FaSpotify className="text-green-500 text-xl" />
-                    )}
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-left">
-                  <div className="flex flex-col">
-                    <span className="text-sm font-medium text-white">{playlist.name}</span>
-                    <span className="text-xs text-gray-400 font-mono">{playlist.playlist_id}</span>
-                  </div>
-                </td>
-                <td className="px-6 py-4 text-left text-sm text-gray-300">
-                  {playlist.creator || "-"}
-                </td>
-                <td className="px-6 py-4 text-center">
-                  {playlist.is_slider ? (
-                    <span className="inline-flex items-center rounded-full bg-green-500/10 px-2 py-1 text-xs font-medium text-green-400">ON</span>
-                  ) : (
-                    <span className="inline-flex items-center rounded-full bg-gray-500/10 px-2 py-1 text-xs font-medium text-gray-400">OFF</span>
-                  )}
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <button
-                    onClick={() => openModal(playlist)}
-                    className="rounded-lg p-2 text-gray-400 transition-all hover:bg-white/10 hover:text-white hover:scale-110 mx-auto"
-                    title="수정"
-                  >
-                    <Edit size={18} />
-                  </button>
-                </td>
+                </th>
+                <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-40"> {/* w-32 -> w-40으로 수정 */}
+                  플랫폼
+                </th>
+                <th scope="col" className="px-6 py-5 text-left text-sm font-semibold text-gray-300">
+                  제목
+                </th>
+                <th scope="col" className="px-6 py-5 text-left text-sm font-semibold text-gray-300 w-32">
+                  제작자
+                </th>
+                <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-48">
+                  추천표시
+                </th>
+                <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-24">
+                  수정
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-white/10">
+              <SortableContext
+                items={playlists.map(p => p.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {playlists.map((playlist) => (
+                  <SortableRow
+                    key={playlist.id}
+                    playlist={playlist}
+                    selectedIds={selectedIds}
+                    handleSelectOne={handleSelectOne}
+                    openModal={openModal}
+                  />
+                ))}
+              </SortableContext>
+            </tbody>
+          </table>
+        </DndContext>
       </div>
 
       {/* Modal */}

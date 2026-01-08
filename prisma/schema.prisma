@@ -79,6 +79,7 @@ model VocaPlaylist {
   description String? // 설명
   creator     String? // 제작자
   is_slider   Boolean @default(false) // 슬라이더 표시 여부
+  order       Int     @default(0) // 표시 순서 (낮을수록 먼저 표시)
 
   @@map("voca_playlist") // 실제 테이블명 매핑
 }
