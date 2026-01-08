@@ -23,6 +23,9 @@ export const getVocaSites = unstable_cache(
       show: site.show,
     }));
   },
-  ['voca-sites'],
-  { revalidate: 21600 }
+  ['voca-sites-list'], // Cache Key
+  { 
+    revalidate: 21600,
+    tags: ['voca-sites'] // Cache Tag
+  }
 );

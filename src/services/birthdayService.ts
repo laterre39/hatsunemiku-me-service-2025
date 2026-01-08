@@ -4,7 +4,7 @@ import { unstable_cache } from "next/cache";
 export interface VocaBirthday {
   id: number;
   name: string;
-  date: Date; // 출시일 (YYYY-MM-DD)
+  date: Date;
   color: string;
 }
 
@@ -24,5 +24,8 @@ export const getVocaBirthdays = unstable_cache(
     }));
   },
   ['voca-birthdays'],
-  { revalidate: 21600 }
+  { 
+    revalidate: 21600,
+    tags: ['voca-birthdays']
+  }
 );

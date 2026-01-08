@@ -12,17 +12,20 @@ export const getVocaCommunities = unstable_cache(
   async (): Promise<VocaCommunity[]> => {
     const communities = await prisma.vocaCommunity.findMany({
       orderBy: {
-        id: 'asc', // 등록순
+        id: 'asc',
       },
     });
 
-    return communities.map((community) => ({
-      id: community.id,
-      name: community.name,
-      description: community.description,
-      url: community.url,
+    return communities.map((item) => ({
+      id: item.id,
+      name: item.name,
+      description: item.description,
+      url: item.url,
     }));
   },
-  ['voca-communities'],
-  { revalidate: 21600 }
+  ['voca-communities-list'],
+  { 
+    revalidate: 21600,
+    tags: ['voca-communities']
+  }
 );

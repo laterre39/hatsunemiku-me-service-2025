@@ -15,7 +15,7 @@ export const getVocaPicks = unstable_cache(
   async (): Promise<VocaPick[]> => {
     const picks = await prisma.vocaPick.findMany({
       orderBy: {
-        id: 'desc', // 최신순 (또는 원하는 정렬 기준)
+        id: 'desc', // 최신순
       },
     });
 
@@ -25,6 +25,9 @@ export const getVocaPicks = unstable_cache(
       comment: pick.comment,
     }));
   },
-  ['voca-picks'], // 캐시 키
-  { revalidate: 21600 } // 6시간
+  ['voca-picks-list'], // Cache Key
+  { 
+    revalidate: 21600,
+    tags: ['voca-picks'] // Cache Tag
+  }
 );

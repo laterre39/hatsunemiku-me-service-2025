@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import Link from 'next/link';
 import { CalendarDays, Music2, ArrowRight } from 'lucide-react';
 import Pagination from '../../components/Pagination';
-import { getNewsFromDatabase } from '@/lib/newsScraperService';
+import { getVocaNews } from '@/services/newsService';
 
 const ITEMS_PER_PAGE = 10;
 
@@ -13,7 +13,7 @@ async function NewsList({ searchParams }: Readonly<{ searchParams: any }>) {
   const currentPage = Number(Array.isArray(pageParam) ? pageParam[0] : pageParam) || 1;
   const activeTab = resolvedSearchParams?.tab === 'vocaloid' ? 'vocaloid' : 'hatsuneMiku';
 
-  const items = await getNewsFromDatabase(activeTab);
+  const items = await getVocaNews(activeTab);
 
   const totalPages = Math.ceil(items.length / ITEMS_PER_PAGE);
   const paginatedItems = items.slice(
