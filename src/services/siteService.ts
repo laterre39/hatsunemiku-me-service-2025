@@ -11,9 +11,10 @@ export interface VocaSite {
 export const getVocaSites = unstable_cache(
   async (): Promise<VocaSite[]> => {
     const sites = await prisma.vocaSite.findMany({
-      orderBy: {
-        id: 'asc',
-      },
+      orderBy: [
+        { order: 'asc' },
+        { id: 'desc' }
+      ],
     });
 
     return sites.map((site) => ({

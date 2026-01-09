@@ -20,7 +20,10 @@ export default async function SiteManagementPage() {
   }
 
   const sites = await prisma.vocaSite.findMany({
-    orderBy: { id: 'desc' },
+    orderBy: [
+      { order: 'asc' },
+      { id: 'desc' }
+    ],
   });
 
   return (
