@@ -34,16 +34,15 @@ export const BirthdayListItem = ({ vocaloid }: { vocaloid: VocaloidBirthday }) =
         <div className="flex items-center justify-end w-20 flex-shrink-0">
             {vocaloid.isHighlight ? (
                 <span 
-                    className="px-2 py-0.5 rounded-full text-[10px] font-bold text-white shadow-sm animate-pulse whitespace-nowrap"
-                    style={{ backgroundColor: vocaloid.color }}
+                    className="px-2.5 py-1 rounded-full text-[10px] font-bold text-white shadow-md animate-pulse whitespace-nowrap bg-gradient-to-r from-pink-500 to-rose-500"
                 >
                     {vocaloid.anniversary}th 🎉
                 </span>
             ) : (
-                <span className={`text-xs font-medium px-2 py-0.5 rounded-full min-w-[3.5rem] text-center whitespace-nowrap ${
+                <span className={`text-[11px] font-bold px-2.5 py-1 rounded-full min-w-[3.5rem] text-center whitespace-nowrap shadow-sm border ${
                     vocaloid.sortKey <= 7 
-                        ? 'bg-pink-100 text-pink-600' 
-                        : 'bg-slate-100 text-slate-500'
+                        ? 'bg-rose-50 text-rose-600 border-rose-100' 
+                        : 'bg-slate-50 text-slate-500 border-slate-100'
                 }`}>
                     {vocaloid.dDayText}
                 </span>
