@@ -87,23 +87,23 @@ export function Footer({ birthdays, sites }: FooterProps) {
                                     <Sparkles className="text-yellow-400 animate-pulse" size={18} />
                                 </div>
                                 
-                                <div className="space-y-3 text-sm text-gray-600 leading-relaxed mb-5 flex-grow">
+                                <div className="space-y-2 text-md text-gray-600 leading-relaxed mb-5 flex-grow">
                                     <p>
                                         하츠네 미쿠를 향한 팬심을 담아<br/>
-                                        한 땀 한 땀 정성스럽게 만들었습니다.
+                                        한줄 한줄 정성스럽게 개발했습니다.
                                     </p>
-                                    <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 text-xs">
-                                        <p className="font-medium text-gray-700 mb-0.5 flex items-center gap-1.5">
-                                            <Heart size={12} className="text-pink-500 fill-pink-500" />
-                                            함께 만들어가요!
-                                        </p>
-                                        <p className="text-gray-500">
-                                            문의, 건의사항, <span className="text-[#39C5BB] font-bold">편집자 지원</span> 환영합니다.
-                                        </p>
-                                    </div>
-                                    <p className="text-center font-bold text-[#39C5BB]">
+                                    <p className="font-bold text-[#39C5BB]">
                                         미쿠미쿠하게 해줄게 ♪
                                     </p>
+                                    <div className="p-3 rounded-lg bg-slate-50 border border-slate-100 text-sm">
+                                        <p className="font-medium text-gray-700 mb-0.5 flex items-center gap-1.5">
+                                            <Heart size={12} className="text-pink-500 fill-pink-500" />
+                                            같이 사이트를 만들어가요!
+                                        </p>
+                                        <p className="text-gray-500">
+                                            <span className="text-[#39C5BB] font-bold">문의</span>, <span className="text-[#39C5BB] font-bold">건의사항</span>, <span className="text-[#39C5BB] font-bold">편집자 지원</span> 환영합니다.
+                                        </p>
+                                    </div>
                                 </div>
                                 
                                 <a href="mailto:contact@hatsunemiku.me"
