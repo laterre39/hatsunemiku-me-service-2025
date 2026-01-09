@@ -1,5 +1,5 @@
 import React from 'react';
-import { AudioLines, ExternalLink } from "lucide-react";
+import { AudioLines, ExternalLink, PenTool, BookOpen } from "lucide-react";
 import { FaCompactDisc, FaFacebook, FaSquareInstagram, FaSquareXTwitter } from "react-icons/fa6";
 
 interface IconProps {
@@ -14,6 +14,8 @@ const iconMap: { [key: string]: React.ComponentType<IconProps> } = {
     "Official Instagram": FaSquareInstagram,
     "KARENT Music": FaCompactDisc,
     "K!!te": FaCompactDisc,
+    "Piapro": PenTool,
+    "보카로 가사 위키": BookOpen,
 };
 
 export const LinkedSiteCard = ({ site }: { site: { name: string, url: string } }) => {
