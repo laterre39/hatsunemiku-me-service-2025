@@ -49,6 +49,7 @@ model VocaCommunity {
   name        String // 커뮤니티 이름
   description String // 커뮤니티 설명
   url         String // 커뮤니티 링크
+  order       Int    @default(0) // 표시 순서
 
   @@map("voca_community") // 실제 테이블명 매핑
 }

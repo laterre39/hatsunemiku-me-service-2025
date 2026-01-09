@@ -1,18 +1,111 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
+import { useState, useMemo, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
-import { Plus, Edit, Trash2, X, ExternalLink } from "lucide-react";
+import { Plus, Edit, Trash2, X, ExternalLink, GripVertical, Save } from "lucide-react";
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
+import { CSS } from '@dnd-kit/utilities';
 
 interface VocaCommunity {
   id: number;
   name: string;
   description: string;
   url: string;
+  order: number;
 }
 
 interface CommunityManagementClientProps {
   initialCommunities: VocaCommunity[];
+}
+
+// Sortable Row Component
+function SortableRow({ community, selectedIds, handleSelectOne, openModal }: {
+  community: VocaCommunity;
+  selectedIds: Set<number>;
+  handleSelectOne: (id: number) => void;
+  openModal: (community: VocaCommunity) => void;
+}) {
+  const {
+    attributes,
+    listeners,
+    setNodeRef,
+    transform,
+    transition,
+    isDragging,
+  } = useSortable({ id: community.id });
+
+  const style = {
+    transform: CSS.Transform.toString(transform),
+    transition,
+    zIndex: isDragging ? 10 : 1,
+    position: isDragging ? 'relative' as const : undefined,
+  };
+
+  return (
+    <tr
+      ref={setNodeRef}
+      style={style}
+      className={`transition-colors duration-200 ${selectedIds.has(community.id) ? 'bg-[#39C5BB]/10' : 'hover:bg-white/5'} ${isDragging ? 'bg-white/10 shadow-xl' : ''}`}
+    >
+      <td className="px-4 py-4 text-center">
+        <div className="flex justify-center items-center gap-2">
+          <button
+            {...attributes}
+            {...listeners}
+            className="cursor-grab active:cursor-grabbing text-gray-500 hover:text-white p-1 rounded hover:bg-white/10"
+          >
+            <GripVertical size={16} />
+          </button>
+          <input
+            type="checkbox"
+            checked={selectedIds.has(community.id)}
+            onChange={() => handleSelectOne(community.id)}
+            className="h-5 w-5 rounded border-gray-600 bg-gray-800 text-[#39C5BB] focus:ring-[#39C5BB] focus:ring-offset-0 cursor-pointer"
+          />
+        </div>
+      </td>
+      <td className="px-6 py-4 text-left">
+        <span className="text-sm font-medium text-white">{community.name}</span>
+      </td>
+      <td className="px-6 py-4 text-left text-sm text-gray-300">
+        <p className="line-clamp-2">{community.description}</p>
+      </td>
+      <td className="px-6 py-4 text-center">
+        <a
+          href={community.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-flex items-center justify-center rounded-lg bg-white/10 p-2 text-gray-300 hover:bg-white/20 hover:text-white transition-colors"
+        >
+          <ExternalLink size={16} />
+        </a>
+      </td>
+      <td className="px-6 py-4 text-center">
+        <button
+          onClick={() => openModal(community)}
+          className="rounded-lg p-2 text-gray-400 transition-all hover:bg-white/10 hover:text-white hover:scale-110 mx-auto"
+          title="수정"
+        >
+          <Edit size={18} />
+        </button>
+      </td>
+    </tr>
+  );
 }
 
 export default function CommunityManagementClient({ initialCommunities }: CommunityManagementClientProps) {
@@ -20,6 +113,8 @@ export default function CommunityManagementClient({ initialCommunities }: Commun
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set());
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentCommunity, setCurrentCommunity] = useState<VocaCommunity | null>(null);
+  const [isOrderChanged, setIsOrderChanged] = useState(false);
+  const [mounted, setMounted] = useState(false);
   
   const [formData, setFormData] = useState({
     name: "",
@@ -29,9 +124,26 @@ export default function CommunityManagementClient({ initialCommunities }: Commun
   
   const [loading, setLoading] = useState(false);
   const router = useRouter();
+  
+  const prevInitialCommunitiesRef = useRef(initialCommunities);
+
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, {
+      coordinateGetter: sortableKeyboardCoordinates,
+    })
+  );
 
   useEffect(() => {
-    setCommunities(initialCommunities);
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (prevInitialCommunitiesRef.current !== initialCommunities) {
+      setCommunities(initialCommunities);
+      setIsOrderChanged(false);
+      prevInitialCommunitiesRef.current = initialCommunities;
+    }
   }, [initialCommunities]);
 
   const isAllSelected = useMemo(() => communities.length > 0 && selectedIds.size === communities.length, [selectedIds, communities]);
@@ -135,17 +247,75 @@ export default function CommunityManagementClient({ initialCommunities }: Commun
     }
   };
 
+  const handleDragEnd = (event: DragEndEvent) => {
+    const { active, over } = event;
+
+    if (over && active.id !== over.id) {
+      setCommunities((items) => {
+        const oldIndex = items.findIndex((item) => item.id === active.id);
+        const newIndex = items.findIndex((item) => item.id === over.id);
+        
+        const newItems = arrayMove(items, oldIndex, newIndex);
+        setIsOrderChanged(true);
+        return newItems;
+      });
+    }
+  };
+
+  const handleSaveOrder = async () => {
+    if (loading) return;
+    setLoading(true);
+
+    try {
+      const updatedCommunities = communities.map((item, index) => ({
+        id: item.id,
+        order: index,
+      }));
+
+      const response = await fetch("/api/communities", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ items: updatedCommunities }),
+      });
+
+      if (!response.ok) throw new Error("Failed to update order");
+      
+      setIsOrderChanged(false);
+      router.refresh();
+      alert("순서가 저장되었습니다.");
+    } catch (error) {
+      console.error(error);
+      alert("순서 저장에 실패했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  if (!mounted) {
+    return null;
+  }
+
   return (
     <div>
       <div className="mb-6 flex justify-between items-center">
-        <div>
+        <div className="flex items-center gap-3">
           {selectedIds.size > 0 && (
             <button
               onClick={handleDeleteMany}
-              className="flex items-center gap-2 rounded-lg bg-red-500/20 px-4 py-2 font-bold text-red-400 transition-colors hover:bg-red-500/30"
+              disabled={isOrderChanged}
+              className="flex items-center gap-2 rounded-lg bg-red-500/20 px-4 py-2 font-bold text-red-400 transition-colors hover:bg-red-500/30 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <Trash2 size={16} />
               {isAllSelected ? '모두 제거' : '선택 삭제'}
+            </button>
+          )}
+          {isOrderChanged && (
+            <button
+              onClick={handleSaveOrder}
+              className="flex items-center gap-2 rounded-lg bg-[#39C5BB] px-4 py-2 font-bold text-white transition-all hover:bg-[#2fa098] shadow-lg shadow-[#39C5BB]/20"
+            >
+              <Save size={16} />
+              순서 저장
             </button>
           )}
         </div>
@@ -159,79 +329,57 @@ export default function CommunityManagementClient({ initialCommunities }: Commun
       </div>
 
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-xl">
-        <table className="min-w-full divide-y divide-white/10">
-          <thead className="bg-white/5">
-            <tr>
-              <th scope="col" className="px-4 py-3 w-20 align-middle text-center">
-                <div className="flex flex-col items-center justify-center gap-1">
-                  <input
-                    type="checkbox"
-                    checked={isAllSelected}
-                    onChange={handleSelectAll}
-                    className="h-5 w-5 rounded border-gray-600 bg-gray-800 text-[#39C5BB] focus:ring-[#39C5BB] focus:ring-offset-0 cursor-pointer"
-                  />
-                  <span className="text-[10px] font-medium text-gray-400 whitespace-nowrap">전체</span>
-                </div>
-              </th>
-              <th scope="col" className="px-6 py-5 text-left text-sm font-semibold text-gray-300 w-48">
-                이름
-              </th>
-              <th scope="col" className="px-6 py-5 text-left text-sm font-semibold text-gray-300">
-                설명
-              </th>
-              <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-32">
-                링크
-              </th>
-              <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-24">
-                수정
-              </th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-white/10">
-            {communities.map((community) => (
-              <tr 
-                key={community.id} 
-                className={`transition-colors duration-200 ${selectedIds.has(community.id) ? 'bg-[#39C5BB]/10' : 'hover:bg-white/5'}`}
-              >
-                <td className="px-4 py-4 text-center">
-                  <div className="flex justify-center">
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}
+        >
+          <table className="min-w-full divide-y divide-white/10 text-center">
+            <thead className="bg-white/5">
+              <tr>
+                <th scope="col" className="px-4 py-3 w-24 align-middle text-center">
+                  <div className="flex flex-col items-center justify-center gap-1 pl-8">
                     <input
                       type="checkbox"
-                      checked={selectedIds.has(community.id)}
-                      onChange={() => handleSelectOne(community.id)}
+                      checked={isAllSelected}
+                      onChange={handleSelectAll}
                       className="h-5 w-5 rounded border-gray-600 bg-gray-800 text-[#39C5BB] focus:ring-[#39C5BB] focus:ring-offset-0 cursor-pointer"
                     />
+                    <span className="text-[10px] font-medium text-gray-400 whitespace-nowrap">전체</span>
                   </div>
-                </td>
-                <td className="px-6 py-4 text-left">
-                  <span className="text-sm font-medium text-white">{community.name}</span>
-                </td>
-                <td className="px-6 py-4 text-left text-sm text-gray-300">
-                  <p className="line-clamp-2">{community.description}</p>
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <a
-                    href={community.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center justify-center rounded-lg bg-white/10 p-2 text-gray-300 hover:bg-white/20 hover:text-white transition-colors"
-                  >
-                    <ExternalLink size={16} />
-                  </a>
-                </td>
-                <td className="px-6 py-4 text-center">
-                  <button
-                    onClick={() => openModal(community)}
-                    className="rounded-lg p-2 text-gray-400 transition-all hover:bg-white/10 hover:text-white hover:scale-110 mx-auto"
-                    title="수정"
-                  >
-                    <Edit size={18} />
-                  </button>
-                </td>
+                </th>
+                <th scope="col" className="px-6 py-5 text-left text-sm font-semibold text-gray-300 w-48">
+                  이름
+                </th>
+                <th scope="col" className="px-6 py-5 text-left text-sm font-semibold text-gray-300">
+                  설명
+                </th>
+                <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-32">
+                  링크
+                </th>
+                <th scope="col" className="px-6 py-5 text-center text-sm font-semibold text-gray-300 w-24">
+                  수정
+                </th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody className="divide-y divide-white/10">
+              <SortableContext
+                items={communities.map(c => c.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {communities.map((community) => (
+                  <SortableRow
+                    key={community.id}
+                    community={community}
+                    selectedIds={selectedIds}
+                    handleSelectOne={handleSelectOne}
+                    openModal={openModal}
+                  />
+                ))}
+              </SortableContext>
+            </tbody>
+          </table>
+        </DndContext>
       </div>
 
       {/* Modal */}

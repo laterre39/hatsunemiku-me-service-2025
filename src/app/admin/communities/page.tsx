@@ -20,7 +20,10 @@ export default async function CommunityManagementPage() {
   }
 
   const communities = await prisma.vocaCommunity.findMany({
-    orderBy: { id: 'desc' },
+    orderBy: [
+      { order: 'asc' }, // 순서 기준 정렬
+      { id: 'desc' }    // 같은 순서일 경우 최신순
+    ],
   });
 
   return (
