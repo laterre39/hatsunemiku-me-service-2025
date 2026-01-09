@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import Link from "next/link";
-import { LayoutDashboard, Calendar, Music, Users, Newspaper, ListMusic, Globe, Gift, UserCog } from "lucide-react";
+import { LayoutDashboard, Calendar, Music, Users, Newspaper, ListMusic, Globe, Gift, LogOut, ShieldAlert, ArrowUpRight, UserCog } from "lucide-react";
 import LogoutButton from "@/components/LogoutButton";
 import AccessDenied from "@/components/AccessDenied";
 
@@ -39,7 +39,7 @@ export default async function AdminDashboard() {
   });
 
   return (
-    <div className="min-h-screen bg-[url('/main_bg.png')] bg-repeat p-4 sm:p-8 text-white">
+    <div className="min-h-screen p-4 sm:p-8 text-white">
       <div className="mx-auto max-w-6xl">
         <header className="mb-8 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>

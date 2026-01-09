@@ -20,11 +20,14 @@ export default async function SiteManagementPage() {
   }
 
   const sites = await prisma.vocaSite.findMany({
-    orderBy: { id: 'desc' },
+    orderBy: [
+      { order: 'asc' },
+      { id: 'desc' }
+    ],
   });
 
   return (
-    <div className="min-h-screen bg-[url('/main_bg.png')] bg-repeat p-4 sm:p-8 text-white">
+    <div className="min-h-screen p-4 sm:p-8 text-white">
       <div className="mx-auto max-w-7xl">
         <header className="mb-12 flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>

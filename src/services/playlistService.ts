@@ -13,9 +13,10 @@ export interface VocaPlaylist {
 export const getVocaPlaylists = unstable_cache(
   async (): Promise<VocaPlaylist[]> => {
     const playlists = await prisma.vocaPlaylist.findMany({
-      orderBy: {
-        id: 'asc', // 등록순
-      },
+      orderBy: [
+        { order: 'asc' }, // 순서 기준 정렬
+        { id: 'desc' }
+      ],
     });
 
     return playlists.map((pl) => ({

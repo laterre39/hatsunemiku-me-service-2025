@@ -13,7 +13,10 @@ export async function GET() {
 
   try {
     const playlists = await prisma.vocaPlaylist.findMany({
-      orderBy: { id: 'desc' },
+      orderBy: [
+        { order: 'asc' },
+        { id: 'desc' }
+      ],
     });
     return NextResponse.json(playlists);
   } catch (error) {
@@ -36,6 +39,11 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Missing required fields" }, { status: 400 });
     }
 
+    const lastPlaylist = await prisma.vocaPlaylist.findFirst({
+      orderBy: { order: 'desc' },
+    });
+    const nextOrder = (lastPlaylist?.order ?? 0) + 1;
+
     const newPlaylist = await prisma.vocaPlaylist.create({
       data: {
         playlist_id: playlistId,
@@ -44,15 +52,50 @@ export async function POST(request: NextRequest) {
         description,
         creator,
         is_slider: isSlider || false,
+        order: nextOrder,
       },
     });
 
     revalidateTag("voca-playlists");
-    revalidatePath("/playlists"); // 플레이리스트 페이지 갱신
+    revalidatePath("/playlists");
 
     return NextResponse.json(newPlaylist);
   } catch (error) {
     return NextResponse.json({ message: "Error creating playlist", error }, { status: 500 });
+  }
+}
+
+// 순서 일괄 변경 (PATCH)
+export async function PATCH(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session || !["ADMIN", "STAFF"].includes(session.user.role)) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 403 });
+  }
+
+  try {
+    const body = await request.json();
+    const { items } = body; // [{ id: 1, order: 0 }, { id: 2, order: 1 }, ...]
+
+    if (!items || !Array.isArray(items)) {
+      return NextResponse.json({ message: "Invalid data" }, { status: 400 });
+    }
+
+    // 트랜잭션으로 일괄 업데이트
+    await prisma.$transaction(
+      items.map((item: { id: number; order: number }) =>
+        prisma.vocaPlaylist.update({
+          where: { id: item.id },
+          data: { order: item.order },
+        })
+      )
+    );
+
+    revalidateTag("voca-playlists");
+    revalidatePath("/playlists");
+
+    return NextResponse.json({ message: "Order updated successfully" });
+  } catch (error) {
+    return NextResponse.json({ message: "Error updating order", error }, { status: 500 });
   }
 }
 

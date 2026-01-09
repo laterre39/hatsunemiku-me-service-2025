@@ -49,6 +49,7 @@ model VocaCommunity {
   name        String // 커뮤니티 이름
   description String // 커뮤니티 설명
   url         String // 커뮤니티 링크
+  order       Int    @default(0) // 표시 순서
 
   @@map("voca_community") // 실제 테이블명 매핑
 }
@@ -63,10 +64,11 @@ model VocaBirthday {
 }
 
 model VocaSite {
-  id   Int     @id @default(autoincrement()) // 사이트 식별자 (PK)
-  name String // 사이트 이름
-  url  String // 사이트 링크
-  show Boolean // 푸터 표시 여부
+  id    Int     @id @default(autoincrement()) // 사이트 식별자 (PK)
+  name  String // 사이트 이름
+  url   String // 사이트 링크
+  show  Boolean // 푸터 표시 여부
+  order Int     @default(0) // 표시 순서
 
   @@map("voca_site") // 실제 테이블명 매핑
 }
@@ -79,6 +81,7 @@ model VocaPlaylist {
   description String? // 설명
   creator     String? // 제작자
   is_slider   Boolean @default(false) // 슬라이더 표시 여부
+  order       Int     @default(0) // 표시 순서 (낮을수록 먼저 표시)
 
   @@map("voca_playlist") // 실제 테이블명 매핑
 }

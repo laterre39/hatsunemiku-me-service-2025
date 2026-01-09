@@ -13,7 +13,10 @@ export async function GET() {
 
   try {
     const sites = await prisma.vocaSite.findMany({
-      orderBy: { id: 'desc' },
+      orderBy: [
+        { order: 'asc' },
+        { id: 'desc' }
+      ],
     });
     return NextResponse.json(sites);
   } catch (error) {
@@ -36,20 +39,59 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ message: "Name and URL are required" }, { status: 400 });
     }
 
+    const lastSite = await prisma.vocaSite.findFirst({
+      orderBy: { order: 'desc' },
+    });
+    const nextOrder = (lastSite?.order ?? 0) + 1;
+
     const newSite = await prisma.vocaSite.create({
       data: {
         name,
         url,
         show: show || false,
+        order: nextOrder,
       },
     });
 
     revalidateTag("voca-sites");
-    revalidatePath("/", "layout"); // 모든 페이지의 푸터 갱신
+    revalidatePath("/", "layout");
 
     return NextResponse.json(newSite);
   } catch (error) {
     return NextResponse.json({ message: "Error creating site", error }, { status: 500 });
+  }
+}
+
+// 순서 일괄 변경 (PATCH)
+export async function PATCH(request: NextRequest) {
+  const session = await getServerSession(authOptions);
+  if (!session || !["ADMIN", "STAFF"].includes(session.user.role)) {
+    return NextResponse.json({ message: "Unauthorized" }, { status: 403 });
+  }
+
+  try {
+    const body = await request.json();
+    const { items } = body;
+
+    if (!items || !Array.isArray(items)) {
+      return NextResponse.json({ message: "Invalid data" }, { status: 400 });
+    }
+
+    await prisma.$transaction(
+      items.map((item: { id: number; order: number }) =>
+        prisma.vocaSite.update({
+          where: { id: item.id },
+          data: { order: item.order },
+        })
+      )
+    );
+
+    revalidateTag("voca-sites");
+    revalidatePath("/", "layout");
+
+    return NextResponse.json({ message: "Order updated successfully" });
+  } catch (error) {
+    return NextResponse.json({ message: "Error updating order", error }, { status: 500 });
   }
 }
 
@@ -75,7 +117,7 @@ export async function DELETE(request: NextRequest) {
     });
 
     revalidateTag("voca-sites");
-    revalidatePath("/", "layout"); // 모든 페이지의 푸터 갱신
+    revalidatePath("/", "layout");
 
     return NextResponse.json({ message: "Sites deleted successfully" });
   } catch (error) {
