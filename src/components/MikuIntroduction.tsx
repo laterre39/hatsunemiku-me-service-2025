@@ -9,26 +9,112 @@ const diffDays = differenceInDays(todayInJST, mikuBirthdayInJST) + 1;
 
 export function MikuIntroduction() {
   return (
-    <div className="max-w-5xl flex flex-col lg:flex-row lg:items-center gap-8">
-      <div className="lg:w-1/4 mb-4 lg:mb-0 flex max-lg:justify-center">
-      <Image
-        src="/gallery/cherrypop.png"
-        alt="체리팝 일러스트"
-        width={500}
-        height={500}
-        quality={75}
-        priority={true}
-        className="object-contain rounded-xl"
-      />
-      </div>
-      <div className="lg:w-3/4 text-left">
-        <h3 className="text-2xl text-white mb-4">
-          <span className="text-[#39C5BB] underline underline-offset-4 decoration-4 decoration-[#39C5BB]">하츠네 미쿠</span>와 함께한지 <span className="text-[#FF7BAC] underline underline-offset-4 decoration-4 decoration-[#FF7BAC]">{diffDays}</span>일째!
-        </h3>
-        <p className="text-lg text-white leading-relaxed overflow-hidden">
-          <strong>하츠네 미쿠</strong>는 <strong>크립톤 퓨처 미디어</strong>가 개발한 <strong>음성 합성 소프트웨어</strong>이자, 이를 기반으로 한 <strong>캐릭터</strong>입니다. <strong>2007년 8월 31일</strong>에 탄생하여 전 세계적으로 수많은 팬들에게 사랑받고 있으며, 다양한 <strong>음악</strong>, <strong>일러스트</strong>, <strong>게임</strong> 등 여러 분야에서 활발하게 활동하고 있습니다. 미쿠의 목소리는 수많은 <strong>창작자</strong>들에게 영감을 주며, 그녀의 존재는 <strong>음악과 기술의 경계</strong>를 허물고 <strong>새로운 문화 현상</strong>을 만들어냈습니다.
-        </p>
-        <p className="text-white leading-relaxed mt-2 text-right"><a href="https://gall.dcinside.com/mgallery/board/view?id=mikuhatsune&no=381515" target="_blank" rel="noopener noreferrer" className="hover:underline decoration-amber-300">Art by 자택관리인</a></p>
+    <div className="relative w-full">
+      <div className="relative bg-transparent">
+        
+        <div className="relative z-10 flex flex-col md:flex-row items-center gap-10 md:gap-16">
+          
+          <div className="w-full md:w-auto flex justify-center md:justify-start shrink-0 p-4">
+            <div className="relative w-72 h-[28rem] group perspective-1000 cursor-pointer">
+                
+                {/* Card Container */}
+                <div className="relative w-full h-full rounded-2xl overflow-hidden bg-gray-900 shadow-2xl transition-all duration-500 ease-out transform group-hover:-translate-y-3 group-hover:shadow-[0_25px_60px_-15px_rgba(57,197,187,0.3)] border border-white/10">
+                    
+                    <div className="absolute inset-0 z-0">
+                         <Image
+                            src="/gallery/cherrypop.png"
+                            alt="Background Blur"
+                            fill
+                            className="object-cover opacity-30 blur-2xl scale-150 grayscale-[30%]"
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-900/50 to-transparent"></div>
+                    </div>
+
+                    {/* 2. Main Character Layer */}
+                    <div className="relative w-full h-full z-10 transition-transform duration-700 ease-out group-hover:scale-105 group-hover:-translate-y-2">
+                        <Image
+                            src="/gallery/cherrypop.png"
+                            alt="Hatsune Miku"
+                            fill
+                            className="object-contain drop-shadow-[0_10px_20px_rgba(0,0,0,0.5)]"
+                            priority
+                            sizes="(max-width: 768px) 100vw, 300px"
+                        />
+                    </div>
+
+                    {/* 3. Premium Sheen Effect */}
+                    <div className="absolute inset-0 bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-20 pointer-events-none mix-blend-overlay"></div>
+                    
+                    {/* 4. Card Info Overlay */}
+                    <div className="absolute bottom-0 left-0 right-0 p-6 z-30 bg-gradient-to-t from-black/90 via-black/60 to-transparent pt-20">
+                        <div className="transform translate-y-2 group-hover:translate-y-0 transition-transform duration-500">
+                            <div className="flex items-center gap-2 mb-2">
+                                <span className="px-2 py-0.5 rounded text-[10px] font-bold tracking-widest uppercase bg-[#39C5BB] text-gray-900 shadow-[0_0_10px_rgba(57,197,187,0.4)]">
+                                    CV01
+                                </span>
+                                <span className="text-[#39C5BB] text-xs font-medium tracking-wider uppercase opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100">
+                                    Virtual Singer
+                                </span>
+                            </div>
+                            <h3 className="text-2xl font-bold text-white mb-1 tracking-tight">Hatsune Miku</h3>
+                            {/* 호버 시 늘어나는 밑줄 */}
+                            <div className="h-0.5 w-8 group-hover:w-full bg-gradient-to-r from-[#39C5BB] to-[#FF7BAC] transition-all duration-700 ease-out rounded-full"></div>
+                        </div>
+                    </div>
+
+                    {/* 5. Border Highlight */}
+                    <div className="absolute inset-0 border border-white/5 rounded-2xl z-40 group-hover:border-[#39C5BB]/40 transition-colors duration-500"></div>
+                </div>
+            </div>
+          </div>
+
+          {/* Text Content */}
+          <div className="w-full flex-1 text-center md:text-left space-y-6">
+            
+            {/* Header Section */}
+            <div className="space-y-2">
+              <h3 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#39C5BB] to-[#2a9d8f]">Hatsune Miku</span>
+                <span className="text-white/90 text-xl ml-3 font-light tracking-wide">Debut 2007</span>
+              </h3>
+              <div className="flex items-center justify-center md:justify-start gap-3">
+                <span className="text-white/60 text-sm uppercase tracking-widest">Together for</span>
+                <span className="text-4xl font-black text-[#FF7BAC] drop-shadow-sm font-mono">
+                  {diffDays.toLocaleString()}
+                </span>
+                <span className="text-white/60 text-sm uppercase tracking-widest">days</span>
+              </div>
+            </div>
+
+            {/* Description */}
+            <div className="text-white/80 text-lg leading-relaxed font-medium break-keep space-y-4">
+              <p>
+                <strong className="text-white font-bold">하츠네 미쿠</strong>는 2007년 8월 31일, 크립톤 퓨처 미디어가 세상에 내놓은 <span className="text-[#39C5BB] font-semibold">음성 합성 소프트웨어</span>이자 영원한 16세의 <span className="text-[#FF7BAC] font-semibold">버추얼 싱어</span>입니다.
+              </p>
+              <p>
+                누구나 노래하게 할 수 있다는 가능성은 수많은 크리에이터들에게 영감을 주었고, 음악, 일러스트, 영상 등 장르를 불문한 <span className="text-white font-semibold">창작의 물결</span>을 일으키며 인터넷 문화의 상징이 되었습니다.
+              </p>
+              <p className="text-sm text-white/60 font-normal">
+                지금 이 순간에도 미쿠는 전 세계의 팬들과 함께 끊임없이 새로운 노래를 부르며, 음악과 기술의 경계를 허무는 무한한 가능성의 아이콘으로 활약하고 있습니다.
+              </p>
+            </div>
+
+            {/* Footer / Credits */}
+            <div className="pt-4 border-t border-white/10 flex justify-center md:justify-start">
+               <a
+                  href="https://gall.dcinside.com/mgallery/board/view?id=mikuhatsune&no=381515"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="group flex items-center gap-2 text-xs text-white/40 hover:text-[#39C5BB] transition-colors duration-300"
+                >
+                  <span className="w-8 h-[1px] bg-white/20 group-hover:bg-[#39C5BB] transition-colors"></span>
+                  <span>Illustration by</span>
+                  <span className="font-medium text-white/80 group-hover:text-white transition-colors">자택관리인</span>
+               </a>
+            </div>
+
+          </div>
+        </div>
       </div>
     </div>
   );
