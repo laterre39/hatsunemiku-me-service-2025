@@ -46,7 +46,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-events");
+    revalidateTag("voca-events", { expire: 0 });
     revalidatePath("/"); // 메인 페이지 갱신
 
     return NextResponse.json(newEvent);
@@ -76,7 +76,7 @@ export async function DELETE(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-events");
+    revalidateTag("voca-events", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json({ message: "Events deleted successfully" });

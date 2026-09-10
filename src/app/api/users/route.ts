@@ -27,7 +27,7 @@ export async function DELETE(request: NextRequest) {
       },
     });
 
-    revalidateTag("users");
+    revalidateTag("users", { expire: 0 });
 
     return NextResponse.json({ message: "Users deleted successfully" });
   } catch (error) {

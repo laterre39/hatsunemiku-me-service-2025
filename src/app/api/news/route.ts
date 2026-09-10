@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-news");
+    revalidateTag("voca-news", { expire: 0 });
     revalidatePath("/news"); // 뉴스 페이지 갱신
 
     return NextResponse.json(newNews);
@@ -83,7 +83,7 @@ export async function DELETE(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-news");
+    revalidateTag("voca-news", { expire: 0 });
     revalidatePath("/news");
 
     return NextResponse.json({ message: "News deleted successfully" });

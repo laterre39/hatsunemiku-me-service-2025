@@ -31,7 +31,7 @@ export async function PATCH(
       },
     });
 
-    revalidateTag("voca-playlists");
+    revalidateTag("voca-playlists", { expire: 0 });
     revalidatePath("/playlists");
 
     return NextResponse.json(updatedPlaylist);
@@ -57,7 +57,7 @@ export async function DELETE(
       where: { id: Number(id) },
     });
 
-    revalidateTag("voca-playlists");
+    revalidateTag("voca-playlists", { expire: 0 });
     revalidatePath("/playlists");
 
     return NextResponse.json({ message: "Playlist deleted successfully" });

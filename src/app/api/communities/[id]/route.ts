@@ -28,7 +28,7 @@ export async function PATCH(
       },
     });
 
-    revalidateTag("voca-communities");
+    revalidateTag("voca-communities", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json(updatedCommunity);
@@ -54,7 +54,7 @@ export async function DELETE(
       where: { id: Number(id) },
     });
 
-    revalidateTag("voca-communities");
+    revalidateTag("voca-communities", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json({ message: "Community deleted successfully" });

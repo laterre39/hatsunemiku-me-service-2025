@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-birthdays");
+    revalidateTag("voca-birthdays", { expire: 0 });
     revalidatePath("/", "layout"); // 모든 페이지의 푸터 갱신
 
     return NextResponse.json(newBirthday);
@@ -74,7 +74,7 @@ export async function DELETE(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-birthdays");
+    revalidateTag("voca-birthdays", { expire: 0 });
     revalidatePath("/", "layout"); // 모든 페이지의 푸터 갱신
 
     return NextResponse.json({ message: "Birthdays deleted successfully" });

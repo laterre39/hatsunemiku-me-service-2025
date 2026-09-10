@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
     });
 
     // 데이터 캐시와 메인 페이지 캐시를 모두 갱신
-    revalidateTag("voca-picks");
+    revalidateTag("voca-picks", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json(newPick);
@@ -75,7 +75,7 @@ export async function DELETE(request: NextRequest) {
     });
 
     // 데이터 캐시와 메인 페이지 캐시를 모두 갱신
-    revalidateTag("voca-picks");
+    revalidateTag("voca-picks", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json({ message: "Picks deleted successfully" });

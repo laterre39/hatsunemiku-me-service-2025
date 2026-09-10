@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { google, youtube_v3 } from 'googleapis';
-import {GaxiosResponseWithHTTP2} from "googleapis-common";
 
 // --- 타입 정의 ---
 interface FormattedTrack {
@@ -19,7 +18,7 @@ async function getYouTubePlaylist(playlistId: string) {
 
   for (let i = 0; i < 4; i++) {
     try {
-      const response: GaxiosResponseWithHTTP2<youtube_v3.Schema$PlaylistItemListResponse> = await youtube.playlistItems.list({
+      const response: { data: youtube_v3.Schema$PlaylistItemListResponse } = await youtube.playlistItems.list({
         part: ['snippet'],
         playlistId: playlistId,
         maxResults: 50,
@@ -30,7 +29,7 @@ async function getYouTubePlaylist(playlistId: string) {
         totalResults = response.data.pageInfo?.totalResults || 0;
       }
 
-      const fetchedItems = response.data.items?.map((item: youtube_v3.Schema$PlaylistItem) => {
+      const fetchedItems = response.data.items?.map((item) => {
         const snippet = item.snippet;
         if (!snippet || !snippet.resourceId?.videoId) return null;
         

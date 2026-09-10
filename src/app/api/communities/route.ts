@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-communities");
+    revalidateTag("voca-communities", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json(newCommunity);
@@ -86,7 +86,7 @@ export async function PATCH(request: NextRequest) {
       )
     );
 
-    revalidateTag("voca-communities");
+    revalidateTag("voca-communities", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json({ message: "Order updated successfully" });
@@ -116,7 +116,7 @@ export async function DELETE(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-communities");
+    revalidateTag("voca-communities", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json({ message: "Communities deleted successfully" });

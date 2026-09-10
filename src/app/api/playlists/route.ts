@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-playlists");
+    revalidateTag("voca-playlists", { expire: 0 });
     revalidatePath("/playlists");
 
     return NextResponse.json(newPlaylist);
@@ -90,7 +90,7 @@ export async function PATCH(request: NextRequest) {
       )
     );
 
-    revalidateTag("voca-playlists");
+    revalidateTag("voca-playlists", { expire: 0 });
     revalidatePath("/playlists");
 
     return NextResponse.json({ message: "Order updated successfully" });
@@ -120,7 +120,7 @@ export async function DELETE(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-playlists");
+    revalidateTag("voca-playlists", { expire: 0 });
     revalidatePath("/playlists");
 
     return NextResponse.json({ message: "Playlists deleted successfully" });

@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-sites");
+    revalidateTag("voca-sites", { expire: 0 });
     revalidatePath("/", "layout");
 
     return NextResponse.json(newSite);
@@ -86,7 +86,7 @@ export async function PATCH(request: NextRequest) {
       )
     );
 
-    revalidateTag("voca-sites");
+    revalidateTag("voca-sites", { expire: 0 });
     revalidatePath("/", "layout");
 
     return NextResponse.json({ message: "Order updated successfully" });
@@ -116,7 +116,7 @@ export async function DELETE(request: NextRequest) {
       },
     });
 
-    revalidateTag("voca-sites");
+    revalidateTag("voca-sites", { expire: 0 });
     revalidatePath("/", "layout");
 
     return NextResponse.json({ message: "Sites deleted successfully" });

@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
-    revalidateTag("whitelist");
+    revalidateTag("whitelist", { expire: 0 });
 
     return NextResponse.json(newEntry);
   } catch (error) {
@@ -72,7 +72,7 @@ export async function DELETE(request: NextRequest) {
       },
     });
 
-    revalidateTag("whitelist");
+    revalidateTag("whitelist", { expire: 0 });
 
     return NextResponse.json({ message: "Whitelist entries deleted successfully" });
   } catch (error) {

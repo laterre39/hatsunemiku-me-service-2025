@@ -33,7 +33,7 @@ export async function PATCH(
     });
 
     // 3. 캐시 갱신
-    revalidateTag("users");
+    revalidateTag("users", { expire: 0 });
 
     return NextResponse.json(updatedUser);
   } catch (error) {
@@ -68,7 +68,7 @@ export async function DELETE(
     });
 
     // 3. 캐시 갱신
-    revalidateTag("users");
+    revalidateTag("users", { expire: 0 });
 
     return NextResponse.json({ message: "User deleted successfully" });
   } catch (error) {

@@ -30,7 +30,7 @@ export async function PATCH(
       },
     });
 
-    revalidateTag("voca-events");
+    revalidateTag("voca-events", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json(updatedEvent);
@@ -56,7 +56,7 @@ export async function DELETE(
       where: { id: Number(id) },
     });
 
-    revalidateTag("voca-events");
+    revalidateTag("voca-events", { expire: 0 });
     revalidatePath("/");
 
     return NextResponse.json({ message: "Event deleted successfully" });

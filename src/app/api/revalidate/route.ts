@@ -22,7 +22,7 @@ export async function GET(request: NextRequest) {
 
   try {
     if (tag) {
-      revalidateTag(tag);
+      revalidateTag(tag, { expire: 0 });
     }
     
     if (path) {

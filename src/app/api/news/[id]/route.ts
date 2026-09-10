@@ -30,7 +30,7 @@ export async function PATCH(
       },
     });
 
-    revalidateTag("voca-news");
+    revalidateTag("voca-news", { expire: 0 });
     revalidatePath("/news");
 
     return NextResponse.json(updatedNews);
@@ -56,7 +56,7 @@ export async function DELETE(
       where: { id: Number(id) },
     });
 
-    revalidateTag("voca-news");
+    revalidateTag("voca-news", { expire: 0 });
     revalidatePath("/news");
 
     return NextResponse.json({ message: "News deleted successfully" });
