@@ -1,13 +1,24 @@
 /**
  * 자동 뉴스 스크래핑 Cron API
  * 
- * 매일 자정에 Vercel Cron이 자동 호출
+ * [임시 비활성화 / 점검 중]
+ * Supabase DB Egress 과다 발생 방지 및 최적화 작업을 위해 일시적으로 실행을 중단합니다.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { scrapeAndSaveNews } from '@/lib/newsScraperService';
+// import { scrapeAndSaveNews } from '@/lib/newsScraperService';
 
-export async function GET(request: NextRequest) {
+export async function GET(_request: NextRequest) {
+  return NextResponse.json(
+    {
+      success: false,
+      message: '뉴스 스크래핑 크론이 점검 및 최적화를 위해 임시 비활성화되었습니다.',
+      timestamp: new Date().toISOString(),
+    },
+    { status: 503 }
+  );
+
+  /* 기존 코드 보존 (추후 개발 시 복구)
   try {
     // 보안: CRON_SECRET 검증
     const authHeader = request.headers.get('authorization');
@@ -43,4 +54,5 @@ export async function GET(request: NextRequest) {
       { status: 500 }
     );
   }
+  */
 }

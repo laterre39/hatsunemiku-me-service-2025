@@ -1,0 +1,612 @@
+Index: src/app/globals.css
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>@import \"flowbite\";\n@import \"tailwindcss\";\n\n@layer base {\n  html {\n    font-family: \"Pretendard Variable\", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, \"Helvetica Neue\", \"Segoe UI\", \"Apple SD Gothic Neo\", \"Noto Sans KR\", \"Malgun Gothic\", \"Apple Color Emoji\", \"Segoe UI Emoji\", \"Segoe UI Symbol\", sans-serif;\n  }\n  body {\n    @apply min-w-[360px] bg-gray-100 text-gray-800;\n  }\n}\n\n@layer components {\n  .container {\n    @apply px-4;\n  }\n\n  /* Swiper Custom Styles */\n  .custom-swiper {\n    --swiper-theme-color: #ffffff;\n    --swiper-navigation-color: #ffffff;\n    --swiper-pagination-color: #ffffff;\n  }\n\n  .custom-swiper .swiper-pagination-bullet {\n    @apply bg-white/50 opacity-100;\n  }\n  .custom-swiper .swiper-pagination-bullet-active {\n    @apply bg-white;\n  }\n  .custom-swiper .swiper-button-next,\n  .custom-swiper .swiper-button-prev {\n    transform: scale(0.5);\n    opacity: 0;\n    transition: opacity 0.3s ease-in-out;\n  }\n  .custom-swiper:hover .swiper-button-next,\n  .custom-swiper:hover .swiper-button-prev {\n    opacity: 0.7;\n  }\n  .custom-swiper .swiper-button-next:hover,\n  .custom-swiper .swiper-button-prev:hover {\n    opacity: 1;\n  }\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/globals.css b/src/app/globals.css
+--- a/src/app/globals.css	(revision a430413a6c3010355a33afb47bd7d3b655ff05ac)
++++ b/src/app/globals.css	(date 1784714017269)
+@@ -5,8 +5,62 @@
+   html {
+     font-family: "Pretendard Variable", Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto, "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR", "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", sans-serif;
+   }
++
+   body {
+-    @apply min-w-[360px] bg-gray-100 text-gray-800;
++    @apply min-w-[360px] text-gray-800;
++  }
++
++  :root {
++    --color-miku-cyan: #39C5BB;
++    --color-miku-pink: #FF7BAC;
++    --color-deep-indigo: #1E1B4B;
++    --color-dark-bg: #0F0A2A;
++    --color-card-bg: rgba(255, 255, 255, 0.05);
++    --color-card-border: rgba(255, 255, 255, 0.1);
++    --color-text-primary: #FFFFFF;
++    --color-text-secondary: rgba(255, 255, 255, 0.8);
++    --color-text-muted: rgba(255, 255, 255, 0.6);
++    --glass-blur: blur(16px);
++    --glass-bg: rgba(255, 255, 255, 0.03);
++    --glass-border: rgba(255, 255, 255, 0.08);
++    --section-gap: 4rem;
++  }
++
++  @keyframes float {
++    0%, 100% { transform: translateY(0px); }
++    50% { transform: translateY(-12px); }
++  }
++
++  @keyframes pulse-glow {
++    0%, 100% { box-shadow: 0 0 0 0 rgba(57, 197, 187, 0.4); }
++    50% { box-shadow: 0 0 20px 4px rgba(57, 197, 187, 0.2); }
++  }
++
++  @keyframes shimmer {
++    0% { background-position: -200% 0; }
++    100% { background-position: 200% 0; }
++  }
++
++  .animate-float {
++    animation: float 6s ease-in-out infinite;
++  }
++
++  .animate-pulse-glow {
++    animation: pulse-glow 2.5s ease-in-out infinite;
++  }
++
++  .shimmer-loading {
++    background: linear-gradient(90deg, rgba(255,255,255,0.03) 25%, rgba(255,255,255,0.08) 50%, rgba(255,255,255,0.03) 75%);
++    background-size: 200% 100%;
++    animation: shimmer 1.5s infinite;
++  }
++
++  .glass-card {
++    @apply bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm rounded-2xl;
++  }
++
++  .section-divider {
++    @apply w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-4;
+   }
+ }
+ 
+@@ -42,4 +96,101 @@
+   .custom-swiper .swiper-button-prev:hover {
+     opacity: 1;
+   }
++
++  /* Global Background Layer */
++  .bg-main-layer {
++    @apply relative min-h-screen;
++  }
++
++  .bg-main-layer::before {
++    content: '';
++    position: fixed;
++    inset: 0;
++    background: linear-gradient(180deg, #0F0A2A 0%, #1E1B4B 30%, #0D1526 70%, #0F0A2A 100%);
++    z-index: -2;
++  }
++
++  .bg-main-layer::after {
++    content: '';
++    position: fixed;
++    inset: 0;
++    background-image: url('/main_bg.png');
++    background-size: 256px 256px;
++    opacity: 0.03;
++    z-index: -1;
++    pointer-events: none;
++  }
++
++  /* Hero Gradient Overlay */
++  .hero-gradient {
++    background: linear-gradient(180deg, rgba(15,10,42,0) 0%, rgba(15,10,42,0.6) 50%, rgba(15,10,42,1) 100%);
++  }
++
++  /* Section Header */
++  .section-header {
++    @apply flex items-center mb-8 gap-3;
++  }
++
++  .section-title {
++    @apply text-2xl md:text-3xl font-bold text-white tracking-tight;
++  }
++
++  .section-icon {
++    @apply w-6 h-6 text-[#FF7BAC];
++  }
++
++  /* Glassmorphism Card */
++  .glass-card-content {
++    @apply bg-white/[0.03] border border-white/[0.08] backdrop-blur-sm rounded-2xl p-6 md:p-8;
++  }
++
++  /* Play Button Overlay */
++  .play-overlay {
++    @apply absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 bg-black/40 cursor-pointer z-20;
++  }
++
++  .play-icon {
++    @apply w-16 h-16 rounded-full bg-white/90 text-gray-900 flex items-center justify-center shadow-xl transform scale-90 group-hover:scale-100 transition-transform duration-300;
++  }
++
++  /* Top 3 Medal Styles */
++  .medal-gold {
++    @apply border-[#FFD700] shadow-[0_0_20px_rgba(255,215,0,0.3)];
++  }
++  .medal-silver {
++    @apply border-[#C0C0C0] shadow-[0_0_20px_rgba(192,192,192,0.3)];
++  }
++  .medal-bronze {
++    @apply border-[#CD7F32] shadow-[0_0_20px_rgba(205,127,50,0.3)];
++  }
++
++  /* Pulsing Event Indicator */
++  .event-pulse {
++    animation: pulse-glow 2s ease-in-out infinite;
++  }
++
++  /* Skeleton Loader */
++  .skeleton-block {
++    @apply bg-white/5 rounded-lg animate-pulse;
++  }
++
++  /* Gradient Border Hover */
++  .gradient-border-hover {
++    @apply relative transition-all duration-300 hover:border-transparent;
++  }
++
++  .gradient-border-hover::before {
++    content: '';
++    position: absolute;
++    inset: -1px;
++    background: linear-gradient(135deg, #39C5BB, #FF7BAC);
++    border-radius: inherit;
++    z-index: -1;
++    opacity: 0;
++    transition: opacity 0.3s ease;
++  }
++
++  .gradient-border-hover:hover::before {
++    opacity: 1;
++  }
+ }
+Index: src/app/page.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>import { AudioLines } from 'lucide-react';\nimport { YouTubeSlider } from '@/components/YouTubeSlider';\nimport { Tooltip } from '@/components/Tooltip';\nimport { MikuIntroduction } from '@/components/MikuIntroduction';\nimport { EventSchedule } from \"@/components/EventSchedule\";\nimport { RankingComponent } from \"@/components/RankingComponent\";\nimport { MikuBirthdayConfetti } from \"@/components/MikuBirthdayConfetti\";\nimport { VocaloidCommunity } from \"@/components/VocaloidCommunity\";\nimport { getVocaEvents } from \"@/services/eventService\";\nimport { getVocaPicks } from \"@/services/pickService\";\nimport { getVocaCommunities } from \"@/services/communityService\";\nimport { getVocaBirthdays } from \"@/services/birthdayService\";\n\nexport default async function Home() {\n    const [events, picks, communities, birthdays] = await Promise.all([\n        getVocaEvents(),\n        getVocaPicks(),\n        getVocaCommunities(),\n        getVocaBirthdays(),\n    ]);\n\n    const videoIds = picks.map(pick => pick.videoId);\n\n    return (\n        <main>\n\n            {/* My Vocaloid Pick Section */}\n            <section className=\"mx-auto max-w-5xl pb-24\">\n                <div className=\"flex items-center mb-6 gap-2 font-bold text-2xl text-white\">\n                    <AudioLines/>\n                    <h2>My Vocaloid Pick</h2>\n                    <Tooltip text=\"커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 20개의 영상을 서비스 하고 있습니다.\"/>\n                </div>\n                <YouTubeSlider videos={videoIds} />\n            </section>\n\n            {/* Miku Introduction Section */}\n            <section className=\"mx-auto max-w-5xl pb-24\">\n                <div className=\"flex items-center mb-6 gap-2 font-bold text-2xl text-white\">\n                    <AudioLines/>\n                    <h2>About Hatsune Miku</h2>\n                    <Tooltip text=\"\uD83C\uDF52 まじで 愛していい感 すきすき？ 恋していい感 すきすき？ どれみが怖いぞ チェリーチェリー そうでもない感 むりむり？ どうでもいい感 むりむり？ トゲみが怖いぞ ベイビーベイビー\"/>\n                </div>\n                <MikuIntroduction/>\n            </section>\n\n            {/* Vocaloid Ranking Section */}\n            <section className=\"mx-auto max-w-5xl pb-24\">\n                <div className=\"flex items-center mb-6 gap-2 font-bold text-2xl text-white\">\n                    <AudioLines/>\n                    <h2>Vocaloid Ranking</h2>\n                    <Tooltip text=\"보컬로이드 신곡 랭킹을 집계해서 제공하고 있습니다 [VocaDB 제공]\"/>\n                </div>\n                <RankingComponent/>\n            </section>\n\n            {/* Vocaloid Event Schedule Section */}\n            <section className=\"mx-auto max-w-5xl pb-24\">\n                <div className=\"flex items-center mb-6 gap-2 font-bold text-2xl text-white\">\n                    <AudioLines/>\n                    <h2>Vocaloid Event Schedule</h2>\n                    <Tooltip text=\"올해의 보컬로이드 관련 이벤트 스케쥴을 안내합니다.\"/>\n                </div>\n                <EventSchedule events={events}/>\n            </section>\n\n            {/* Vocaloid Community Section */}\n            <section className=\"mx-auto max-w-5xl pb-24\">\n                <div className=\"flex items-center mb-6 gap-2 font-bold text-2xl text-white\">\n                    <AudioLines/>\n                    <h2>Vocaloid Community</h2>\n                    <Tooltip text=\"국내 보컬로이드 커뮤니티를 소개합니다.\"/>\n                </div>\n                <VocaloidCommunity communities={communities}/>\n            </section>\n\n            {/*생일 표시용 컴포넌트*/}\n            <MikuBirthdayConfetti birthdays={birthdays} />\n\n        </main>\n    );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/app/page.tsx b/src/app/page.tsx
+--- a/src/app/page.tsx	(revision a430413a6c3010355a33afb47bd7d3b655ff05ac)
++++ b/src/app/page.tsx	(date 1782291254487)
+@@ -1,11 +1,10 @@
+-import { AudioLines } from 'lucide-react';
+ import { YouTubeSlider } from '@/components/YouTubeSlider';
+-import { Tooltip } from '@/components/Tooltip';
+ import { MikuIntroduction } from '@/components/MikuIntroduction';
+ import { EventSchedule } from "@/components/EventSchedule";
+ import { RankingComponent } from "@/components/RankingComponent";
+ import { MikuBirthdayConfetti } from "@/components/MikuBirthdayConfetti";
+ import { VocaloidCommunity } from "@/components/VocaloidCommunity";
++import { SectionLayout } from "@/components/SectionLayout";
+ import { getVocaEvents } from "@/services/eventService";
+ import { getVocaPicks } from "@/services/pickService";
+ import { getVocaCommunities } from "@/services/communityService";
+@@ -23,56 +22,40 @@
+ 
+     return (
+         <main>
+-
+-            {/* My Vocaloid Pick Section */}
+-            <section className="mx-auto max-w-5xl pb-24">
+-                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
+-                    <AudioLines/>
+-                    <h2>My Vocaloid Pick</h2>
+-                    <Tooltip text="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 20개의 영상을 서비스 하고 있습니다."/>
+-                </div>
++            <SectionLayout 
++                title="My Vocaloid Pick" 
++                tooltipText="커뮤니티 유저들의 추천을 통해서 보컬로이드 뮤비를 선정하고 있습니다, 랜덤으로 선정된 20개의 영상을 서비스 하고 있습니다."
++            >
+                 <YouTubeSlider videos={videoIds} />
+-            </section>
++            </SectionLayout>
+ 
+-            {/* Miku Introduction Section */}
+-            <section className="mx-auto max-w-5xl pb-24">
+-                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
+-                    <AudioLines/>
+-                    <h2>About Hatsune Miku</h2>
+-                    <Tooltip text="🍒 まじで 愛していい感 すきすき？ 恋していい感 すきすき？ どれみが怖いぞ チェリーチェリー そうでもない感 むりむり？ どうでもいい感 むりむり？ トゲみが怖いぞ ベイビーベイビー"/>
+-                </div>
+-                <MikuIntroduction/>
+-            </section>
++            <SectionLayout 
++                title="About Hatsune Miku" 
++                tooltipText="🍒 まじで 愛していい感 すきすき？ 恋していい感... (생략)"
++            >
++                <MikuIntroduction />
++            </SectionLayout>
+ 
+-            {/* Vocaloid Ranking Section */}
+-            <section className="mx-auto max-w-5xl pb-24">
+-                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
+-                    <AudioLines/>
+-                    <h2>Vocaloid Ranking</h2>
+-                    <Tooltip text="보컬로이드 신곡 랭킹을 집계해서 제공하고 있습니다 [VocaDB 제공]"/>
+-                </div>
+-                <RankingComponent/>
+-            </section>
++            <SectionLayout 
++                title="Vocaloid Ranking" 
++                tooltipText="보컬로이드 신곡 랭킹을 집계해서 제공하고 있습니다 [VocaDB 제공]"
++            >
++                <RankingComponent />
++            </SectionLayout>
+ 
+-            {/* Vocaloid Event Schedule Section */}
+-            <section className="mx-auto max-w-5xl pb-24">
+-                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
+-                    <AudioLines/>
+-                    <h2>Vocaloid Event Schedule</h2>
+-                    <Tooltip text="올해의 보컬로이드 관련 이벤트 스케쥴을 안내합니다."/>
+-                </div>
+-                <EventSchedule events={events}/>
+-            </section>
++            <SectionLayout 
++                title="Vocaloid Event Schedule" 
++                tooltipText="올해의 보컬로이드 관련 이벤트 스케쥴을 안내합니다."
++            >
++                <EventSchedule events={events} />
++            </SectionLayout>
+ 
+-            {/* Vocaloid Community Section */}
+-            <section className="mx-auto max-w-5xl pb-24">
+-                <div className="flex items-center mb-6 gap-2 font-bold text-2xl text-white">
+-                    <AudioLines/>
+-                    <h2>Vocaloid Community</h2>
+-                    <Tooltip text="국내 보컬로이드 커뮤니티를 소개합니다."/>
+-                </div>
+-                <VocaloidCommunity communities={communities}/>
+-            </section>
++            <SectionLayout 
++                title="Vocaloid Community" 
++                tooltipText="국내 보컬로이드 커뮤니티를 소개합니다."
++            >
++                <VocaloidCommunity communities={communities} />
++            </SectionLayout>
+ 
+             {/*생일 표시용 컴포넌트*/}
+             <MikuBirthdayConfetti birthdays={birthdays} />
+Index: src/components/YouTubeSlider.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\n\nimport React, { useCallback, useMemo, useRef, useState } from 'react';\nimport { Swiper, SwiperSlide } from 'swiper/react';\nimport type { Swiper as SwiperType } from 'swiper';\nimport { Autoplay, Navigation, Pagination } from 'swiper/modules';\nimport { ChevronsLeft, ChevronsRight } from 'lucide-react';\nimport YouTube from 'react-youtube';\n\nimport 'swiper/css';\nimport 'swiper/css/navigation';\nimport 'swiper/css/pagination';\n\nfunction shuffleArray<T>(array: T[]): T[] {\n  const newArray = [...array];\n  for (let i = newArray.length - 1; i > 0; i--) {\n    const j = Math.floor(Math.random() * (i + 1));\n    [newArray[i], newArray[j]] = [newArray[j], newArray[i]];\n  }\n  return newArray;\n}\n\ninterface YouTubeSliderProps {\n  videos: string[];\n}\n\nexport function YouTubeSlider({ videos }: YouTubeSliderProps) {\n  const playerRefs = useRef<Map<string, YT.Player>>(new Map());\n  const progressContentRef = useRef<HTMLDivElement>(null);\n  const swiperRef = useRef<SwiperType | null>(null);\n  const [isAutoplayRunning, setIsAutoplayRunning] = useState(true);\n\n  const shuffledVideoIds = useMemo(() => shuffleArray(videos).slice(0, 10), [videos]);\n\n  const opts = {\n    playerVars: {\n      autoplay: 0,\n      controls: 0,\n      showinfo: 0,\n      modestbranding: 1,\n      rel: 0,\n      iv_load_policy: 3,\n      origin: typeof window !== 'undefined' ? window.location.origin : 'https://hatsunemiku.me',\n    },\n  };\n\n  const onPlayerReady = useCallback((event: { target: YT.Player }, videoId: string) => {\n    playerRefs.current.set(videoId, event.target);\n  }, []);\n\n  const onPlayerStateChange = useCallback((event: { data: number }) => {\n    if (event.data === 1) { // YT.PlayerState.PLAYING\n      swiperRef.current?.autoplay.stop();\n    }\n  }, []);\n\n  const onSlideChange = useCallback((swiper: SwiperType) => {\n    const currentVideoId = shuffledVideoIds[swiper.realIndex];\n    playerRefs.current.forEach((player, id) => {\n      if (id !== currentVideoId && player.getPlayerState && player.getPlayerState() === 1) {\n        player.stopVideo();\n      }\n    });\n  }, [shuffledVideoIds]);\n\n  const onAutoplayTimeLeft = (s: SwiperType, time: number, progress: number) => {\n    if (progressContentRef.current) {\n      progressContentRef.current.style.transform = `scaleX(${1 - progress})`;\n    }\n  };\n\n  return (\n      <div className=\"w-full max-w-5xl relative select-none\" draggable={false}>\n        <Swiper\n            modules={[Autoplay, Navigation, Pagination]}\n            onSwiper={(swiper) => { swiperRef.current = swiper; }}\n            spaceBetween={30}\n            slidesPerView={1}\n            navigation={{\n              nextEl: '.swiper-button-next-custom',\n              prevEl: '.swiper-button-prev-custom',\n            }}\n            pagination={{ clickable: true }}\n            loop={true}\n            autoplay={{\n              delay: 5000,\n              disableOnInteraction: true,\n            }}\n            onAutoplayTimeLeft={onAutoplayTimeLeft}\n            onAutoplayStop={() => setIsAutoplayRunning(false)}\n            className=\"custom-swiper rounded-lg overflow-hidden\" // mySwiper -> custom-swiper\n            onSlideChange={onSlideChange}\n        >\n          {shuffledVideoIds.map((videoId) => (\n              <SwiperSlide key={videoId}>\n                <div className=\"relative flex justify-center items-center w-full aspect-video bg-black\">\n                  <YouTube\n                      videoId={videoId}\n                      opts={opts}\n                      iframeClassName=\"absolute top-0 left-0 w-full h-full\"\n                      onReady={(event) => onPlayerReady(event, videoId)}\n                      onStateChange={onPlayerStateChange}\n                  />\n                </div>\n              </SwiperSlide>\n          ))}\n        </Swiper>\n\n        {/* Custom Autoplay Progress Bar */}\n        <div className={`absolute bottom-0 left-0 w-full h-1 bg-white/20 z-10 transition-opacity duration-300 ${!isAutoplayRunning ? 'opacity-0' : ''}`}>\n          <div\n              ref={progressContentRef}\n              className=\"h-full bg-cyan-400\"\n              style={{ transformOrigin: 'left' }}\n          />\n        </div>\n\n        {/* Custom Navigation Arrows */}\n        <div className=\"swiper-button-prev-custom absolute top-1/2 left-4 z-10 -translate-y-1/2 cursor-pointer text-white bg-black/20 rounded-full p-1 hover:bg-black/40 transition-all\">\n          <ChevronsLeft size={40} />\n        </div>\n        <div className=\"swiper-button-next-custom absolute top-1/2 right-4 z-10 -translate-y-1/2 cursor-pointer text-white bg-black/20 rounded-full p-1 hover:bg-black/40 transition-all\">\n          <ChevronsRight size={40} />\n        </div>\n      </div>\n  );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/YouTubeSlider.tsx b/src/components/YouTubeSlider.tsx
+--- a/src/components/YouTubeSlider.tsx	(revision a430413a6c3010355a33afb47bd7d3b655ff05ac)
++++ b/src/components/YouTubeSlider.tsx	(date 1784714217041)
+@@ -4,7 +4,7 @@
+ import { Swiper, SwiperSlide } from 'swiper/react';
+ import type { Swiper as SwiperType } from 'swiper';
+ import { Autoplay, Navigation, Pagination } from 'swiper/modules';
+-import { ChevronsLeft, ChevronsRight } from 'lucide-react';
++import { ChevronsLeft, ChevronsRight, CirclePlay } from 'lucide-react';
+ import YouTube from 'react-youtube';
+ 
+ import 'swiper/css';
+@@ -29,6 +29,7 @@
+   const progressContentRef = useRef<HTMLDivElement>(null);
+   const swiperRef = useRef<SwiperType | null>(null);
+   const [isAutoplayRunning, setIsAutoplayRunning] = useState(true);
++  const [currentVideoId, setCurrentVideoId] = useState<string | null>(null);
+ 
+   const shuffledVideoIds = useMemo(() => shuffleArray(videos).slice(0, 10), [videos]);
+ 
+@@ -56,6 +57,7 @@
+ 
+   const onSlideChange = useCallback((swiper: SwiperType) => {
+     const currentVideoId = shuffledVideoIds[swiper.realIndex];
++    setCurrentVideoId(currentVideoId);
+     playerRefs.current.forEach((player, id) => {
+       if (id !== currentVideoId && player.getPlayerState && player.getPlayerState() === 1) {
+         player.stopVideo();
+@@ -88,7 +90,7 @@
+             }}
+             onAutoplayTimeLeft={onAutoplayTimeLeft}
+             onAutoplayStop={() => setIsAutoplayRunning(false)}
+-            className="custom-swiper rounded-lg overflow-hidden" // mySwiper -> custom-swiper
++            className="custom-swiper rounded-lg overflow-hidden"
+             onSlideChange={onSlideChange}
+         >
+           {shuffledVideoIds.map((videoId) => (
+@@ -98,9 +100,32 @@
+                       videoId={videoId}
+                       opts={opts}
+                       iframeClassName="absolute top-0 left-0 w-full h-full"
+-                      onReady={(event) => onPlayerReady(event, videoId)}
++                      onReady={(event) => { onPlayerReady(event, videoId); if (swiperRef.current?.realIndex === shuffledVideoIds.indexOf(videoId)) setCurrentVideoId(videoId); }}
+                       onStateChange={onPlayerStateChange}
+                   />
++
++                  {/* Reflection Overlay */}
++                  <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent opacity-30 pointer-events-none z-10" />
++
++                  {/* Play Button Indicator for Current Video */}
++                  {currentVideoId === videoId && (
++                    <div className="play-overlay">
++                      <div className="play-icon">
++                        <CirclePlay size={28} fill="currentColor" strokeWidth={0} />
++                      </div>
++                    </div>
++                  )}
++
++                  {/* Live Indicator */}
++                  {currentVideoId === videoId && (
++                    <div className="absolute top-4 left-4 z-30 flex items-center gap-2 px-3 py-1.5 rounded-full bg-black/60 backdrop-blur-sm">
++                      <span className="relative flex h-2 w-2">
++                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF7BAC] opacity-75"></span>
++                        <span className="relative inline-flex rounded-full h-2 w-2 bg-[#FF7BAC]"></span>
++                      </span>
++                      <span className="text-xs font-medium text-white">Playing</span>
++                    </div>
++                  )}
+                 </div>
+               </SwiperSlide>
+           ))}
+@@ -110,7 +135,7 @@
+         <div className={`absolute bottom-0 left-0 w-full h-1 bg-white/20 z-10 transition-opacity duration-300 ${!isAutoplayRunning ? 'opacity-0' : ''}`}>
+           <div
+               ref={progressContentRef}
+-              className="h-full bg-cyan-400"
++              className="h-full bg-[#39C5BB]"
+               style={{ transformOrigin: 'left' }}
+           />
+         </div>
+Index: src/components/Header.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>'use client';\n\nimport Link from 'next/link';\nimport {useEffect, useState} from 'react';\nimport {Menu, Music2, X} from \"lucide-react\";\nimport {Poppins} from \"next/font/google\";\n\nconst poppins = Poppins({\n    subsets: ['latin'],\n    weight: ['300', '700']\n});\n\nconst navItems = [\n    {href: '/about', label: 'About'},\n    {href: '/music', label: 'Music'},\n    {href: '/playlists', label: 'Playlist'},\n    {href: '/event', label: 'Event'},\n    {href: '/news', label: 'News'},\n];\n\nconst NavigationLinks = ({linkClassName, liClassName, onItemClick}: {\n    linkClassName: string;\n    liClassName?: string;\n    onItemClick?: () => void;\n}) => (\n    <>\n        {navItems.map(item => (\n            <li key={item.href} className={liClassName}>\n                <Link href={item.href} className={linkClassName} onClick={onItemClick}>\n                    {item.label}\n                </Link>\n            </li>\n        ))}\n    </>\n);\n\nconst DesktopNav = ({isScrolled}: { isScrolled: boolean }) => (\n    <nav className=\"hidden md:flex\">\n        <ul className=\"flex items-center space-x-8 text-base\">\n            <NavigationLinks\n                linkClassName={`font-medium transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}\n            />\n        </ul>\n    </nav>\n);\n\nconst MenuToggleButton = ({isMenuOpen, toggleMenu, isScrolled}: {\n    isMenuOpen: boolean;\n    toggleMenu: () => void;\n    isScrolled: boolean;\n}) => (\n    <div className=\"md:hidden\">\n        <button onClick={toggleMenu} className={`transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}>\n            {isMenuOpen ? <X className=\"h-6 w-6\"/> : <Menu className=\"h-6 w-6\"/>}\n        </button>\n    </div>\n);\n\nconst MobileMenuPanel = ({isMenuOpen, isScrolled, closeMenu}: {\n    isMenuOpen: boolean;\n    isScrolled: boolean;\n    closeMenu: () => void;\n}) => {\n    if (!isMenuOpen) return null;\n\n    const navClasses = `absolute w-full md:hidden ${isScrolled ? 'bg-white/80 backdrop-blur-sm' : 'bg-black/50 backdrop-blur-sm'}`;\n    const listClasses = `flex flex-col items-center divide-y ${isScrolled ? 'divide-gray-200/50' : 'divide-white/20'}`;\n    const linkClassName = `block py-4 font-medium transition-colors ${isScrolled ? 'text-dark' : 'text-white'}`;\n\n    return (\n        <nav className={navClasses}>\n            <ul className={listClasses}>\n                <NavigationLinks\n                    liClassName=\"w-full text-center\"\n                    linkClassName={linkClassName}\n                    onItemClick={closeMenu}\n                />\n            </ul>\n        </nav>\n    );\n};\n\nexport function Header() {\n    const [isScrolled, setIsScrolled] = useState(false);\n    const [isMenuOpen, setIsMenuOpen] = useState(false);\n\n    useEffect(() => {\n        const handleScroll = () => {\n            setIsScrolled(window.scrollY > 10);\n        };\n        window.addEventListener('scroll', handleScroll);\n        return () => window.removeEventListener('scroll', handleScroll);\n    }, []);\n\n    const headerClassName = `sticky top-0 z-50 w-full transition-all duration-300 mb-12 ${\n        isScrolled\n            ? 'border-b border-gray-200/50 bg-white/80 shadow-md backdrop-blur-sm'\n            : 'bg-transparent'\n    } relative`;\n\n    return (\n        <header className={headerClassName}>\n            <div className=\"container mx-auto flex h-20 max-w-5xl items-center justify-between\">\n                <Link href=\"/\" className=\"flex items-center gap-2\">\n                    <Music2 className=\"h-8 w-8 text-[#39C5BB]\"/>\n                    <div className={`${poppins.className} flex items-baseline`}>\n                        <span\n                            className={`text-2xl font-bold transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}>\n                            HatsuneMiku\n                        </span>\n                        <span\n                            className={`text-2xl font-light transition-colors ${isScrolled ? 'text-gray-700' : 'text-gray-300'}`}>\n                            .me\n                        </span>\n                    </div>\n                </Link>\n                <DesktopNav isScrolled={isScrolled}/>\n                <MenuToggleButton\n                    isMenuOpen={isMenuOpen}\n                    toggleMenu={() => setIsMenuOpen(prev => !prev)}\n                    isScrolled={isScrolled}\n                />\n            </div>\n            <MobileMenuPanel\n                isMenuOpen={isMenuOpen}\n                isScrolled={isScrolled}\n                closeMenu={() => setIsMenuOpen(false)}\n            />\n        </header>\n    );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/Header.tsx b/src/components/Header.tsx
+--- a/src/components/Header.tsx	(revision a430413a6c3010355a33afb47bd7d3b655ff05ac)
++++ b/src/components/Header.tsx	(date 1784714120296)
+@@ -2,7 +2,7 @@
+ 
+ import Link from 'next/link';
+ import {useEffect, useState} from 'react';
+-import {Menu, Music2, X} from "lucide-react";
++import {Menu, Music2, X, Info, Disc3, Headphones, CalendarDays, Newspaper} from "lucide-react";
+ import {Poppins} from "next/font/google";
+ 
+ const poppins = Poppins({
+@@ -11,11 +11,11 @@
+ });
+ 
+ const navItems = [
+-    {href: '/about', label: 'About'},
+-    {href: '/music', label: 'Music'},
+-    {href: '/playlists', label: 'Playlist'},
+-    {href: '/event', label: 'Event'},
+-    {href: '/news', label: 'News'},
++    {href: '/about', label: 'About', icon: Info},
++    {href: '/music', label: 'Music', icon: Disc3},
++    {href: '/playlists', label: 'Playlist', icon: Headphones},
++    {href: '/event', label: 'Event', icon: CalendarDays},
++    {href: '/news', label: 'News', icon: Newspaper},
+ ];
+ 
+ const NavigationLinks = ({linkClassName, liClassName, onItemClick}: {
+@@ -27,7 +27,8 @@
+         {navItems.map(item => (
+             <li key={item.href} className={liClassName}>
+                 <Link href={item.href} className={linkClassName} onClick={onItemClick}>
+-                    {item.label}
++                    <item.icon size={16} />
++                    <span>{item.label}</span>
+                 </Link>
+             </li>
+         ))}
+@@ -38,7 +39,7 @@
+     <nav className="hidden md:flex">
+         <ul className="flex items-center space-x-8 text-base">
+             <NavigationLinks
+-                linkClassName={`font-medium transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}
++                linkClassName={`font-medium transition-colors flex items-center gap-2 ${isScrolled ? 'text-black' : 'text-white'}`}
+             />
+         </ul>
+     </nav>
+@@ -65,16 +66,19 @@
+ 
+     const navClasses = `absolute w-full md:hidden ${isScrolled ? 'bg-white/80 backdrop-blur-sm' : 'bg-black/50 backdrop-blur-sm'}`;
+     const listClasses = `flex flex-col items-center divide-y ${isScrolled ? 'divide-gray-200/50' : 'divide-white/20'}`;
+-    const linkClassName = `block py-4 font-medium transition-colors ${isScrolled ? 'text-dark' : 'text-white'}`;
++    const linkClassName = `block py-4 font-medium transition-colors flex items-center gap-3 ${isScrolled ? 'text-dark' : 'text-white'}`;
+ 
+     return (
+         <nav className={navClasses}>
+             <ul className={listClasses}>
+-                <NavigationLinks
+-                    liClassName="w-full text-center"
+-                    linkClassName={linkClassName}
+-                    onItemClick={closeMenu}
+-                />
++                {navItems.map(item => (
++                    <li key={item.href} className="w-full text-center">
++                        <Link href={item.href} className={linkClassName} onClick={closeMenu}>
++                            <item.icon size={16} />
++                            <span>{item.label}</span>
++                        </Link>
++                    </li>
++                ))}
+             </ul>
+         </nav>
+     );
+@@ -98,18 +102,21 @@
+             : 'bg-transparent'
+     } relative`;
+ 
++    const logoSize = isScrolled ? 'h-6 w-6 text-lg' : 'h-8 w-8 text-2xl';
++    const logoTextSize = isScrolled ? 'text-xl' : 'text-2xl';
++
+     return (
+         <header className={headerClassName}>
+             <div className="container mx-auto flex h-20 max-w-5xl items-center justify-between">
+-                <Link href="/" className="flex items-center gap-2">
+-                    <Music2 className="h-8 w-8 text-[#39C5BB]"/>
+-                    <div className={`${poppins.className} flex items-baseline`}>
++                <Link href="/" className="flex items-center gap-2 transition-all duration-300">
++                    <Music2 className={`${logoSize} text-[#39C5BB]`}/>
++                    <div className={`${poppins.className} flex items-baseline transition-all duration-300`}>
+                         <span
+-                            className={`text-2xl font-bold transition-colors ${isScrolled ? 'text-black' : 'text-white'}`}>
++                            className={`font-bold transition-colors ${isScrolled ? 'text-black' : 'text-white'} ${logoTextSize}`}>
+                             HatsuneMiku
+                         </span>
+                         <span
+-                            className={`text-2xl font-light transition-colors ${isScrolled ? 'text-gray-700' : 'text-gray-300'}`}>
++                            className={`font-light transition-colors ${isScrolled ? 'text-gray-700' : 'text-gray-300'} ${logoTextSize}`}>
+                             .me
+                         </span>
+                     </div>
+Index: src/components/SectionLayout.tsx
+===================================================================
+diff --git a/src/components/SectionLayout.tsx b/src/components/SectionLayout.tsx
+new file mode 100644
+--- /dev/null	(date 1784714034671)
++++ b/src/components/SectionLayout.tsx	(date 1784714034671)
+@@ -0,0 +1,22 @@
++import { ReactNode } from 'react';
++import { AudioLines, Sparkles } from 'lucide-react';
++import { Tooltip } from '@/components/Tooltip';
++
++interface SectionLayoutProps {
++  title: string;
++  tooltipText: string;
++  children: ReactNode;
++}
++
++export function SectionLayout({ title, tooltipText, children }: SectionLayoutProps) {
++  return (
++    <section className="mx-auto max-w-5xl pb-[var(--section-gap)]">
++      <div className="section-header">
++        <Sparkles className="section-icon" />
++        <h2 className="section-title">{title}</h2>
++        <Tooltip text={tooltipText} />
++      </div>
++      <div className="glass-card-content">{children}</div>
++    </section>
++  );
++}
+\ No newline at end of file
+Index: src/components/SongList.tsx
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>\"use client\";\n\nimport React, { useState, useEffect } from 'react';\nimport Image from 'next/image';\nimport { Song } from '@/types/song';\nimport Link from 'next/link';\nimport { Crown, ImageOff } from 'lucide-react';\n\ninterface SongListProps {\n    song: Song;\n}\n\nconst FallbackThumbnail = (): React.JSX.Element => (\n    <div className=\"absolute inset-0 flex items-center justify-center bg-slate-800/50 border-b border-white/10\">\n        <ImageOff className=\"h-10 w-10 text-slate-500\" />\n    </div>\n);\n\nconst RankBadge = ({ rank }: { rank: number }): React.JSX.Element => {\n    const rankStyles: { [key: number]: { className: string; icon: React.JSX.Element } } = {\n        1: {\n            className: 'text-[#39C5BB]',\n            icon: <Crown className=\"w-5 h-5\" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} />,\n        },\n        2: {\n            className: 'text-[#FF7BAC]',\n            icon: <Crown className=\"w-5 h-5\" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} />,\n        },\n        3: {\n            className: 'text-slate-400',\n            icon: <Crown className=\"w-5 h-5\" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} />,\n        },\n    };\n\n    const style = rankStyles[rank];\n\n    if (rank > 3) {\n        return (\n            <div className=\"absolute top-2 right-2 flex items-center gap-1.5 font-bold text-2xl text-white\" style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.7))' }}>\n                <span>#{rank}</span>\n            </div>\n        );\n    }\n\n    return (\n        <div className={`absolute top-2 right-2 flex items-center gap-1.5 font-bold text-2xl ${style.className}`} style={{ filter: 'drop-shadow(0 2px 3px rgba(0,0,0,0.7))' }}>\n            {style.icon}\n            <span>{rank}</span>\n        </div>\n    );\n};\n\nconst getRankBorderStyle = (rank: number): string => {\n    switch (rank) {\n        case 1:\n            return 'border-[#39C5BB]';\n        case 2:\n            return 'border-[#FF7BAC]';\n        case 3:\n            return 'border-slate-400';\n        default:\n            return 'border-white/10';\n    }\n};\n\nexport function SongList({ song }: SongListProps) {\n    const [imageUrl, setImageUrl] = useState(song.thumbnailUrl);\n    const [imageError, setImageError] = useState(false);\n\n    useEffect(() => {\n        setImageUrl(song.thumbnailUrl);\n        setImageError(false);\n    }, [song.thumbnailUrl]);\n\n    const handleImageError = () => {\n        if (imageUrl.includes('maxresdefault.jpg')) {\n            setImageUrl(`https://i.ytimg.com/vi/${song.platformId}/hqdefault.jpg`);\n        } else {\n            setImageError(true);\n        }\n    };\n\n    const platformLink = song.platformId\n        ? `https://www.youtube.com/watch?v=${song.platformId}`\n        : '#';\n\n    const rankBorderStyle = getRankBorderStyle(song.rank);\n\n    return (\n        <div className={`group relative rounded-lg overflow-hidden bg-white/5 border-2 ${rankBorderStyle} transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1`}>\n            <Link href={platformLink} target=\"_blank\" rel=\"noopener noreferrer\">\n                <div className=\"relative w-full aspect-video\">\n                    {!imageError ? (\n                        <Image\n                            src={imageUrl}\n                            alt={song.title}\n                            fill\n                            sizes=\"(max-width: 640px) 50vw, (max-width: 768px) 33vw, 25vw\"\n                            className=\"object-cover transition-transform duration-300 group-hover:scale-105\"\n                            onError={handleImageError}\n                            unoptimized={imageUrl.includes('nicovideo') || imageUrl.includes('ytimg')}\n                        />\n                    ) : (\n                        <FallbackThumbnail />\n                    )}\n                    <div className=\"absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors\" />\n                    <RankBadge rank={song.rank} />\n                    <div className=\"absolute bottom-0 left-0 right-0 p-2 md-p-3 bg-gradient-to-t from-black/80 to-transparent\">\n                        <h3 className=\"font-semibold text-sm md:text-base text-white truncate\" title={song.title}>\n                            {song.title}\n                        </h3>\n                        <p className=\"text-xs md:text-sm text-gray-300 truncate\" title={song.artist}>\n                            {song.artist}\n                        </p>\n                    </div>\n                </div>\n            </Link>\n        </div>\n    );\n}\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/components/SongList.tsx b/src/components/SongList.tsx
+--- a/src/components/SongList.tsx	(revision a430413a6c3010355a33afb47bd7d3b655ff05ac)
++++ b/src/components/SongList.tsx	(date 1784714480520)
+@@ -4,7 +4,7 @@
+ import Image from 'next/image';
+ import { Song } from '@/types/song';
+ import Link from 'next/link';
+-import { Crown, ImageOff } from 'lucide-react';
++import { Crown, ImageOff, CirclePlay } from 'lucide-react';
+ 
+ interface SongListProps {
+     song: Song;
+@@ -19,15 +19,15 @@
+ const RankBadge = ({ rank }: { rank: number }): React.JSX.Element => {
+     const rankStyles: { [key: number]: { className: string; icon: React.JSX.Element } } = {
+         1: {
+-            className: 'text-[#39C5BB]',
++            className: 'text-[#FFD700]',
+             icon: <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} />,
+         },
+         2: {
+-            className: 'text-[#FF7BAC]',
++            className: 'text-[#C0C0C0]',
+             icon: <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} />,
+         },
+         3: {
+-            className: 'text-slate-400',
++            className: 'text-[#CD7F32]',
+             icon: <Crown className="w-5 h-5" style={{ filter: 'drop-shadow(0 1px 2px rgba(0,0,0,0.5))' }} />,
+         },
+     };
+@@ -53,11 +53,11 @@
+ const getRankBorderStyle = (rank: number): string => {
+     switch (rank) {
+         case 1:
+-            return 'border-[#39C5BB]';
++            return 'border-[#FFD700] shadow-[0_0_20px_rgba(255,215,0,0.3)]';
+         case 2:
+-            return 'border-[#FF7BAC]';
++            return 'border-[#C0C0C0] shadow-[0_0_20px_rgba(192,192,192,0.3)]';
+         case 3:
+-            return 'border-slate-400';
++            return 'border-[#CD7F32] shadow-[0_0_20px_rgba(205,127,50,0.3)]';
+         default:
+             return 'border-white/10';
+     }
+@@ -87,7 +87,7 @@
+     const rankBorderStyle = getRankBorderStyle(song.rank);
+ 
+     return (
+-        <div className={`group relative rounded-lg overflow-hidden bg-white/5 border-2 ${rankBorderStyle} transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1`}>
++        <div className={`group relative rounded-lg overflow-hidden bg-white/[0.03] border-2 ${rankBorderStyle} transition-all duration-300 hover:bg-white/10 hover:border-white/20 hover:-translate-y-1`}>
+             <Link href={platformLink} target="_blank" rel="noopener noreferrer">
+                 <div className="relative w-full aspect-video">
+                     {!imageError ? (
+@@ -103,7 +103,19 @@
+                     ) : (
+                         <FallbackThumbnail />
+                     )}
++
++                    {/* Reflection Overlay */}
++                    <div className="absolute inset-0 bg-gradient-to-b from-white/[0.03] to-transparent opacity-30 pointer-events-none z-10" />
++
+                     <div className="absolute inset-0 bg-black/20 group-hover:bg-black/40 transition-colors" />
++
++                    {/* Play Button Overlay */}
++                    <div className="play-overlay">
++                        <div className="play-icon">
++                            <CirclePlay size={28} fill="currentColor" strokeWidth={0} />
++                        </div>
++                    </div>
++
+                     <RankBadge rank={song.rank} />
+                     <div className="absolute bottom-0 left-0 right-0 p-2 md-p-3 bg-gradient-to-t from-black/80 to-transparent">
+                         <h3 className="font-semibold text-sm md:text-base text-white truncate" title={song.title}>
+Index: .gitignore
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+># See https://help.github.com/articles/ignoring-files/ for more about ignoring files.\n\n# dependencies\n/node_modules\n/.pnp\n.pnp.*\n.yarn/*\n!.yarn/patches\n!.yarn/plugins\n!.yarn/releases\n!.yarn/versions\n\n# testing\n/coverage\n\n# next.js\n/.next/\n/out/\n\n# production\n/build\n\n# misc\n.DS_Store\n*.pem\n\n# debug\nnpm-debug.log*\nyarn-debug.log*\nyarn-error.log*\n.pnpm-debug.log*\n\n# env files (can opt-in for committing if needed)\n.env*\n\n# vercel\n.vercel\n\n# typescript\n*.tsbuildinfo\nnext-env.d.ts\n\n/src/generated/prisma\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.gitignore b/.gitignore
+--- a/.gitignore	(revision a430413a6c3010355a33afb47bd7d3b655ff05ac)
++++ b/.gitignore	(date 1789027719380)
+@@ -24,6 +24,9 @@
+ .DS_Store
+ *.pem
+ 
++# IDE
++/.idea/
++
+ # debug
+ npm-debug.log*
+ yarn-debug.log*

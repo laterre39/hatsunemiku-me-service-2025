@@ -1,4 +1,4 @@
-import prisma from "@/lib/prisma";
+// import prisma from "@/lib/prisma";
 import { unstable_cache } from "next/cache";
 
 export interface VocaNews {
@@ -10,10 +10,17 @@ export interface VocaNews {
   title_kr: string;
 }
 
+/**
+ * [점검 중] DB Egress 과다 발생 방지를 위해 일시적으로 빈 배열 반환
+ * 추후 DB 레벨 페이지네이션(take/skip) 및 select 필드 최적화 구현 예정
+ */
 export const getVocaNews = unstable_cache(
-  async (category: 'hatsuneMiku' | 'vocaloid'): Promise<VocaNews[]> => {
+  async (_category: 'hatsuneMiku' | 'vocaloid'): Promise<VocaNews[]> => {
+    return [];
+
+    /* 기존 코드 보존 (추후 개발 시 복구 및 최적화)
     const news = await prisma.vocaNews.findMany({
-      where: { category },
+      where: { category: _category },
       orderBy: { date: 'desc' },
     });
 
@@ -25,6 +32,7 @@ export const getVocaNews = unstable_cache(
       title_jp: item.title_jp,
       title_kr: item.title_kr,
     }));
+    */
   },
   ['voca-news-list'], // Cache Key
   { 

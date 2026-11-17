@@ -1,13 +1,24 @@
 /**
  * 수동 뉴스 스크래핑 API
  * 
- * 사용법: POST http://localhost:3000/api/news-scraper
+ * [임시 비활성화 / 점검 중]
+ * Supabase DB Egress 과다 발생 방지 및 최적화 작업을 위해 일시적으로 실행을 중단합니다.
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { scrapeAndSaveNews } from '@/lib/newsScraperService';
+// import { scrapeAndSaveNews } from '@/lib/newsScraperService';
 
-export async function POST(request: NextRequest) {
+export async function POST(_request: NextRequest) {
+  return NextResponse.json(
+    {
+      success: false,
+      message: '수동 뉴스 스크래핑 기능이 점검 및 최적화를 위해 임시 비활성화되었습니다.',
+      timestamp: new Date().toISOString(),
+    },
+    { status: 503 }
+  );
+
+  /* 기존 코드 보존 (추후 개발 시 복구)
   try {
     console.log('📥 수동 스크래핑 요청 받음:', new Date().toISOString());
 
@@ -31,12 +42,13 @@ export async function POST(request: NextRequest) {
       { status: 500 }
     );
   }
+  */
 }
 
 export async function GET() {
   return NextResponse.json({
-    message: '뉴스 스크래퍼 API입니다',
-    usage: 'POST /api/news-scraper',
-    description: '수동으로 뉴스 스크래핑을 실행합니다',
+    message: '뉴스 스크래퍼 API (점검 중)',
+    status: 'MAINTENANCE',
+    description: '뉴스 스크래핑 기능이 임시 점검 중입니다.',
   });
 }

@@ -1,0 +1,892 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e241eeb9-8128-4e5a-8ea8-837403a96199" name="Changes" comment="design: 요소 디자인 개선" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="feat/tech-stack-update" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;laterre39&quot;
+  }
+}</component>
+  <component name="GitToolBoxStore">
+    <option name="recentBranches">
+      <RecentBranches>
+        <option name="branchesForRepo">
+          <list>
+            <RecentBranchesForRepo>
+              <option name="branches">
+                <list>
+                  <RecentBranch>
+                    <option name="branchName" value="main" />
+                    <option name="lastUsedInstant" value="1794900191" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feat/miku-introduction-refactoring" />
+                    <option name="lastUsedInstant" value="1768295289" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feat/footer-refactoring" />
+                    <option name="lastUsedInstant" value="1767952523" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feat/admin-dashboard" />
+                    <option name="lastUsedInstant" value="1767464765" />
+                  </RecentBranch>
+                  <RecentBranch>
+                    <option name="branchName" value="feat/db-migration" />
+                    <option name="lastUsedInstant" value="1767340669" />
+                  </RecentBranch>
+                </list>
+              </option>
+              <option name="repositoryRootUrl" value="file://$PROJECT_DIR$" />
+            </RecentBranchesForRepo>
+          </list>
+        </option>
+      </RecentBranches>
+    </option>
+  </component>
+  <component name="GithubDefaultAccount">
+    <option name="defaultAccountId" value="c1ce20ad-fcb4-4530-9f90-2a9d89c9e16f" />
+  </component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;git@github.com:laterre39/hatsunemiku-me-service-2025.git&quot;,
+    &quot;accountId&quot;: &quot;c1ce20ad-fcb4-4530-9f90-2a9d89c9e16f&quot;
+  },
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
+    },
+    &quot;owner&quot;: &quot;laterre39&quot;,
+    &quot;repository&quot;: &quot;hatsunemiku-me-service-2025&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="abg7xUIP" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="34NobxRoNemaQUfrwqJmEC0AFon" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;CidrDebugProfileConversion&quot;: &quot;true&quot;,
+    &quot;CidrDebugProfileConversion262&quot;: &quot;true&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.TerminalTabsStorage.copyFrom.TerminalArrangementManager.252&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.typescript.service.memoryLimit.init&quot;: &quot;true&quot;,
+    &quot;codeWithMe.voiceChat.enabledByDefault&quot;: &quot;false&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultAutoModeForALLUsers.v1&quot;: &quot;true&quot;,
+    &quot;com.intellij.ml.llm.matterhorn.ej.ui.settings.DefaultModelSelectionForGA.v1&quot;: &quot;true&quot;,
+    &quot;disable.download.node.interpreter.editor.notification&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;javascript.preferred.runtime.type.id&quot;: &quot;node&quot;,
+    &quot;js.debugger.nextJs.config.created.client&quot;: &quot;true&quot;,
+    &quot;js.debugger.nextJs.config.created.server&quot;: &quot;true&quot;,
+    &quot;junie.onboarding.icon.badge.shown&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/laterre/Develop/hatsunemiku-me-service-2025/public&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.stylelint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.stylelint&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_interpreter_path&quot;: &quot;node&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;npm.Next.js: server-side.executor&quot;: &quot;Run&quot;,
+    &quot;org.rust.cargo.project.model.impl.CargoExternalSystemProjectAware.subscribe.first.balloon&quot;: &quot;&quot;,
+    &quot;org.rust.first.attach.projects&quot;: &quot;true&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;studio.ml.bot.history.legacyLocationsMigrated&quot;: &quot;true&quot;,
+    &quot;studio.ml.bot.history.migratedSessionIds&quot;: &quot;20260624-174609-8d7fb874-42c4-4801-b8d5-447e1ae50c40,20260624-174216-fc24a32f-a9dc-4033-b1a8-23c3ed97c774,20260624-174609-d6b7035e-70ca-4361-9cca-5d265167d3f0,20260624-174216-2687adbd-e7cc-461c-a1ed-7ba1c002b10d,20260102-140939-038bada9-871b-4aa4-beae-16e3fed63a0f,20251215-124703-c7cc575c-7a44-4651-995e-e75be30df60a,20251215-124414-71795182-2b41-49d3-8477-9343c105ae63,20251230-151652-6e4293c6-ce62-47b8-947f-bf5cc2f12947,20260102-140934-34df27d0-f982-40a6-ae34-7bb690abd876,20260113-181015-967747d8-9f46-48d7-aaa4-e8dac0be1c80,20260306-160804-4e2d34de-21c9-4415-bdb8-892a1462166e,20260319-143314-7073a52c-19aa-42cc-874c-6ed686166428,20251113-193807-544cd841-586a-4697-a5a4-e514dc1fc1fd,20251212-011958-b1d6abce-259a-4c4f-9cfa-086bdba49377,20251113-235617-851e61ad-ed3e-4324-98fe-385806863e69,20251113-144510-f88e7010-c6d9-418b-9e4b-91a236110a50,20251212-011955-7261a627-0551-4591-97a8-ea9c53ca0d6f,20251201-045730-eda7635a-235b-4569-b25a-ccc76e9b2d83,20251114-150350-6be63293-5927-4d02-a05e-a7599ad06d2d,20251113-225800-94daae0e-1e48-4d74-aa02-62d56c5fce7c,20251212-002540-d9f7b311-295a-46e3-8463-4008bc0ed291,20251212-013314-1151fd80-343a-494c-a5d5-0cbbe610cda3,20261117-163026-eb1c2074-1b28-4723-9562-bbc6d019a05a,20261117-163026-47e09490-687a-4a50-81f4-e04b1996741d,20261117-163026-6c2e52a4-9231-4468-ba98-5833de589815,20261117-163040-69abed0f-5463-4cf1-9855-a55babc97888&quot;,
+    &quot;to.speed.mode.migration.done&quot;: &quot;true&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/laterre/Develop/hatsunemiku-me-service-2025/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
+  }
+}</component>
+  <component name="ReactDesignerToolWindowState">
+    <option name="myId2Visible">
+      <map>
+        <entry key="com.intellij.reactbuddy.reactComponents" value="false" />
+        <entry key="com.intellij.reactbuddy.reactInspector" value="false" />
+        <entry key="com.intellij.reactbuddy.storybook" value="false" />
+      </map>
+    </option>
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/public" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/app/api/playlist" />
+      <recent name="$PROJECT_DIR$/src/components/layout" />
+      <recent name="$PROJECT_DIR$/public" />
+      <recent name="$PROJECT_DIR$/public/about" />
+    </key>
+  </component>
+  <component name="RunManager" selected="npm.Next.js: server-side">
+    <configuration name="Next.js: debug client-side" type="JavascriptDebugType" uri="http://localhost:3000/">
+      <method v="2" />
+    </configuration>
+    <configuration name="Next.js: server-side" type="js.build_tools.npm">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="dev" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-30f59d01ecdd-ac68fc9d2b05-intellij.indexing.shared.core-IU-263.7307.200" />
+        <option value="bundled-js-predefined-d6986cc7102b-56aff7b04f6f-JavaScript-IU-263.7307.200" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="StoredSessionsInfoStore">
+    <option name="sessions">
+      <list>
+        <SessionInfoState>
+          <option name="id" value="20260624-174216-2687adbd-e7cc-461c-a1ed-7ba1c002b10d" />
+          <option name="lastUpdateTimestamp" value="1782290536117" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="New Agent Session" />
+          <option name="user" value="guest" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20260624-174216-fc24a32f-a9dc-4033-b1a8-23c3ed97c774" />
+          <option name="lastUpdateTimestamp" value="1782291128681" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="현재 프로젝트를 분석하고 요약해 줘" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20260624-174609-8d7fb874-42c4-4801-b8d5-447e1ae50c40" />
+          <option name="lastUpdateTimestamp" value="1782291254726" />
+          <option name="responseMode" value="Chat" />
+          <option name="title" value="에이전트, 질문, 아웃라인 의 탭등의 기능은 각각 무슨 역할을 하고 있어?" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251215-124414-71795182-2b41-49d3-8477-9343c105ae63" />
+          <option name="lastUpdateTimestamp" value="1767075348360" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="유튜브나 스포티파이 플레이 리스트를 받아와서 사이트에서 동영상 그리드방식으로 보여줄수있어?" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251215-124703-c7cc575c-7a44-4651-995e-e75be30df60a" />
+          <option name="lastUpdateTimestamp" value="1767123249950" />
+          <option name="responseMode" value="Chat" />
+          <option name="title" value="플레이리스트 페이지에서 상단에 주목할 플리소개랑 하단에 플리카드 목록의 제목을 뭘로할까 보컬로이드 관련 플레이 리스트 소개 페이지야" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251230-151652-6e4293c6-ce62-47b8-947f-bf5cc2f12947" />
+          <option name="lastUpdateTimestamp" value="1767330577111" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="뉴스 페이지에 캐시가 적용 했는데 쿼리가 게속 날라가는걸 보니까 캐시가 적용 안된게 아니야?" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20260102-140934-34df27d0-f982-40a6-ae34-7bb690abd876" />
+          <option name="lastUpdateTimestamp" value="1768295410842" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="이제 이벤트 페이지의 데이터들을 데이터 베이스로 옮겨서 데이터베이스를 통해서 서비스 하고자 하는데&#10;테이블을 일단 생성해야 해 이벤트 리스트 파일" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20260102-140939-038bada9-871b-4aa4-beae-16e3fed63a0f" />
+          <option name="lastUpdateTimestamp" value="1768371580197" />
+          <option name="responseMode" value="Chat" />
+          <option name="title" value="슈파베이스에서 RLS를 테이블마다 키도록하는데 이유가 뭐야?" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20260113-181015-967747d8-9f46-48d7-aaa4-e8dac0be1c80" />
+          <option name="lastUpdateTimestamp" value="1772782351873" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="메인 페이지에 미쿠 소개 컴포넌트의 디자인을 개선해 줘" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251113-144510-f88e7010-c6d9-418b-9e4b-91a236110a50" />
+          <option name="lastUpdateTimestamp" value="1763041544748" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="구현된 컴포넌트 중에 유튜브와 스포티파이의 API로 데이터를 가져오는 코드가 있는데 일단 확인해 봐" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251113-193807-544cd841-586a-4697-a5a4-e514dc1fc1fd" />
+          <option name="lastUpdateTimestamp" value="1765466814712" />
+          <option name="responseMode" value="Chat" />
+          <option name="title" value="인텔리제이에서 제미니 설정에 대해서 설명해 줘" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251113-225800-94daae0e-1e48-4d74-aa02-62d56c5fce7c" />
+          <option name="lastUpdateTimestamp" value="1763045727544" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="작성된 유튜브 API를 확인하고 설명해 줘" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251113-235617-851e61ad-ed3e-4324-98fe-385806863e69" />
+          <option name="lastUpdateTimestamp" value="1763067223358" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="음악 페이지에서 각 유튜브 탭과 스포티 파이탭에서 데이터 가져오는데 실패시 문구에 디자인 요소를 추가해 줘" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251114-150350-6be63293-5927-4d02-a05e-a7599ad06d2d" />
+          <option name="lastUpdateTimestamp" value="1764532606637" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="메인 페이지에서 이벤트 스케쥴 섹선 아래에 보컬로이드 커뮤니티 소개 섹션을 새로 만들어 줘" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251201-045730-eda7635a-235b-4569-b25a-ccc76e9b2d83" />
+          <option name="lastUpdateTimestamp" value="1765469986890" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="너 내가 설정한 룰 확인했어?" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251212-011955-7261a627-0551-4591-97a8-ea9c53ca0d6f" />
+          <option name="lastUpdateTimestamp" value="1765470664546" />
+          <option name="responseMode" value="Agent" />
+          <option name="title" value="해당 프로젝트의 폴더 구조를 확인하고 코드를 최신화 해서 기억해" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20251212-011958-b1d6abce-259a-4c4f-9cfa-086bdba49377" />
+          <option name="lastUpdateTimestamp" value="1765469998539" />
+          <option name="responseMode" value="Chat" />
+          <option name="title" value="New Chat Session" />
+          <option name="user" value="loff98997@gmail.com" />
+        </SessionInfoState>
+        <SessionInfoState>
+          <option name="id" value="20261117-163048-ed8a9d24-7ebd-4255-b537-85ce079e4365" />
+          <option name="lastUpdateTimestamp" value="1794900648477" />
+          <option name="responseMode" value="Chat" />
+          <option name="title" value="New Chat Session" />
+          <option name="user" value="laterre.idx@gmail.com" />
+        </SessionInfoState>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="e241eeb9-8128-4e5a-8ea8-837403a96199" name="Changes" comment="" />
+      <created>1761046969409</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1761046969409</updated>
+      <workItem from="1761046971798" duration="107000" />
+      <workItem from="1761063468005" duration="147000" />
+      <workItem from="1761065973161" duration="1045000" />
+      <workItem from="1761105494617" duration="108000" />
+      <workItem from="1761111878637" duration="2568000" />
+      <workItem from="1761669110240" duration="4000" />
+      <workItem from="1761669124568" duration="635000" />
+      <workItem from="1762748544773" duration="822000" />
+      <workItem from="1763010828240" duration="1821000" />
+      <workItem from="1763012676535" duration="9000" />
+      <workItem from="1763012698252" duration="10896000" />
+      <workItem from="1763030272611" duration="6485000" />
+      <workItem from="1763040510072" duration="19061000" />
+      <workItem from="1763100106127" duration="6093000" />
+      <workItem from="1763362497700" duration="7895000" />
+      <workItem from="1763443229797" duration="229000" />
+      <workItem from="1763443500850" duration="2294000" />
+      <workItem from="1763619736905" duration="3079000" />
+      <workItem from="1763662795325" duration="5746000" />
+      <workItem from="1763668937397" duration="1099000" />
+      <workItem from="1763703405137" duration="47000" />
+      <workItem from="1763703460834" duration="1263000" />
+      <workItem from="1763708617069" duration="3255000" />
+      <workItem from="1764138573430" duration="16559000" />
+      <workItem from="1764156647481" duration="8778000" />
+      <workItem from="1764263401159" duration="29000" />
+      <workItem from="1764263840453" duration="21068000" />
+      <workItem from="1764532642852" duration="5253000" />
+      <workItem from="1764564939875" duration="7226000" />
+      <workItem from="1764572321920" duration="717000" />
+      <workItem from="1764573043173" duration="2139000" />
+      <workItem from="1764618139089" duration="1949000" />
+      <workItem from="1764620114448" duration="92000" />
+      <workItem from="1764620208541" duration="5425000" />
+      <workItem from="1764738051437" duration="110000" />
+      <workItem from="1764746328011" duration="5237000" />
+      <workItem from="1764900871537" duration="3824000" />
+      <workItem from="1764907499028" duration="3666000" />
+      <workItem from="1764911198389" duration="10414000" />
+      <workItem from="1765387960268" duration="9912000" />
+      <workItem from="1765466708596" duration="3823000" />
+      <workItem from="1765470741290" duration="16000" />
+      <workItem from="1765470780116" duration="174000" />
+      <workItem from="1765471600255" duration="5402000" />
+      <workItem from="1765770251978" duration="35159000" />
+      <workItem from="1765858636276" duration="5773000" />
+      <workItem from="1765865396533" duration="762000" />
+      <workItem from="1766195648284" duration="3276000" />
+      <workItem from="1766198973139" duration="71000" />
+      <workItem from="1766199065214" duration="13000" />
+      <workItem from="1766199081031" duration="32000" />
+      <workItem from="1766199127167" duration="8845000" />
+      <workItem from="1766219249793" duration="595000" />
+      <workItem from="1766219888957" duration="782000" />
+      <workItem from="1766994729914" duration="797000" />
+      <workItem from="1766995550371" duration="675000" />
+      <workItem from="1766996232718" duration="1370000" />
+      <workItem from="1766997609879" duration="14446000" />
+      <workItem from="1767038795374" duration="112000" />
+      <workItem from="1767072396267" duration="2666000" />
+      <workItem from="1767075388738" duration="3718000" />
+      <workItem from="1767086146672" duration="215000" />
+      <workItem from="1767086370168" duration="716000" />
+      <workItem from="1767087094211" duration="202000" />
+      <workItem from="1767087299402" duration="460000" />
+      <workItem from="1767087763429" duration="2520000" />
+      <workItem from="1767122854562" duration="8000" />
+      <workItem from="1767123014934" duration="6786000" />
+      <workItem from="1767159124376" duration="452000" />
+      <workItem from="1767159580905" duration="32000" />
+      <workItem from="1767159615038" duration="172000" />
+      <workItem from="1767325952989" duration="90090000" />
+      <workItem from="1767899248133" duration="553000" />
+      <workItem from="1767899827101" duration="23000" />
+      <workItem from="1767899967201" duration="19407000" />
+      <workItem from="1768293123297" duration="937000" />
+      <workItem from="1768295387547" duration="38000" />
+      <workItem from="1768295446893" duration="6714000" />
+      <workItem from="1768370882548" duration="751000" />
+      <workItem from="1768371638316" duration="3059000" />
+      <workItem from="1770702556543" duration="33000" />
+      <workItem from="1770703082826" duration="3179000" />
+      <workItem from="1772780221701" duration="28000" />
+      <workItem from="1772780884019" duration="5000000" />
+      <workItem from="1773898390389" duration="12000" />
+      <workItem from="1782290533564" duration="2807000" />
+      <workItem from="1784713183327" duration="2105000" />
+      <workItem from="1794900146485" duration="214000" />
+      <workItem from="1794900364541" duration="17000" />
+      <workItem from="1794900405580" duration="145000" />
+      <workItem from="1794900591234" duration="340000" />
+      <workItem from="1794900981832" duration="273000" />
+      <workItem from="1794901805227" duration="27000" />
+      <workItem from="1794901842119" duration="22000" />
+      <workItem from="1794901872354" duration="235000" />
+      <workItem from="1794902343263" duration="232000" />
+      <workItem from="1794902590157" duration="73000" />
+      <workItem from="1794902676244" duration="26000" />
+      <workItem from="1794902711530" duration="899000" />
+    </task>
+    <task id="LOCAL-00144" summary="feat: vercel cron job 생성">
+      <option name="closed" value="true" />
+      <created>1767412148820</created>
+      <option name="number" value="00144" />
+      <option name="presentableId" value="LOCAL-00144" />
+      <option name="project" value="LOCAL" />
+      <updated>1767412148820</updated>
+    </task>
+    <task id="LOCAL-00145" summary="fix: 잘못 된 스크립트 경로 수정">
+      <option name="closed" value="true" />
+      <created>1767415835096</created>
+      <option name="number" value="00145" />
+      <option name="presentableId" value="LOCAL-00145" />
+      <option name="project" value="LOCAL" />
+      <updated>1767415835096</updated>
+    </task>
+    <task id="LOCAL-00146" summary="feat: news 페이지 서비스 분할 및 태그 수정">
+      <option name="closed" value="true" />
+      <created>1767466119568</created>
+      <option name="number" value="00146" />
+      <option name="presentableId" value="LOCAL-00146" />
+      <option name="project" value="LOCAL" />
+      <updated>1767466119568</updated>
+    </task>
+    <task id="LOCAL-00147" summary="chore: nextauth 패키지 설치">
+      <option name="closed" value="true" />
+      <created>1767466548438</created>
+      <option name="number" value="00147" />
+      <option name="presentableId" value="LOCAL-00147" />
+      <option name="project" value="LOCAL" />
+      <updated>1767466548438</updated>
+    </task>
+    <task id="LOCAL-00148" summary="chore: db 스키마 설정">
+      <option name="closed" value="true" />
+      <created>1767777806188</created>
+      <option name="number" value="00148" />
+      <option name="presentableId" value="LOCAL-00148" />
+      <option name="project" value="LOCAL" />
+      <updated>1767777806188</updated>
+    </task>
+    <task id="LOCAL-00149" summary="chore: nextauth 레이아웃 적용">
+      <option name="closed" value="true" />
+      <created>1767777878008</created>
+      <option name="number" value="00149" />
+      <option name="presentableId" value="LOCAL-00149" />
+      <option name="project" value="LOCAL" />
+      <updated>1767777878008</updated>
+    </task>
+    <task id="LOCAL-00150" summary="feat: 관리자 대시보드 구현">
+      <option name="closed" value="true" />
+      <created>1767778209099</created>
+      <option name="number" value="00150" />
+      <option name="presentableId" value="LOCAL-00150" />
+      <option name="project" value="LOCAL" />
+      <updated>1767778209099</updated>
+    </task>
+    <task id="LOCAL-00151" summary="feat: 회원 가입 api 구현">
+      <option name="closed" value="true" />
+      <created>1767778288302</created>
+      <option name="number" value="00151" />
+      <option name="presentableId" value="LOCAL-00151" />
+      <option name="project" value="LOCAL" />
+      <updated>1767778288302</updated>
+    </task>
+    <task id="LOCAL-00152" summary="feat: 회원 관리 api 구현">
+      <option name="closed" value="true" />
+      <created>1767778371336</created>
+      <option name="number" value="00152" />
+      <option name="presentableId" value="LOCAL-00152" />
+      <option name="project" value="LOCAL" />
+      <updated>1767778371336</updated>
+    </task>
+    <task id="LOCAL-00153" summary="feat: 회원 관리 api 구현">
+      <option name="closed" value="true" />
+      <created>1767778513098</created>
+      <option name="number" value="00153" />
+      <option name="presentableId" value="LOCAL-00153" />
+      <option name="project" value="LOCAL" />
+      <updated>1767778513098</updated>
+    </task>
+    <task id="LOCAL-00154" summary="feat: 화이트리스트 api 구현">
+      <option name="closed" value="true" />
+      <created>1767778933937</created>
+      <option name="number" value="00154" />
+      <option name="presentableId" value="LOCAL-00154" />
+      <option name="project" value="LOCAL" />
+      <updated>1767778933937</updated>
+    </task>
+    <task id="LOCAL-00155" summary="chore: next 이미지 설정 추가">
+      <option name="closed" value="true" />
+      <created>1767779211373</created>
+      <option name="number" value="00155" />
+      <option name="presentableId" value="LOCAL-00155" />
+      <option name="project" value="LOCAL" />
+      <updated>1767779211373</updated>
+    </task>
+    <task id="LOCAL-00156" summary="chore: nextauth 타입 추가">
+      <option name="closed" value="true" />
+      <created>1767779236169</created>
+      <option name="number" value="00156" />
+      <option name="presentableId" value="LOCAL-00156" />
+      <option name="project" value="LOCAL" />
+      <updated>1767779236169</updated>
+    </task>
+    <task id="LOCAL-00157" summary="chore: 유저 관리 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767779628409</created>
+      <option name="number" value="00157" />
+      <option name="presentableId" value="LOCAL-00157" />
+      <option name="project" value="LOCAL" />
+      <updated>1767779628409</updated>
+    </task>
+    <task id="LOCAL-00158" summary="feat: 유저 관리 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767779798291</created>
+      <option name="number" value="00158" />
+      <option name="presentableId" value="LOCAL-00158" />
+      <option name="project" value="LOCAL" />
+      <updated>1767779798291</updated>
+    </task>
+    <task id="LOCAL-00159" summary="feat: nextauth 에러 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767779827887</created>
+      <option name="number" value="00159" />
+      <option name="presentableId" value="LOCAL-00159" />
+      <option name="project" value="LOCAL" />
+      <updated>1767779827887</updated>
+    </task>
+    <task id="LOCAL-00160" summary="design: 404 페이지 수정">
+      <option name="closed" value="true" />
+      <created>1767779888494</created>
+      <option name="number" value="00160" />
+      <option name="presentableId" value="LOCAL-00160" />
+      <option name="project" value="LOCAL" />
+      <updated>1767779888494</updated>
+    </task>
+    <task id="LOCAL-00161" summary="feat: 추천 영상 api 구현">
+      <option name="closed" value="true" />
+      <created>1767780110462</created>
+      <option name="number" value="00161" />
+      <option name="presentableId" value="LOCAL-00161" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780110462</updated>
+    </task>
+    <task id="LOCAL-00162" summary="feat: 추천 영상 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780137831</created>
+      <option name="number" value="00162" />
+      <option name="presentableId" value="LOCAL-00162" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780137831</updated>
+    </task>
+    <task id="LOCAL-00163" summary="feat: 추천 영상 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780182103</created>
+      <option name="number" value="00163" />
+      <option name="presentableId" value="LOCAL-00163" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780182103</updated>
+    </task>
+    <task id="LOCAL-00164" summary="feat: nextauth 관리자 오류 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780223004</created>
+      <option name="number" value="00164" />
+      <option name="presentableId" value="LOCAL-00164" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780223004</updated>
+    </task>
+    <task id="LOCAL-00165" summary="feat: nextauth 관리자 로그인 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780234672</created>
+      <option name="number" value="00165" />
+      <option name="presentableId" value="LOCAL-00165" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780234672</updated>
+    </task>
+    <task id="LOCAL-00166" summary="feat: 플레이리스트 관리 api 구현">
+      <option name="closed" value="true" />
+      <created>1767780317560</created>
+      <option name="number" value="00166" />
+      <option name="presentableId" value="LOCAL-00166" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780317560</updated>
+    </task>
+    <task id="LOCAL-00167" summary="feat: 플레이리스트 관리 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780338772</created>
+      <option name="number" value="00167" />
+      <option name="presentableId" value="LOCAL-00167" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780338772</updated>
+    </task>
+    <task id="LOCAL-00168" summary="feat: 커뮤니티 관리 api 구현">
+      <option name="closed" value="true" />
+      <created>1767780387852</created>
+      <option name="number" value="00168" />
+      <option name="presentableId" value="LOCAL-00168" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780387852</updated>
+    </task>
+    <task id="LOCAL-00169" summary="feat: 커뮤니티 관리 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780409929</created>
+      <option name="number" value="00169" />
+      <option name="presentableId" value="LOCAL-00169" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780409929</updated>
+    </task>
+    <task id="LOCAL-00170" summary="feat: 생일 관리 api 구현">
+      <option name="closed" value="true" />
+      <created>1767780521967</created>
+      <option name="number" value="00170" />
+      <option name="presentableId" value="LOCAL-00170" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780521968</updated>
+    </task>
+    <task id="LOCAL-00171" summary="feat: 생일 관리 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780539664</created>
+      <option name="number" value="00171" />
+      <option name="presentableId" value="LOCAL-00171" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780539664</updated>
+    </task>
+    <task id="LOCAL-00172" summary="feat: 사이트 링크 관리 api 구현">
+      <option name="closed" value="true" />
+      <created>1767780570068</created>
+      <option name="number" value="00172" />
+      <option name="presentableId" value="LOCAL-00172" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780570069</updated>
+    </task>
+    <task id="LOCAL-00173" summary="feat: 사이트 링크 관리 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780588303</created>
+      <option name="number" value="00173" />
+      <option name="presentableId" value="LOCAL-00173" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780588303</updated>
+    </task>
+    <task id="LOCAL-00174" summary="feat: 이벤트 관리 api 구현">
+      <option name="closed" value="true" />
+      <created>1767780624962</created>
+      <option name="number" value="00174" />
+      <option name="presentableId" value="LOCAL-00174" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780624962</updated>
+    </task>
+    <task id="LOCAL-00175" summary="feat: 이벤트 관리 api 구현">
+      <option name="closed" value="true" />
+      <created>1767780649625</created>
+      <option name="number" value="00175" />
+      <option name="presentableId" value="LOCAL-00175" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780649625</updated>
+    </task>
+    <task id="LOCAL-00176" summary="feat: 이벤트 관리 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780663155</created>
+      <option name="number" value="00176" />
+      <option name="presentableId" value="LOCAL-00176" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780663155</updated>
+    </task>
+    <task id="LOCAL-00177" summary="feat: 뉴스 관리 api 구현">
+      <option name="closed" value="true" />
+      <created>1767780684495</created>
+      <option name="number" value="00177" />
+      <option name="presentableId" value="LOCAL-00177" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780684495</updated>
+    </task>
+    <task id="LOCAL-00178" summary="feat: 뉴스 관리 페이지 구현">
+      <option name="closed" value="true" />
+      <created>1767780699390</created>
+      <option name="number" value="00178" />
+      <option name="presentableId" value="LOCAL-00178" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780699390</updated>
+    </task>
+    <task id="LOCAL-00179" summary="fix: 누락된 추천 영상 api 추가">
+      <option name="closed" value="true" />
+      <created>1767780752601</created>
+      <option name="number" value="00179" />
+      <option name="presentableId" value="LOCAL-00179" />
+      <option name="project" value="LOCAL" />
+      <updated>1767780752601</updated>
+    </task>
+    <task id="LOCAL-00180" summary="fix: authOptions 분리">
+      <option name="closed" value="true" />
+      <created>1767805482072</created>
+      <option name="number" value="00180" />
+      <option name="presentableId" value="LOCAL-00180" />
+      <option name="project" value="LOCAL" />
+      <updated>1767805482072</updated>
+    </task>
+    <task id="LOCAL-00181" summary="fix: Suspense 문제 수정">
+      <option name="closed" value="true" />
+      <created>1767805500496</created>
+      <option name="number" value="00181" />
+      <option name="presentableId" value="LOCAL-00181" />
+      <option name="project" value="LOCAL" />
+      <updated>1767805500496</updated>
+    </task>
+    <task id="LOCAL-00182" summary="fix: 중복 배경 문제 수정">
+      <option name="closed" value="true" />
+      <created>1767900359479</created>
+      <option name="number" value="00182" />
+      <option name="presentableId" value="LOCAL-00182" />
+      <option name="project" value="LOCAL" />
+      <updated>1767900359479</updated>
+    </task>
+    <task id="LOCAL-00183" summary="fix: 중복 배경 문제 수정">
+      <option name="closed" value="true" />
+      <created>1767901061234</created>
+      <option name="number" value="00183" />
+      <option name="presentableId" value="LOCAL-00183" />
+      <option name="project" value="LOCAL" />
+      <updated>1767901061234</updated>
+    </task>
+    <task id="LOCAL-00184" summary="chore: 드래그 앤 드롭 패키지 설치">
+      <option name="closed" value="true" />
+      <created>1767906175118</created>
+      <option name="number" value="00184" />
+      <option name="presentableId" value="LOCAL-00184" />
+      <option name="project" value="LOCAL" />
+      <updated>1767906175118</updated>
+    </task>
+    <task id="LOCAL-00185" summary="feat: 플레이리스트 정렬 기능 구현">
+      <option name="closed" value="true" />
+      <created>1767906407050</created>
+      <option name="number" value="00185" />
+      <option name="presentableId" value="LOCAL-00185" />
+      <option name="project" value="LOCAL" />
+      <updated>1767906407050</updated>
+    </task>
+    <task id="LOCAL-00186" summary="feat: 커뮤니티 정렬 기능 구현">
+      <option name="closed" value="true" />
+      <created>1767944047735</created>
+      <option name="number" value="00186" />
+      <option name="presentableId" value="LOCAL-00186" />
+      <option name="project" value="LOCAL" />
+      <updated>1767944047735</updated>
+    </task>
+    <task id="LOCAL-00187" summary="feat: 사이트 링크 정렬 기능 구현">
+      <option name="closed" value="true" />
+      <created>1767945786537</created>
+      <option name="number" value="00187" />
+      <option name="presentableId" value="LOCAL-00187" />
+      <option name="project" value="LOCAL" />
+      <updated>1767945786537</updated>
+    </task>
+    <task id="LOCAL-00188" summary="feat: 푸터 디자인 및 기능 개선">
+      <option name="closed" value="true" />
+      <created>1767955655428</created>
+      <option name="number" value="00188" />
+      <option name="presentableId" value="LOCAL-00188" />
+      <option name="project" value="LOCAL" />
+      <updated>1767955655428</updated>
+    </task>
+    <task id="LOCAL-00189" summary="feat: 크리에이터 컨텐츠 수정">
+      <option name="closed" value="true" />
+      <created>1767956501030</created>
+      <option name="number" value="00189" />
+      <option name="presentableId" value="LOCAL-00189" />
+      <option name="project" value="LOCAL" />
+      <updated>1767956501030</updated>
+    </task>
+    <task id="LOCAL-00190" summary="feat: 생일 컴포넌트 디자인 개선">
+      <option name="closed" value="true" />
+      <created>1767956976850</created>
+      <option name="number" value="00190" />
+      <option name="presentableId" value="LOCAL-00190" />
+      <option name="project" value="LOCAL" />
+      <updated>1767956976850</updated>
+    </task>
+    <task id="LOCAL-00191" summary="feat: 소개 컴포넌트 디자인 개선">
+      <option name="closed" value="true" />
+      <created>1768301856712</created>
+      <option name="number" value="00191" />
+      <option name="presentableId" value="LOCAL-00191" />
+      <option name="project" value="LOCAL" />
+      <updated>1768301856712</updated>
+    </task>
+    <task id="LOCAL-00192" summary="design: 요소 디자인 개선">
+      <option name="closed" value="true" />
+      <created>1768303050094</created>
+      <option name="number" value="00192" />
+      <option name="presentableId" value="LOCAL-00192" />
+      <option name="project" value="LOCAL" />
+      <updated>1768303050094</updated>
+    </task>
+    <option name="localTasksCounter" value="193" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="UnknownFeatures">
+    <option featureType="dependencySupport" implementationName="javascript:npm:react" />
+    <option featureType="dependencySupport" implementationName="executable:docker" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:tailwindcss" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:prisma" />
+    <option featureType="dependencySupport" implementationName="executable:kubectl" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:next" />
+    <option featureType="dependencySupport" implementationName="javascript:npm:postcss" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="feat: 플레이리스트 관리 api 구현" />
+    <MESSAGE value="feat: 플레이리스트 관리 페이지 구현" />
+    <MESSAGE value="feat: 커뮤니티 관리 api 구현" />
+    <MESSAGE value="feat: 커뮤니티 관리 페이지 구현" />
+    <MESSAGE value="feat: 생일 관리 api 구현" />
+    <MESSAGE value="feat: 생일 관리 페이지 구현" />
+    <MESSAGE value="feat: 사이트 링크 관리 api 구현" />
+    <MESSAGE value="feat: 사이트 링크 관리 페이지 구현" />
+    <MESSAGE value="feat: 이벤트 관리 api 구현" />
+    <MESSAGE value="feat: 이벤트 관리 페이지 구현" />
+    <MESSAGE value="feat: 뉴스 관리 api 구현" />
+    <MESSAGE value="feat: 뉴스 관리 페이지 구현" />
+    <MESSAGE value="fix: 누락된 추천 영상 api 추가" />
+    <MESSAGE value="fix: authOptions 분리" />
+    <MESSAGE value="fix: Suspense 문제 수정" />
+    <MESSAGE value="fix: 중복 배경 문제 수정" />
+    <MESSAGE value="chore: 드래그 앤 드롭 패키지 설치" />
+    <MESSAGE value="feat: 플레이리스트 정렬 기능 구현" />
+    <MESSAGE value="feat: 커뮤니티 정렬 기능 구현" />
+    <MESSAGE value="feat: 사이트 링크 정렬 기능 구현" />
+    <MESSAGE value="feat: 푸터 디자인 및 기능 개선" />
+    <MESSAGE value="feat: 크리에이터 컨텐츠 수정" />
+    <MESSAGE value="feat: 생일 컴포넌트 디자인 개선" />
+    <MESSAGE value="feat: 소개 컴포넌트 디자인 개선" />
+    <MESSAGE value="design: 요소 디자인 개선" />
+    <option name="LAST_COMMIT_MESSAGE" value="design: 요소 디자인 개선" />
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
+  </component>
+  <component name="github-copilot-workspace">
+    <instructionFileLocations>
+      <option value=".github/instructions" />
+    </instructionFileLocations>
+    <promptFileLocations>
+      <option value=".github/prompts" />
+    </promptFileLocations>
+  </component>
+</project>
